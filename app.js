@@ -16,7 +16,9 @@ let gridOn = true;
 let tilt = { roll: 0, ready: false };
 
 const PROXY_KEY = "ai_photo_proxy_url";
-const getProxyUrl = () => localStorage.getItem(PROXY_KEY) || "";
+// 已部署的 AI 代理（Cloudflare Worker）默认地址，打开即用；可在设置里覆盖
+const DEFAULT_PROXY = "https://hunyuan-photo-proxy.yumenglalala.workers.dev";
+const getProxyUrl = () => localStorage.getItem(PROXY_KEY) || DEFAULT_PROXY;
 
 /* ---------- 摄像头 ---------- */
 async function startCamera() {
