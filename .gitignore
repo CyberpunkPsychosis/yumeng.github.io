@@ -1,0 +1,11 @@
+# 密钥 / 本地变量 —— 绝不提交
+worker/.dev.vars
+.dev.vars
+.env
+*.local
+
+# 依赖与构建产物
+node_modules/
+.wrangler/
+dist/
+.DS_Store

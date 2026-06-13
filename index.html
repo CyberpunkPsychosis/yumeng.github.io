@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AI 摄影教练</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 取景区 -->
+  <div id="viewfinder">
+    <video id="video" playsinline autoplay muted></video>
+    <!-- 辅助线 / 水平仪叠加层 -->
+    <canvas id="overlay"></canvas>
+
+    <!-- 顶部状态条 -->
+    <div id="topbar">
+      <span id="levelHint" class="pill">水平仪：--</span>
+      <button id="gridBtn" class="pill">网格 开</button>
+      <button id="settingsBtn" class="pill">⚙️</button>
+    </div>
+
+    <!-- AI 建议浮层 -->
+    <div id="advicePanel" class="hidden">
+      <div id="adviceHeader">
+        <span>📸 AI 建议</span>
+        <button id="adviceClose">✕</button>
+      </div>
+      <div id="adviceBody">举起手机对准你想拍的画面，点下方「给建议」。</div>
+    </div>
+
+    <!-- 底部控制条 -->
+    <div id="controls">
+      <button id="adviceBtn" class="ctrl">给建议</button>
+      <button id="shutterBtn" class="shutter" aria-label="拍照"></button>
+      <button id="flipBtn" class="ctrl">翻转</button>
+    </div>
+  </div>
+
+  <!-- 拍摄结果预览 -->
+  <div id="result" class="hidden">
+    <img id="resultImg" alt="拍摄结果" />
+    <div id="resultActions">
+      <button id="retakeBtn" class="ctrl">重拍</button>
+      <a id="saveBtn" class="ctrl" download="photo.jpg">保存</a>
+      <button id="critiqueBtn" class="ctrl">AI 点评</button>
+    </div>
+    <div id="critiqueBody"></div>
+  </div>
+
+  <!-- 设置弹窗 -->
+  <div id="settings" class="hidden">
+    <div class="sheet">
+      <h3>设置</h3>
+      <label>AI 代理地址（Cloudflare Worker）
+        <input id="proxyUrl" type="url" placeholder="https://你的worker.workers.dev" />
+      </label>
+      <p class="note">代理负责持有混元 API Key 并转发请求。本地调试可填 <code>http://localhost:8787</code>。</p>
+      <button id="settingsSave" class="ctrl">保存</button>
+      <button id="settingsCancel" class="ctrl ghost">取消</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
