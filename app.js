@@ -14,6 +14,7 @@ let stream = null;
 let facingMode = "environment"; // 默认后置
 let gridOn = true;
 let tilt = { roll: 0, ready: false };
+let aiPhoto = null; // 拍照后用于 AI 点评的缩小版（控制上传体积）
 
 const PROXY_KEY = "ai_photo_proxy_url";
 // 已部署的 AI 代理（Cloudflare Worker）默认地址，打开即用；可在设置里覆盖
@@ -128,11 +129,22 @@ async function askAI(dataUrl, mode) {
     openSettings();
     throw new Error("请先在设置里填写 AI 代理地址。");
   }
-  const resp = await fetch(proxy.replace(/\/$/, "") + "/suggest", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ image: dataUrl, mode }),
-  });
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 90000); // 90s 超时
+  let resp;
+  try {
+    resp = await fetch(proxy.replace(/\/$/, "") + "/suggest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: dataUrl, mode }),
+      signal: ctrl.signal,
+    });
+  } catch (e) {
+    if (e.name === "AbortError") throw new Error("分析超时了，换张小一点的画面或检查网络后重试。");
+    throw new Error("网络请求失败：连不上 AI 服务，请检查网络后重试。");
+  } finally {
+    clearTimeout(timer);
+  }
   if (!resp.ok) {
     const t = await resp.text().catch(() => "");
     throw new Error(`代理返回 ${resp.status}：${t.slice(0, 200)}`);
@@ -169,6 +181,7 @@ $("adviceClose").addEventListener("click", () => $("advicePanel").classList.add(
 $("shutterBtn").addEventListener("click", () => {
   const frame = captureFrame(2048);
   if (!frame) return;
+  aiPhoto = captureFrame(1280); // 给 AI 用的缩小版，控制上传体积
   $("resultImg").src = frame;
   $("saveBtn").href = frame;
   $("critiqueBody").innerHTML = "";
@@ -180,7 +193,7 @@ $("retakeBtn").addEventListener("click", () => $("result").classList.add("hidden
 $("critiqueBtn").addEventListener("click", async () => {
   $("critiqueBody").innerHTML = '<div class="loading">AI 正在点评这张照片…</div>';
   try {
-    const text = await askAI($("resultImg").src, "critique");
+    const text = await askAI(aiPhoto || $("resultImg").src, "critique");
     $("critiqueBody").innerHTML = text.split("\n").map((l) => l.trim()).filter(Boolean)
       .map((l) => `<div class="tip">${escapeHtml(l)}</div>`).join("");
   } catch (e) {
