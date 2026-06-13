@@ -1,6 +1,6 @@
 # 📸 AI 摄影教练
 
-一个网页版的拍照助手：举起手机实时取景，叠加构图辅助线和水平仪，并在你拍摄前后用 **腾讯混元视觉模型（hunyuan-vision）** 给出拍摄建议和点评——帮你慢慢练成"拍照即大片"。
+一个网页版的拍照助手：举起手机实时取景，叠加构图辅助线和水平仪，并在你拍摄前后用 **腾讯云 TokenHub 的视觉模型（hy-vision-2.0-instruct）** 给出拍摄建议和点评——帮你慢慢练成"拍照即大片"。
 
 ## 功能
 
@@ -13,7 +13,7 @@
 ## 架构
 
 ```
-浏览器(index.html/app.js)  ──截帧──▶  Cloudflare Worker 代理  ──▶  混元 hunyuan-vision
+浏览器(index.html/app.js)  ──截帧──▶  Cloudflare Worker 代理  ──▶  TokenHub hy-vision-2.0-instruct
    相机 + 实时辅助线                  (持有 API Key)
 ```
 

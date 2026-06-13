@@ -7,8 +7,9 @@
  *   wrangler secret put HUNYUAN_API_KEY
  */
 
-const HUNYUAN_URL = "https://api.hunyuan.cloud.tencent.com/v1/chat/completions";
-const MODEL = "hunyuan-vision";
+// 腾讯云大模型服务平台 TokenHub（OpenAI 兼容接口）
+const HUNYUAN_URL = "https://tokenhub.tencentmaas.com/v1/chat/completions";
+const MODEL = "hy-vision-2.0-instruct";
 
 // 两种模式的系统提示词
 const PROMPTS = {
