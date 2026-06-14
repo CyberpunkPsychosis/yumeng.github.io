@@ -27,6 +27,10 @@ let zoom = 1;          // 当前倍率（可连续，如 0.5/1/2.3…）
 let digitalZoom = 1;   // 硬件无法满足时由数码变焦补足的部分
 let zoomCap = null;    // 摄像头硬件变焦能力 { min, max, step }
 let minZoom = 1, maxZoom = 5;
+let guideOn = false;        // 实时构图引导开关
+let faceDetector = null;    // MediaPipe 人脸检测器
+let detectorLoading = false;
+let lastDetectTs = 0;
 
 const PROXY_KEY = "ai_photo_proxy_url";
 // 已部署的 AI 代理（Cloudflare Worker）默认地址，打开即用；可在设置里覆盖
@@ -192,7 +196,83 @@ function drawOverlay() {
     else { hint.textContent = `偏 ${tilt.roll > 0 ? "右" : "左"} ${Math.abs(Math.round(tilt.roll))}°`; hint.className = "pill warn"; }
   }
 
+  maybeGuide();
   requestAnimationFrame(drawOverlay);
+}
+
+/* ---------- 实时构图引导（本地人脸检测）---------- */
+async function ensureDetector() {
+  if (faceDetector || detectorLoading) return;
+  detectorLoading = true;
+  $("guideHint").classList.remove("hidden");
+  $("guideHint").innerHTML = '<div class="gtext">智能引导加载中…</div>';
+  try {
+    const V = "0.10.14";
+    const vision = await import(`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/vision_bundle.mjs`);
+    const fileset = await vision.FilesetResolver.forVisionTasks(
+      `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/wasm`);
+    faceDetector = await vision.FaceDetector.createFromOptions(fileset, {
+      baseOptions: {
+        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite",
+        delegate: "GPU",
+      },
+      runningMode: "VIDEO",
+    });
+  } catch (e) {
+    guideOn = false;
+    $("guideBtn").textContent = "引导 关";
+    $("guideHint").innerHTML = '<div class="gtext">引导加载失败（需联网）</div>';
+    setTimeout(() => $("guideHint").classList.add("hidden"), 1800);
+  }
+  detectorLoading = false;
+}
+
+function showGuide(arrow, text, ok) {
+  const el = $("guideHint");
+  el.classList.remove("hidden");
+  el.innerHTML = `<div class="garrow${ok ? " ok" : ""}">${arrow}</div><div class="gtext${ok ? " ok" : ""}">${text}</div>`;
+}
+
+function maybeGuide() {
+  if (!guideOn || !faceDetector) return;
+  const shooting = $("result").classList.contains("hidden");
+  if (!shooting || !video.videoWidth) return;
+  const now = performance.now();
+  if (now - lastDetectTs < 120) return; // 约 8 次/秒
+  lastDetectTs = now;
+
+  let res;
+  try { res = faceDetector.detectForVideo(video, now); } catch (e) { return; }
+  const dets = (res && res.detections) || [];
+  if (!dets.length) { showGuide("📷", "把人放进画面", false); return; }
+
+  // 取最大的脸为主体
+  let big = dets[0];
+  for (const d of dets) if (d.boundingBox.width > big.boundingBox.width) big = d;
+  const bb = big.boundingBox;
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const z = digitalZoom || 1;                 // 考虑数码变焦的中心裁切
+  const cropW = vw / z, cropH = vh / z, ox = (vw - cropW) / 2, oy = (vh - cropH) / 2;
+  const nx = (bb.originX + bb.width / 2 - ox) / cropW;   // 主体中心（0~1，相对可见画面）
+  const ny = (bb.originY + bb.height / 2 - oy) / cropH;
+  const fw = bb.width / cropW;                            // 脸占画面宽度比例
+
+  // 1) 先看水平仪
+  if (tilt.ready && Math.abs(tilt.roll) > 4) {
+    showGuide(tilt.roll > 0 ? "↺" : "↻", "把手机放平", false); return;
+  }
+  // 2) 远近（脸太大/太小）
+  if (fw > 0.5) { showGuide("⤢", "退后一点", false); return; }
+  if (fw < 0.10) { showGuide("⤡", "靠近一点", false); return; }
+  // 3) 水平：放到最近的三分线（0.33 或 0.67）
+  const targetX = nx < 0.5 ? 1 / 3 : 2 / 3;
+  if (nx - targetX > 0.07) { showGuide("→", "镜头右移", false); return; }
+  if (nx - targetX < -0.07) { showGuide("←", "镜头左移", false); return; }
+  // 4) 竖直：脸放在上三分附近（约 0.35）
+  if (ny < 0.22) { showGuide("↑", "镜头上移", false); return; }
+  if (ny > 0.5) { showGuide("↓", "镜头下移 / 蹲低", false); return; }
+
+  showGuide("✓", "构图不错！", true);
 }
 
 /* ---------- 水平仪：设备方向 ---------- */
@@ -547,6 +627,13 @@ $("flipBtn").addEventListener("click", () => {
 $("gridBtn").addEventListener("click", () => {
   gridOn = !gridOn;
   $("gridBtn").textContent = gridOn ? "网格 开" : "网格 关";
+});
+
+$("guideBtn").addEventListener("click", () => {
+  guideOn = !guideOn;
+  $("guideBtn").textContent = guideOn ? "引导 开" : "引导 关";
+  if (guideOn) ensureDetector();
+  else $("guideHint").classList.add("hidden");
 });
 
 function openSettings() {

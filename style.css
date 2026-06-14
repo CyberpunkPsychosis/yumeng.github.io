@@ -68,6 +68,36 @@ html, body {
   font-weight: 700;
 }
 
+/* 实时构图引导提示 */
+#guideHint {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 12px) + 64px);
+  left: 0; right: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+#guideHint .garrow {
+  font-size: 52px;
+  line-height: 1;
+  color: #ffd60a;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+#guideHint .garrow.ok { color: #30d158; }
+#guideHint .gtext {
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+#guideHint .gtext.ok { background: rgba(48,209,88,0.6); }
+
 /* 取景实时滤镜条 */
 #liveFilters {
   position: absolute;
