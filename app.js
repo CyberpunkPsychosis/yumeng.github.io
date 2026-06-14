@@ -214,12 +214,13 @@ async function ensureDetector() {
     // 物体检测：识别"人"，远近/全身半身都能认到
     detector = await vision.ObjectDetector.createFromOptions(fileset, {
       baseOptions: {
-        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite",
+        // Lite2 输入更大，远处/较小的人也能认到
+        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite2/float16/1/efficientdet_lite2.tflite",
         delegate: "CPU",
       },
       runningMode: "VIDEO",
-      scoreThreshold: 0.3,
-      maxResults: 5,
+      scoreThreshold: 0.25,
+      maxResults: 10,
     });
   } catch (e) {
     guideOn = false;
@@ -241,7 +242,7 @@ function maybeGuide() {
   const shooting = $("result").classList.contains("hidden");
   if (!shooting || !video.videoWidth) return;
   const now = performance.now();
-  if (now - lastDetectTs < 140) return; // 约 7 次/秒
+  if (now - lastDetectTs < 180) return; // Lite2 较重，约 5 次/秒
   lastDetectTs = now;
 
   let res;
