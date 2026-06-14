@@ -28,7 +28,7 @@ let digitalZoom = 1;   // 硬件无法满足时由数码变焦补足的部分
 let zoomCap = null;    // 摄像头硬件变焦能力 { min, max, step }
 let minZoom = 1, maxZoom = 5;
 let guideOn = false;        // 实时构图引导开关
-let faceDetector = null;    // MediaPipe 人脸检测器
+let detector = null;        // MediaPipe 物体(人物)检测器
 let detectorLoading = false;
 let lastDetectTs = 0;
 
@@ -200,9 +200,9 @@ function drawOverlay() {
   requestAnimationFrame(drawOverlay);
 }
 
-/* ---------- 实时构图引导（本地人脸检测）---------- */
+/* ---------- 实时构图引导（本地人物检测）---------- */
 async function ensureDetector() {
-  if (faceDetector || detectorLoading) return;
+  if (detector || detectorLoading) return;
   detectorLoading = true;
   $("guideHint").classList.remove("hidden");
   $("guideHint").innerHTML = '<div class="gtext">智能引导加载中…</div>';
@@ -211,18 +211,21 @@ async function ensureDetector() {
     const vision = await import(`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/vision_bundle.mjs`);
     const fileset = await vision.FilesetResolver.forVisionTasks(
       `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${V}/wasm`);
-    faceDetector = await vision.FaceDetector.createFromOptions(fileset, {
+    // 物体检测：识别"人"，远近/全身半身都能认到
+    detector = await vision.ObjectDetector.createFromOptions(fileset, {
       baseOptions: {
-        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite",
-        delegate: "GPU",
+        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite",
+        delegate: "CPU",
       },
       runningMode: "VIDEO",
+      scoreThreshold: 0.3,
+      maxResults: 5,
     });
   } catch (e) {
     guideOn = false;
     $("guideBtn").textContent = "引导 关";
     $("guideHint").innerHTML = '<div class="gtext">引导加载失败（需联网）</div>';
-    setTimeout(() => $("guideHint").classList.add("hidden"), 1800);
+    setTimeout(() => $("guideHint").classList.add("hidden"), 2000);
   }
   detectorLoading = false;
 }
@@ -234,43 +237,41 @@ function showGuide(arrow, text, ok) {
 }
 
 function maybeGuide() {
-  if (!guideOn || !faceDetector) return;
+  if (!guideOn || !detector) return;
   const shooting = $("result").classList.contains("hidden");
   if (!shooting || !video.videoWidth) return;
   const now = performance.now();
-  if (now - lastDetectTs < 120) return; // 约 8 次/秒
+  if (now - lastDetectTs < 140) return; // 约 7 次/秒
   lastDetectTs = now;
 
   let res;
-  try { res = faceDetector.detectForVideo(video, now); } catch (e) { return; }
-  const dets = (res && res.detections) || [];
-  if (!dets.length) { showGuide("📷", "把人放进画面", false); return; }
+  try { res = detector.detectForVideo(video, now); } catch (e) { return; }
+  const persons = ((res && res.detections) || []).filter(
+    (d) => d.categories && d.categories[0] && d.categories[0].categoryName === "person");
+  if (!persons.length) { showGuide("📷", "把人放进画面", false); return; }
 
-  // 取最大的脸为主体
-  let big = dets[0];
-  for (const d of dets) if (d.boundingBox.width > big.boundingBox.width) big = d;
+  // 取面积最大的人为主体
+  let big = persons[0];
+  for (const d of persons)
+    if (d.boundingBox.width * d.boundingBox.height > big.boundingBox.width * big.boundingBox.height) big = d;
   const bb = big.boundingBox;
   const vw = video.videoWidth, vh = video.videoHeight;
   const z = digitalZoom || 1;                 // 考虑数码变焦的中心裁切
   const cropW = vw / z, cropH = vh / z, ox = (vw - cropW) / 2, oy = (vh - cropH) / 2;
-  const nx = (bb.originX + bb.width / 2 - ox) / cropW;   // 主体中心（0~1，相对可见画面）
-  const ny = (bb.originY + bb.height / 2 - oy) / cropH;
-  const fw = bb.width / cropW;                            // 脸占画面宽度比例
+  const nx = (bb.originX + bb.width / 2 - ox) / cropW;   // 人中心 x（0~1，相对可见画面）
+  const fh = bb.height / cropH;                           // 人占画面高度比例
 
-  // 1) 先看水平仪
+  // 1) 水平仪
   if (tilt.ready && Math.abs(tilt.roll) > 4) {
     showGuide(tilt.roll > 0 ? "↺" : "↻", "把手机放平", false); return;
   }
-  // 2) 远近（脸太大/太小）
-  if (fw > 0.5) { showGuide("⤢", "退后一点", false); return; }
-  if (fw < 0.10) { showGuide("⤡", "靠近一点", false); return; }
-  // 3) 水平：放到最近的三分线（0.33 或 0.67）
+  // 2) 远近（按人的高度判断）
+  if (fh > 0.98) { showGuide("⤢", "退后一点（人顶到边了）", false); return; }
+  if (fh < 0.35) { showGuide("⤡", "靠近一点", false); return; }
+  // 3) 水平：把人放到最近的三分线（0.33 或 0.67）
   const targetX = nx < 0.5 ? 1 / 3 : 2 / 3;
-  if (nx - targetX > 0.07) { showGuide("→", "镜头右移", false); return; }
-  if (nx - targetX < -0.07) { showGuide("←", "镜头左移", false); return; }
-  // 4) 竖直：脸放在上三分附近（约 0.35）
-  if (ny < 0.22) { showGuide("↑", "镜头上移", false); return; }
-  if (ny > 0.5) { showGuide("↓", "镜头下移 / 蹲低", false); return; }
+  if (nx - targetX > 0.08) { showGuide("→", "镜头右移", false); return; }
+  if (nx - targetX < -0.08) { showGuide("←", "镜头左移", false); return; }
 
   showGuide("✓", "构图不错！", true);
 }
