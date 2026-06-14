@@ -9,6 +9,9 @@ const $ = (id) => document.getElementById(id);
 const video = $("video");
 const overlay = $("overlay");
 const ctx = overlay.getContext("2d");
+const preview = $("preview");           // 取景实时风格预览（覆盖在 video 上）
+const pctx = preview.getContext("2d");
+const previewWork = document.createElement("canvas"); // 离屏低分辨率工作画布
 
 let stream = null;
 let facingMode = "environment"; // 默认后置
@@ -18,6 +21,8 @@ let aiPhoto = null; // 拍照后用于 AI 点评的缩小版（控制上传体�
 let srcImageData = null; // 拍下时的原始像素，供本地滤镜反复套用
 let srcW = 0, srcH = 0;
 let currentPreset = "none";
+let livePreset = "none";  // 取景中选中的实时风格
+let lastPreviewTs = 0;
 
 const PROXY_KEY = "ai_photo_proxy_url";
 // 已部署的 AI 代理（Cloudflare Worker）默认地址，打开即用；可在设置里覆盖
@@ -43,8 +48,46 @@ async function startCamera() {
 function resizeOverlay() {
   overlay.width = overlay.clientWidth;
   overlay.height = overlay.clientHeight;
+  preview.width = preview.clientWidth;
+  preview.height = preview.clientHeight;
 }
 window.addEventListener("resize", resizeOverlay);
+
+/* ---------- 取景实时风格预览 ---------- */
+async function selectLivePreset(id) {
+  if (id.indexOf("lut:") === 0) {
+    try { await ensureLut(id); } catch (e) { alert("LUT 加载失败：" + e.message); return; }
+  }
+  livePreset = id;
+  document.querySelectorAll("#liveFilters .chip").forEach((el) =>
+    el.classList.toggle("active", el.dataset.id === id));
+}
+
+function renderPreview(ts) {
+  requestAnimationFrame(renderPreview);
+  const shooting = $("result").classList.contains("hidden"); // 没在看拍后结果 = 取景中
+  if (!shooting || livePreset === "none" || !video.videoWidth) {
+    if (!preview.classList.contains("hidden")) preview.classList.add("hidden");
+    return;
+  }
+  if (ts - lastPreviewTs < 50) return; // 约 20fps，省电
+  lastPreviewTs = ts;
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const long = 480, scale = Math.min(1, long / Math.max(vw, vh));
+  const ww = Math.round(vw * scale), wh = Math.round(vh * scale);
+  if (previewWork.width !== ww || previewWork.height !== wh) { previewWork.width = ww; previewWork.height = wh; }
+  const wctx = previewWork.getContext("2d");
+  wctx.drawImage(video, 0, 0, ww, wh);
+  const img = wctx.getImageData(0, 0, ww, wh);
+  gradeData(img.data, ww, wh, livePreset);
+  wctx.putImageData(img, 0, 0);
+  if (preview.classList.contains("hidden")) preview.classList.remove("hidden");
+  const cw = preview.width, ch = preview.height;
+  const s = Math.max(cw / ww, ch / wh); // cover，与 video 的 object-fit:cover 一致
+  const dw = ww * s, dh = wh * s;
+  pctx.clearRect(0, 0, cw, ch);
+  pctx.drawImage(previewWork, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+}
 
 /* ---------- 实时叠加层：三分网格 + 水平仪 ---------- */
 function drawOverlay() {
@@ -194,7 +237,8 @@ $("shutterBtn").addEventListener("click", () => {
   aiPhoto = captureFrame(1280); // 给 AI 用的缩小版，控制上传体积
   $("critiqueBody").innerHTML = "";
   renderFilterStrip();
-  applyPreset("none"); // 默认原图
+  if (lutCache["lut:mine"]) ensureMineChip();
+  applyPreset(livePreset); // 沿用取景时选的风格
   $("result").classList.remove("hidden");
 });
 
@@ -235,8 +279,16 @@ const PRESETS = [
     grayscale: true, vignette: 0.16, grain: 0.10 },
 ];
 
-// 已导入的 3D LUT（.cube）：{ size, data:Float32Array }
-let lut3d = null;
+// 内置原创胶片 LUT（自制，可商用），按需加载
+const LUT_FILES = [
+  { id: "lut:kodak", name: "柯达金", file: "luts/kodak-warm.cube" },
+  { id: "lut:fuji", name: "富士绿", file: "luts/fuji-green.cube" },
+  { id: "lut:cine", name: "影院", file: "luts/cine-tealorange.cube" },
+  { id: "lut:fade", name: "褪色", file: "luts/vintage-fade.cube" },
+  { id: "lut:mono", name: "银盐黑白", file: "luts/silver-mono.cube" },
+];
+const lutCache = {}; // id -> { size, data:Float32Array }
+const ALL_LOOKS = () => PRESETS.concat(LUT_FILES);
 
 // 预生成每个通道的色调查找表（曝光+白平衡+对比+提黑）
 function buildLUT(p) {
@@ -256,57 +308,53 @@ function buildLUT(p) {
   return lut;
 }
 
+// 参数化风格调色（色调LUT + 饱和/黑白 + 分离色调 + 暗角 + 颗粒）
+function gradePreset(d, w, h, p) {
+  const lut = buildLUT(p);
+  const sat = p.saturation == null ? 1 : p.saturation;
+  const gray = !!p.grayscale;
+  const sh = p.shadow || [0, 0, 0], hi = p.highlight || [0, 0, 0];
+  const split = !!(p.shadow || p.highlight);
+  const vig = p.vignette || 0, grain = p.grain || 0;
+  const cx = w / 2, cy = h / 2, maxd2 = cx * cx + cy * cy;
+  const xs = new Float32Array(w);
+  for (let x = 0; x < w; x++) xs[x] = (x - cx) * (x - cx);
+  for (let y = 0; y < h; y++) {
+    const dy2 = (y - cy) * (y - cy);
+    const row = y * w * 4;
+    for (let x = 0; x < w; x++) {
+      const idx = row + x * 4;
+      let r = lut[0][d[idx]], g = lut[1][d[idx + 1]], b = lut[2][d[idx + 2]];
+      const L = 0.299 * r + 0.587 * g + 0.114 * b;
+      if (gray) { r = g = b = L; }
+      else if (sat !== 1) { r = L + (r - L) * sat; g = L + (g - L) * sat; b = L + (b - L) * sat; }
+      if (split) {
+        const t = L / 255, ws = 1 - t;
+        r += sh[0] * ws + hi[0] * t; g += sh[1] * ws + hi[1] * t; b += sh[2] * ws + hi[2] * t;
+      }
+      if (vig) { const dd = (xs[x] + dy2) / maxd2; const f = 1 - vig * dd * dd; r *= f; g *= f; b *= f; }
+      if (grain) { const n = (Math.random() - 0.5) * grain * 55; r += n; g += n; b += n; }
+      d[idx] = r; d[idx + 1] = g; d[idx + 2] = b; // Uint8ClampedArray 自动裁剪 0-255
+    }
+  }
+}
+
+// 按风格 id 给一段像素调色（原图 / LUT / 参数风格）
+function gradeData(d, w, h, id) {
+  if (id === "none") return;
+  if (id.indexOf("lut:") === 0) { const lut = lutCache[id]; if (lut) applyCubeLUT(d, lut); return; }
+  const p = PRESETS.find((x) => x.id === id);
+  if (p) gradePreset(d, w, h, p);
+}
+
+// 套用到已拍摄的整张照片，刷新预览与"保存"
 function applyPreset(id) {
   currentPreset = id;
   document.querySelectorAll("#filters .chip").forEach((el) =>
     el.classList.toggle("active", el.dataset.id === id));
   if (!srcImageData) return;
-
   const out = new ImageData(new Uint8ClampedArray(srcImageData.data), srcW, srcH);
-  const d = out.data;
-  const p = PRESETS.find((x) => x.id === id) || PRESETS[0];
-
-  if (id === "lut3d") {
-    if (lut3d) applyCubeLUT(d, lut3d);
-  } else if (id !== "none") {
-    const lut = buildLUT(p);
-    const sat = p.saturation == null ? 1 : p.saturation;
-    const gray = !!p.grayscale;
-    const sh = p.shadow || [0, 0, 0], hi = p.highlight || [0, 0, 0];
-    const split = !!(p.shadow || p.highlight);
-    const vig = p.vignette || 0, grain = p.grain || 0;
-    const cx = srcW / 2, cy = srcH / 2, maxd2 = cx * cx + cy * cy;
-    // 预存每列的横向平方距离，避免逐像素重复计算
-    const xs = new Float32Array(srcW);
-    for (let x = 0; x < srcW; x++) xs[x] = (x - cx) * (x - cx);
-
-    for (let y = 0; y < srcH; y++) {
-      const dy2 = (y - cy) * (y - cy);
-      let row = y * srcW * 4;
-      for (let x = 0; x < srcW; x++) {
-        const idx = row + x * 4;
-        let r = lut[0][d[idx]], g = lut[1][d[idx + 1]], b = lut[2][d[idx + 2]];
-        const L = 0.299 * r + 0.587 * g + 0.114 * b;
-        if (gray) { r = g = b = L; }
-        else if (sat !== 1) { r = L + (r - L) * sat; g = L + (g - L) * sat; b = L + (b - L) * sat; }
-        if (split) {
-          const t = L / 255, ws = 1 - t;
-          r += sh[0] * ws + hi[0] * t; g += sh[1] * ws + hi[1] * t; b += sh[2] * ws + hi[2] * t;
-        }
-        if (vig) {
-          const dd = (xs[x] + dy2) / maxd2;     // 0..1
-          const f = 1 - vig * dd * dd;
-          r *= f; g *= f; b *= f;
-        }
-        if (grain) {
-          const n = (Math.random() - 0.5) * grain * 55;
-          r += n; g += n; b += n;
-        }
-        d[idx] = r; d[idx + 1] = g; d[idx + 2] = b; // Uint8ClampedArray 自动裁剪 0-255
-      }
-    }
-  }
-
+  gradeData(out.data, srcW, srcH, id);
   const c = document.createElement("canvas");
   c.width = srcW; c.height = srcH;
   c.getContext("2d").putImageData(out, 0, 0);
@@ -315,18 +363,24 @@ function applyPreset(id) {
   $("saveBtn").href = url;
 }
 
-function renderFilterStrip() {
-  const box = $("filters");
-  if (box.childElementCount) return; // 只建一次
-  box.innerHTML = PRESETS.map((p) =>
+// 通用滤镜条构建（拍后页 / 取景页共用）
+function buildStrip(boxId, onPick) {
+  const box = $(boxId);
+  if (box.childElementCount) return;
+  box.innerHTML = ALL_LOOKS().map((p) =>
     `<button class="chip${p.id === "none" ? " active" : ""}" data-id="${p.id}">${p.name}</button>`).join("")
     + `<button class="chip import" data-id="import">+ LUT</button>`;
   box.querySelectorAll(".chip").forEach((el) =>
-    el.addEventListener("click", () => {
-      if (el.dataset.id === "import") { $("lutFile").click(); return; }
-      applyPreset(el.dataset.id);
+    el.addEventListener("click", async () => {
+      const id = el.dataset.id;
+      if (id === "import") { $("lutFile").click(); return; }
+      if (id.indexOf("lut:") === 0) { try { await ensureLut(id); } catch (e) { alert("LUT 加载失败：" + e.message); return; } }
+      onPick(id);
     }));
 }
+
+function renderFilterStrip() { buildStrip("filters", applyPreset); }
+function renderLiveStrip() { buildStrip("liveFilters", selectLivePreset); }
 
 /* ---------- 3D LUT (.cube) 引擎 ---------- */
 function parseCube(text) {
@@ -369,22 +423,43 @@ function applyCubeLUT(d, lut) {
   }
 }
 
-// 导入 .cube 文件
+// 加载内置 LUT 文件（带缓存）
+async function ensureLut(id) {
+  if (lutCache[id]) return lutCache[id];
+  const f = LUT_FILES.find((x) => x.id === id);
+  if (!f) throw new Error("未知 LUT");
+  const txt = await fetch(f.file).then((r) => { if (!r.ok) throw new Error("找不到文件"); return r.text(); });
+  lutCache[id] = parseCube(txt);
+  return lutCache[id];
+}
+
+// 在两个滤镜条里补上"我的LUT"按钮
+function ensureMineChip() {
+  for (const stripId of ["filters", "liveFilters"]) {
+    const strip = $(stripId);
+    if (!strip || !strip.childElementCount) continue;
+    if (strip.querySelector('.chip[data-id="lut:mine"]')) continue;
+    const chip = document.createElement("button");
+    chip.className = "chip";
+    chip.dataset.id = "lut:mine";
+    chip.textContent = "我的LUT";
+    chip.addEventListener("click", stripId === "filters"
+      ? () => applyPreset("lut:mine")
+      : () => selectLivePreset("lut:mine"));
+    strip.insertBefore(chip, strip.querySelector(".chip.import"));
+  }
+}
+
+// 导入自定义 .cube
 $("lutFile").addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   try {
-    lut3d = parseCube(await file.text());
-    let chip = document.querySelector('#filters .chip[data-id="lut3d"]');
-    if (!chip) {
-      chip = document.createElement("button");
-      chip.className = "chip";
-      chip.dataset.id = "lut3d";
-      chip.textContent = "我的LUT";
-      chip.addEventListener("click", () => applyPreset("lut3d"));
-      $("filters").insertBefore(chip, document.querySelector("#filters .chip.import"));
-    }
-    applyPreset("lut3d");
+    lutCache["lut:mine"] = parseCube(await file.text());
+    ensureMineChip();
+    // 取景中导入则直接套到实时预览，否则套到已拍照片
+    if ($("result").classList.contains("hidden")) selectLivePreset("lut:mine");
+    else applyPreset("lut:mine");
   } catch (err) {
     alert("LUT 导入失败：" + err.message);
   }
@@ -428,7 +503,9 @@ $("settingsSave").addEventListener("click", () => {
 async function init() {
   await startCamera();
   await enableOrientation();
+  renderLiveStrip();
   requestAnimationFrame(drawOverlay);
+  requestAnimationFrame(renderPreview);
   if (!getProxyUrl()) openSettings(); // 首次使用提示填代理
 }
 

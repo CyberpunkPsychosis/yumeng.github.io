@@ -7,9 +7,14 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- LUT 文件选择（隐藏，全局可用） -->
+  <input id="lutFile" type="file" accept=".cube" hidden />
+
   <!-- 取景区 -->
   <div id="viewfinder">
     <video id="video" playsinline autoplay muted></video>
+    <!-- 实时风格预览（选了滤镜时覆盖在 video 上） -->
+    <canvas id="preview" class="hidden"></canvas>
     <!-- 辅助线 / 水平仪叠加层 -->
     <canvas id="overlay"></canvas>
 
@@ -29,6 +34,9 @@
       <div id="adviceBody">举起手机对准你想拍的画面，点下方「给建议」。</div>
     </div>
 
+    <!-- 取景实时风格滤镜条 -->
+    <div id="liveFilters"></div>
+
     <!-- 底部控制条 -->
     <div id="controls">
       <button id="adviceBtn" class="ctrl">给建议</button>
@@ -40,7 +48,6 @@
   <!-- 拍摄结果预览 -->
   <div id="result" class="hidden">
     <img id="resultImg" alt="拍摄结果" />
-    <input id="lutFile" type="file" accept=".cube" hidden />
     <div id="filters"></div>
     <div id="resultActions">
       <button id="retakeBtn" class="ctrl">重拍</button>
