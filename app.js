@@ -128,20 +128,19 @@ function renderPreview(ts) {
   const vw = video.videoWidth, vh = video.videoHeight;
   const z = digitalZoom || 1;                  // 与拍照一致的数码变焦裁切
   const sw = vw / z, sh = vh / z, sx = (vw - sw) / 2, sy = (vh - sh) / 2;
-  const long = 480, scale = Math.min(1, long / Math.max(sw, sh));
+  const long = 720, scale = Math.min(1, long / Math.max(sw, sh)); // 提高处理分辨率，减少糊
   const ww = Math.round(sw * scale), wh = Math.round(sh * scale);
   if (previewWork.width !== ww || previewWork.height !== wh) { previewWork.width = ww; previewWork.height = wh; }
   const wctx = previewWork.getContext("2d");
   wctx.drawImage(video, sx, sy, sw, sh, 0, 0, ww, wh);
   const img = wctx.getImageData(0, 0, ww, wh);
-  gradeData(img.data, ww, wh, livePreset);
+  gradeData(img.data, ww, wh, livePreset, { noGrain: true }); // 预览不加颗粒（低分辨率下=噪点）
   wctx.putImageData(img, 0, 0);
   if (preview.classList.contains("hidden")) preview.classList.remove("hidden");
-  // 隐藏时 clientWidth 为 0，显示后才能拿到真实尺寸——在此确保画布尺寸正确
-  if (preview.width !== preview.clientWidth || preview.height !== preview.clientHeight) {
-    preview.width = preview.clientWidth;
-    preview.height = preview.clientHeight;
-  }
+  // 按真实像素密度(dpr)设画布，避免再被屏幕放大一次（隐藏时 clientWidth 为 0，故显示后再设）
+  const dpr = window.devicePixelRatio || 1;
+  const tw = Math.round(preview.clientWidth * dpr), th = Math.round(preview.clientHeight * dpr);
+  if (preview.width !== tw || preview.height !== th) { preview.width = tw; preview.height = th; }
   const cw = preview.width, ch = preview.height;
   const s = Math.max(cw / ww, ch / wh); // cover，与 video 的 object-fit:cover 一致
   const dw = ww * s, dh = wh * s;
@@ -371,13 +370,13 @@ function buildLUT(p) {
 }
 
 // 参数化风格调色（色调LUT + 饱和/黑白 + 分离色调 + 暗角 + 颗粒）
-function gradePreset(d, w, h, p) {
+function gradePreset(d, w, h, p, opts) {
   const lut = buildLUT(p);
   const sat = p.saturation == null ? 1 : p.saturation;
   const gray = !!p.grayscale;
   const sh = p.shadow || [0, 0, 0], hi = p.highlight || [0, 0, 0];
   const split = !!(p.shadow || p.highlight);
-  const vig = p.vignette || 0, grain = p.grain || 0;
+  const vig = p.vignette || 0, grain = (opts && opts.noGrain) ? 0 : (p.grain || 0);
   const cx = w / 2, cy = h / 2, maxd2 = cx * cx + cy * cy;
   const xs = new Float32Array(w);
   for (let x = 0; x < w; x++) xs[x] = (x - cx) * (x - cx);
@@ -402,11 +401,11 @@ function gradePreset(d, w, h, p) {
 }
 
 // 按风格 id 给一段像素调色（原图 / LUT / 参数风格）
-function gradeData(d, w, h, id) {
+function gradeData(d, w, h, id, opts) {
   if (id === "none") return;
   if (id.indexOf("lut:") === 0) { const lut = lutCache[id]; if (lut) applyCubeLUT(d, lut); return; }
   const p = PRESETS.find((x) => x.id === id);
-  if (p) gradePreset(d, w, h, p);
+  if (p) gradePreset(d, w, h, p, opts);
 }
 
 // 套用到已拍摄的整张照片，刷新预览与"保存"
