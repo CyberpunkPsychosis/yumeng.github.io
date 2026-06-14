@@ -82,6 +82,11 @@ function renderPreview(ts) {
   gradeData(img.data, ww, wh, livePreset);
   wctx.putImageData(img, 0, 0);
   if (preview.classList.contains("hidden")) preview.classList.remove("hidden");
+  // 隐藏时 clientWidth 为 0，显示后才能拿到真实尺寸——在此确保画布尺寸正确
+  if (preview.width !== preview.clientWidth || preview.height !== preview.clientHeight) {
+    preview.width = preview.clientWidth;
+    preview.height = preview.clientHeight;
+  }
   const cw = preview.width, ch = preview.height;
   const s = Math.max(cw / ww, ch / wh); // cover，与 video 的 object-fit:cover 一致
   const dw = ww * s, dh = wh * s;
