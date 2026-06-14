@@ -207,15 +207,36 @@ const PRESETS = [
   { id: "none", name: "原图" },
   { id: "leica", name: "徕卡", temp: 8, exposure: 0.03, contrast: 1.12, saturation: 1.12,
     blackLift: 0.0, shadow: [-2, -1, 2], highlight: [7, 3, -3], vignette: 0.12, grain: 0.04 },
+  { id: "jp", name: "日系", temp: -2, tint: 2, exposure: 0.08, contrast: 0.9, saturation: 0.95,
+    blackLift: 0.1, shadow: [2, 4, 6], highlight: [5, 5, 3], vignette: 0.0, grain: 0.02 },
+  { id: "jpfilm", name: "日系胶片", temp: 0, tint: 6, exposure: 0.03, contrast: 0.96, saturation: 0.9,
+    blackLift: 0.08, shadow: [-2, 5, 3], highlight: [6, 6, -2], vignette: 0.06, grain: 0.06 },
   { id: "hk", name: "港风", temp: 2, tint: 7, exposure: -0.02, contrast: 1.05, saturation: 0.82,
     blackLift: 0.07, shadow: [-7, 3, 7], highlight: [11, 6, -7], vignette: 0.16, grain: 0.09 },
+  { id: "guofeng", name: "古风", temp: 4, tint: 3, exposure: -0.02, contrast: 1.02, saturation: 0.7,
+    blackLift: 0.06, shadow: [-3, 1, 2], highlight: [8, 6, -2], vignette: 0.18, grain: 0.05 },
   { id: "cine", name: "电影", temp: -4, exposure: 0.0, contrast: 1.16, saturation: 0.9,
     blackLift: 0.04, shadow: [-9, 0, 11], highlight: [13, 5, -9], vignette: 0.22, grain: 0.05 },
-  { id: "bw", name: "黑白", exposure: 0.03, contrast: 1.18, saturation: 0, blackLift: 0.04,
-    grayscale: true, vignette: 0.16, grain: 0.10 },
+  { id: "tealorange", name: "青橙", temp: -2, exposure: 0.0, contrast: 1.14, saturation: 1.0,
+    blackLift: 0.03, shadow: [-12, -2, 14], highlight: [16, 7, -12], vignette: 0.18, grain: 0.04 },
+  { id: "cool", name: "冷调", temp: -14, tint: -2, exposure: -0.03, contrast: 1.12, saturation: 0.85,
+    blackLift: 0.04, shadow: [-6, -2, 10], highlight: [-4, 0, 6], vignette: 0.2, grain: 0.05 },
+  { id: "cream", name: "奶油", temp: 8, exposure: 0.07, contrast: 0.92, saturation: 0.95,
+    blackLift: 0.1, shadow: [6, 4, 2], highlight: [12, 8, 2], vignette: 0.0, grain: 0.02 },
+  { id: "vintage", name: "复古", temp: 10, tint: 4, exposure: -0.02, contrast: 1.0, saturation: 0.78,
+    blackLift: 0.12, shadow: [6, 4, -4], highlight: [14, 10, -10], vignette: 0.24, grain: 0.12 },
+  { id: "blackgold", name: "黑金", temp: 6, exposure: -0.04, contrast: 1.2, saturation: 0.7,
+    blackLift: 0.0, shadow: [-2, -2, -2], highlight: [16, 10, -12], vignette: 0.26, grain: 0.05 },
+  { id: "cyber", name: "赛博", temp: -6, tint: -6, exposure: 0.0, contrast: 1.16, saturation: 1.25,
+    blackLift: 0.03, shadow: [-8, -4, 16], highlight: [14, -6, 12], vignette: 0.2, grain: 0.05 },
   { id: "warm", name: "暖阳", temp: 14, exposure: 0.06, contrast: 1.06, saturation: 1.1,
     blackLift: 0.02, shadow: [2, 1, -2], highlight: [13, 6, -8], vignette: 0.08, grain: 0.03 },
+  { id: "bw", name: "黑白", exposure: 0.03, contrast: 1.18, saturation: 0, blackLift: 0.04,
+    grayscale: true, vignette: 0.16, grain: 0.10 },
 ];
+
+// 已导入的 3D LUT（.cube）：{ size, data:Float32Array }
+let lut3d = null;
 
 // 预生成每个通道的色调查找表（曝光+白平衡+对比+提黑）
 function buildLUT(p) {
@@ -245,7 +266,9 @@ function applyPreset(id) {
   const d = out.data;
   const p = PRESETS.find((x) => x.id === id) || PRESETS[0];
 
-  if (id !== "none") {
+  if (id === "lut3d") {
+    if (lut3d) applyCubeLUT(d, lut3d);
+  } else if (id !== "none") {
     const lut = buildLUT(p);
     const sat = p.saturation == null ? 1 : p.saturation;
     const gray = !!p.grayscale;
@@ -296,10 +319,77 @@ function renderFilterStrip() {
   const box = $("filters");
   if (box.childElementCount) return; // 只建一次
   box.innerHTML = PRESETS.map((p) =>
-    `<button class="chip${p.id === "none" ? " active" : ""}" data-id="${p.id}">${p.name}</button>`).join("");
+    `<button class="chip${p.id === "none" ? " active" : ""}" data-id="${p.id}">${p.name}</button>`).join("")
+    + `<button class="chip import" data-id="import">+ LUT</button>`;
   box.querySelectorAll(".chip").forEach((el) =>
-    el.addEventListener("click", () => applyPreset(el.dataset.id)));
+    el.addEventListener("click", () => {
+      if (el.dataset.id === "import") { $("lutFile").click(); return; }
+      applyPreset(el.dataset.id);
+    }));
 }
+
+/* ---------- 3D LUT (.cube) 引擎 ---------- */
+function parseCube(text) {
+  let size = 0;
+  const data = [];
+  for (let raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line[0] === "#") continue;
+    if (/^TITLE/i.test(line)) continue;
+    if (/^LUT_1D_SIZE/i.test(line)) throw new Error("暂只支持 3D LUT(.cube)");
+    if (/^LUT_3D_SIZE/i.test(line)) { size = parseInt(line.split(/\s+/)[1], 10); continue; }
+    if (/^(DOMAIN_MIN|DOMAIN_MAX|LUT_3D_INPUT_RANGE)/i.test(line)) continue;
+    const parts = line.split(/\s+/).map(Number);
+    if (parts.length === 3 && parts.every((n) => !isNaN(n))) data.push(parts[0], parts[1], parts[2]);
+  }
+  if (!size || data.length !== size * size * size * 3) throw new Error("LUT 解析失败或尺寸不符");
+  return { size, data: Float32Array.from(data) };
+}
+
+// 三线性插值套用 3D LUT（R 变化最快，符合 .cube 规范）
+function applyCubeLUT(d, lut) {
+  const N = lut.size, N1 = N - 1, L = lut.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const r = (d[i] / 255) * N1, g = (d[i + 1] / 255) * N1, b = (d[i + 2] / 255) * N1;
+    const r0 = r | 0, g0 = g | 0, b0 = b | 0;
+    const r1 = r0 < N1 ? r0 + 1 : N1, g1 = g0 < N1 ? g0 + 1 : N1, b1 = b0 < N1 ? b0 + 1 : N1;
+    const fr = r - r0, fg = g - g0, fb = b - b0;
+    const c000 = ((b0 * N + g0) * N + r0) * 3, c100 = ((b0 * N + g0) * N + r1) * 3;
+    const c010 = ((b0 * N + g1) * N + r0) * 3, c110 = ((b0 * N + g1) * N + r1) * 3;
+    const c001 = ((b1 * N + g0) * N + r0) * 3, c101 = ((b1 * N + g0) * N + r1) * 3;
+    const c011 = ((b1 * N + g1) * N + r0) * 3, c111 = ((b1 * N + g1) * N + r1) * 3;
+    for (let k = 0; k < 3; k++) {
+      const x00 = L[c000 + k] * (1 - fr) + L[c100 + k] * fr;
+      const x10 = L[c010 + k] * (1 - fr) + L[c110 + k] * fr;
+      const x01 = L[c001 + k] * (1 - fr) + L[c101 + k] * fr;
+      const x11 = L[c011 + k] * (1 - fr) + L[c111 + k] * fr;
+      const y0 = x00 * (1 - fg) + x10 * fg, y1 = x01 * (1 - fg) + x11 * fg;
+      d[i + k] = (y0 * (1 - fb) + y1 * fb) * 255;
+    }
+  }
+}
+
+// 导入 .cube 文件
+$("lutFile").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    lut3d = parseCube(await file.text());
+    let chip = document.querySelector('#filters .chip[data-id="lut3d"]');
+    if (!chip) {
+      chip = document.createElement("button");
+      chip.className = "chip";
+      chip.dataset.id = "lut3d";
+      chip.textContent = "我的LUT";
+      chip.addEventListener("click", () => applyPreset("lut3d"));
+      $("filters").insertBefore(chip, document.querySelector("#filters .chip.import"));
+    }
+    applyPreset("lut3d");
+  } catch (err) {
+    alert("LUT 导入失败：" + err.message);
+  }
+  e.target.value = "";
+});
 
 $("critiqueBtn").addEventListener("click", async () => {
   $("critiqueBody").innerHTML = '<div class="loading">AI 正在点评这张照片…</div>';
