@@ -23,6 +23,9 @@ let srcW = 0, srcH = 0;
 let currentPreset = "none";
 let livePreset = "none";  // 取景中选中的实时风格
 let lastPreviewTs = 0;
+let zoom = 1;          // 当前倍率（1/2/3…）
+let digitalZoom = 1;   // 硬件无法满足时由数码变焦补足的部分
+let zoomCap = null;    // 摄像头硬件变焦能力 { min, max, step }
 
 const PROXY_KEY = "ai_photo_proxy_url";
 // 已部署的 AI 代理（Cloudflare Worker）默认地址，打开即用；可在设置里覆盖
@@ -40,6 +43,7 @@ async function startCamera() {
     video.srcObject = stream;
     await video.play();
     resizeOverlay();
+    setupZoom();
   } catch (err) {
     alert("无法打开摄像头：" + err.message + "\n请确认已授予摄像头权限，并使用 HTTPS 或 localhost 访问。");
   }
@@ -52,6 +56,37 @@ function resizeOverlay() {
   preview.height = preview.clientHeight;
 }
 window.addEventListener("resize", resizeOverlay);
+
+/* ---------- 倍率（变焦）---------- */
+function setupZoom() {
+  const track = stream && stream.getVideoTracks()[0];
+  const caps = track && track.getCapabilities ? track.getCapabilities() : {};
+  zoomCap = caps && caps.zoom ? caps.zoom : null;
+  // 倍率档位：基础 1/2/3，若硬件支持更大则补 5×
+  const levels = [1, 2, 3];
+  if (zoomCap && zoomCap.max >= 5) levels.push(5);
+  const bar = $("zoomBar");
+  bar.innerHTML = levels.map((z) =>
+    `<button class="zoom${z === 1 ? " active" : ""}" data-z="${z}">${z}×</button>`).join("");
+  bar.querySelectorAll(".zoom").forEach((el) =>
+    el.addEventListener("click", () => setZoom(+el.dataset.z)));
+  setZoom(1);
+}
+
+function setZoom(z) {
+  zoom = z;
+  let hw = 1; // 硬件变焦能达到的倍率
+  if (zoomCap) {
+    hw = Math.min(Math.max(z, zoomCap.min || 1), zoomCap.max);
+    const track = stream && stream.getVideoTracks()[0];
+    if (track) track.applyConstraints({ advanced: [{ zoom: hw }] }).catch(() => {});
+  }
+  digitalZoom = z / hw; // 硬件够用则为 1，否则用数码变焦补足
+  // 原始取景画面用 CSS 放大（仅在未开实时滤镜时显示）
+  video.style.transform = digitalZoom > 1 ? `scale(${digitalZoom})` : "";
+  document.querySelectorAll("#zoomBar .zoom").forEach((el) =>
+    el.classList.toggle("active", +el.dataset.z === z));
+}
 
 /* ---------- 取景实时风格预览 ---------- */
 async function selectLivePreset(id) {
@@ -73,11 +108,13 @@ function renderPreview(ts) {
   if (ts - lastPreviewTs < 50) return; // 约 20fps，省电
   lastPreviewTs = ts;
   const vw = video.videoWidth, vh = video.videoHeight;
-  const long = 480, scale = Math.min(1, long / Math.max(vw, vh));
-  const ww = Math.round(vw * scale), wh = Math.round(vh * scale);
+  const z = digitalZoom || 1;                  // 与拍照一致的数码变焦裁切
+  const sw = vw / z, sh = vh / z, sx = (vw - sw) / 2, sy = (vh - sh) / 2;
+  const long = 480, scale = Math.min(1, long / Math.max(sw, sh));
+  const ww = Math.round(sw * scale), wh = Math.round(sh * scale);
   if (previewWork.width !== ww || previewWork.height !== wh) { previewWork.width = ww; previewWork.height = wh; }
   const wctx = previewWork.getContext("2d");
-  wctx.drawImage(video, 0, 0, ww, wh);
+  wctx.drawImage(video, sx, sy, sw, sh, 0, 0, ww, wh);
   const img = wctx.getImageData(0, 0, ww, wh);
   gradeData(img.data, ww, wh, livePreset);
   wctx.putImageData(img, 0, 0);
@@ -165,11 +202,13 @@ async function enableOrientation() {
 function captureCanvas(maxW = 1024) {
   const vw = video.videoWidth, vh = video.videoHeight;
   if (!vw) return null;
-  const scale = Math.min(1, maxW / vw);
+  const z = digitalZoom || 1;                  // 数码变焦：中心裁切
+  const sw = vw / z, sh = vh / z, sx = (vw - sw) / 2, sy = (vh - sh) / 2;
+  const scale = Math.min(1, maxW / sw);
   const c = document.createElement("canvas");
-  c.width = Math.round(vw * scale);
-  c.height = Math.round(vh * scale);
-  c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
+  c.width = Math.round(sw * scale);
+  c.height = Math.round(sh * scale);
+  c.getContext("2d").drawImage(video, sx, sy, sw, sh, 0, 0, c.width, c.height);
   return c;
 }
 

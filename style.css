@@ -14,6 +14,7 @@ html, body {
 #viewfinder {
   position: fixed;
   inset: 0;
+  overflow: hidden; /* 数码变焦放大时裁掉溢出部分 */
 }
 
 #video {
@@ -39,6 +40,32 @@ html, body {
   height: 100%;
   pointer-events: none;
   z-index: 2;
+}
+
+/* 倍率（变焦） */
+#zoomBar {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(env(safe-area-inset-bottom, 16px) + 152px);
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  z-index: 3;
+}
+#zoomBar .zoom {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 13px;
+  backdrop-filter: blur(6px);
+}
+#zoomBar .zoom.active {
+  background: #ffd60a;
+  color: #000;
+  border-color: #ffd60a;
+  font-weight: 700;
 }
 
 /* 取景实时滤镜条 */
