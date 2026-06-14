@@ -23,9 +23,10 @@ let srcW = 0, srcH = 0;
 let currentPreset = "none";
 let livePreset = "none";  // 取景中选中的实时风格
 let lastPreviewTs = 0;
-let zoom = 1;          // 当前倍率（1/2/3…）
+let zoom = 1;          // 当前倍率（可连续，如 0.5/1/2.3…）
 let digitalZoom = 1;   // 硬件无法满足时由数码变焦补足的部分
 let zoomCap = null;    // 摄像头硬件变焦能力 { min, max, step }
+let minZoom = 1, maxZoom = 5;
 
 const PROXY_KEY = "ai_photo_proxy_url";
 // 已部署的 AI 代理（Cloudflare Worker）默认地址，打开即用；可在设置里覆盖
@@ -62,30 +63,47 @@ function setupZoom() {
   const track = stream && stream.getVideoTracks()[0];
   const caps = track && track.getCapabilities ? track.getCapabilities() : {};
   zoomCap = caps && caps.zoom ? caps.zoom : null;
-  // 倍率档位：基础 1/2/3，若硬件支持更大则补 5×
-  const levels = [1, 2, 3];
-  if (zoomCap && zoomCap.max >= 5) levels.push(5);
+  const hwMin = zoomCap && zoomCap.min ? zoomCap.min : 1;
+  const hwMax = zoomCap && zoomCap.max ? zoomCap.max : 1;
+  minZoom = Math.min(hwMin, 1); // 硬件支持小于 1 才有广角
+  maxZoom = Math.max(hwMax, 5); // 数码最多到 5×
+  // 档位：0.5(广角，仅设备支持时)/1/2/3/5，按可用范围筛选
+  let levels = [0.5, 1, 2, 3, 5].filter((z) => z >= minZoom - 1e-3 && z <= maxZoom + 1e-3);
+  if (!levels.some((z) => Math.abs(z - 1) < 1e-3)) levels.push(1);
+  levels.sort((a, b) => a - b);
   const bar = $("zoomBar");
   bar.innerHTML = levels.map((z) =>
-    `<button class="zoom${z === 1 ? " active" : ""}" data-z="${z}">${z}×</button>`).join("");
+    `<button class="zoom" data-z="${z}">${z === 0.5 ? ".5" : z}×</button>`).join("");
   bar.querySelectorAll(".zoom").forEach((el) =>
     el.addEventListener("click", () => setZoom(+el.dataset.z)));
   setZoom(1);
 }
 
 function setZoom(z) {
+  z = Math.min(Math.max(z, minZoom), maxZoom);
   zoom = z;
-  let hw = 1; // 硬件变焦能达到的倍率
+  let hw = 1; // 硬件变焦达到的倍率
   if (zoomCap) {
     hw = Math.min(Math.max(z, zoomCap.min || 1), zoomCap.max);
     const track = stream && stream.getVideoTracks()[0];
     if (track) track.applyConstraints({ advanced: [{ zoom: hw }] }).catch(() => {});
   }
-  digitalZoom = z / hw; // 硬件够用则为 1，否则用数码变焦补足
-  // 原始取景画面用 CSS 放大（仅在未开实时滤镜时显示）
+  digitalZoom = z / hw; // 硬件够用则为 1，否则数码变焦补足
   video.style.transform = digitalZoom > 1 ? `scale(${digitalZoom})` : "";
   document.querySelectorAll("#zoomBar .zoom").forEach((el) =>
-    el.classList.toggle("active", +el.dataset.z === z));
+    el.classList.toggle("active", Math.abs(+el.dataset.z - z) < 1e-3));
+}
+
+// 双指捏合缩放
+function setupPinch() {
+  const vf = $("viewfinder");
+  let d0 = 0, z0 = 1;
+  const dist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  vf.addEventListener("touchstart", (e) => { if (e.touches.length === 2) { d0 = dist(e.touches); z0 = zoom; } });
+  vf.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2 && d0) { e.preventDefault(); setZoom(z0 * dist(e.touches) / d0); }
+  }, { passive: false });
+  vf.addEventListener("touchend", (e) => { if (e.touches.length < 2) d0 = 0; });
 }
 
 /* ---------- 取景实时风格预览 ---------- */
@@ -548,6 +566,7 @@ async function init() {
   await startCamera();
   await enableOrientation();
   renderLiveStrip();
+  setupPinch();
   requestAnimationFrame(drawOverlay);
   requestAnimationFrame(renderPreview);
   if (!getProxyUrl()) openSettings(); // 首次使用提示填代理
