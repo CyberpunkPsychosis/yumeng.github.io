@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>到了就看 · 景点地图</title>
+  <link rel="stylesheet" href="travel.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- 顶部：你在哪 + 搜索 -->
+  <div id="topbar">
+    <div id="whereami">定位中…</div>
+    <div id="searchRow">
+      <input id="searchInput" type="search" placeholder="搜地点 / 景点…" />
+      <button id="locBtn" title="回到我的位置">📍</button>
+      <button id="setBtn" title="设置">⚙️</button>
+    </div>
+  </div>
+
+  <!-- 底部：周边景点列表 -->
+  <div id="sheet">
+    <div id="sheetHandle"></div>
+    <div id="sheetTitle">周边景点</div>
+    <div id="poiList"></div>
+  </div>
+
+  <!-- 设置：高德 key -->
+  <div id="settings" class="hidden">
+    <div class="sheet2">
+      <h3>高德地图 Key</h3>
+      <label>Web端(JS API) Key
+        <input id="amapKey" type="text" placeholder="你的高德 key" />
+      </label>
+      <label>安全密钥 securityJsCode（新 key 需要）
+        <input id="amapSec" type="text" placeholder="安全密钥（没有可留空）" />
+      </label>
+      <p class="note">在 <b>高德开放平台 → 应用管理</b> 创建「Web端(JS API)」key；记得把<b>域名白名单</b>加上你的网址。</p>
+      <button id="setSave" class="btn">保存并加载</button>
+      <button id="setCancel" class="btn ghost">取消</button>
+    </div>
+  </div>
+
+  <script src="travel.js"></script>
+</body>
+</html>
