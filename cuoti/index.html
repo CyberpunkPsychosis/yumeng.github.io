@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>错题本 · 拍一拍，AI 帮你找弱点</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">📚 错题本</div>
+    <div class="tabs">
+      <button class="tab active" data-view="list">错题</button>
+      <button class="tab" data-view="stats">薄弱点</button>
+    </div>
+  </header>
+
+  <!-- 错题列表 -->
+  <main id="view-list" class="view">
+    <div id="filters"></div>
+    <div id="list"></div>
+    <div id="emptyList" class="empty hidden">还没有错题<br>点右下角 + 拍一道试试</div>
+  </main>
+
+  <!-- 薄弱点统计 -->
+  <main id="view-stats" class="view hidden">
+    <div id="stats"></div>
+  </main>
+
+  <!-- 添加按钮 -->
+  <button id="fab" aria-label="添加错题">＋</button>
+  <input id="fileInput" type="file" accept="image/*" capture="environment" hidden />
+
+  <!-- 分析中/结果浮层 -->
+  <div id="analyzeOverlay" class="hidden">
+    <div class="sheet">
+      <img id="previewImg" alt="错题预览" />
+      <div id="analyzeStatus" class="status">AI 正在分析这道题…</div>
+      <div id="analyzeResult" class="hidden"></div>
+      <div id="analyzeActions" class="hidden">
+        <button id="saveBtn" class="btn">存入错题本</button>
+        <button id="discardBtn" class="btn ghost">放弃</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
