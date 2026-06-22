@@ -8,7 +8,7 @@ let status = "pending";
 let FIELDS = [];
 
 async function loadTemplate() {
-  const t = await fetch("/api/template").then((r) => r.json());
+  const t = await window.apiFetch("/api/template").then((r) => r.json());
   FIELDS = t.fields.map((f) => [f.key, f.label, f.type]);
   const m = t.model || {};
   $("brand").innerHTML = `<span class="dot"></span> ${esc(t.name)}审核台` +
@@ -16,7 +16,7 @@ async function loadTemplate() {
 }
 
 async function load() {
-  const recs = await fetch(`/api/records?status=${status}`).then((r) => r.json());
+  const recs = await window.apiFetch(`/api/records?status=${status}`).then((r) => r.json());
   const list = $("list");
   $("empty").classList.toggle("hidden", recs.length > 0);
   list.innerHTML = recs.map(card).join("");
@@ -63,7 +63,7 @@ function wire(rec) {
   const errBox = root.querySelector("[data-err]");
   root.querySelector(`[data-approve]`)?.addEventListener("click", async (e) => {
     e.target.disabled = true; e.target.textContent = "写入中…";
-    const resp = await fetch(`/api/records/${rec.id}/approve`, {
+    const resp = await window.apiFetch(`/api/records/${rec.id}/approve`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fields: collect(rec.id) }),
     });
@@ -71,7 +71,7 @@ function wire(rec) {
     else { errBox.textContent = "⚠️ " + (await resp.json()).error; e.target.disabled = false; e.target.textContent = "确认入库 →"; }
   });
   root.querySelector(`[data-reject]`)?.addEventListener("click", async () => {
-    await fetch(`/api/records/${rec.id}/reject`, { method: "POST" });
+    await window.apiFetch(`/api/records/${rec.id}/reject`, { method: "POST" });
     load();
   });
 }

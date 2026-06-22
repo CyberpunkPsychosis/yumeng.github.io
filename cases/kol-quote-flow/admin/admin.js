@@ -42,10 +42,34 @@ const DEFAULTS = {
   running: true,
 };
 
+// API 优先：有后端就读/写 /api/config；无后端（GitHub Pages 原型）回退 localStorage。
 const KEY = "intake_config";
-const load = () => { try { return { ...structuredClone(DEFAULTS), ...JSON.parse(localStorage.getItem(KEY)) }; } catch { return structuredClone(DEFAULTS); } };
-const save = () => { localStorage.setItem(KEY, JSON.stringify(state)); };
-let state = load();
+let BACKEND = false;
+let state = structuredClone(DEFAULTS);
+
+const localLoad = () => { try { return { ...structuredClone(DEFAULTS), ...JSON.parse(localStorage.getItem(KEY)) }; } catch { return structuredClone(DEFAULTS); } };
+const localSave = () => localStorage.setItem(KEY, JSON.stringify(state));
+
+async function initState() {
+  try {
+    const r = await window.apiFetch("/api/config");
+    if (!r.ok) throw 0;
+    state = await r.json();
+    BACKEND = true;
+  } catch {
+    BACKEND = false;
+    state = localLoad();
+  }
+}
+
+let saveTimer;
+function save() {
+  if (!BACKEND) { localSave(); return; }
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    window.apiFetch("/api/config", { method: "PUT", body: JSON.stringify(state) }).catch(() => {});
+  }, 600);
+}
 
 /* ---------- 导航 ---------- */
 const STEPS = [
@@ -91,7 +115,10 @@ function renderSource() {
         <label class="field"><span>轮询间隔（分钟）</span><input id="interval" type="number" value="${s.intervalMin}" /></label>
       </div>
     </div>`;
-  $("authBtn").onclick = () => { state.source.authorized = true; state.source.email = "ops@yourbrand.com"; save(); toast("已授权 Gmail（演示）"); render(); };
+  $("authBtn").onclick = () => {
+    if (BACKEND) { location.href = "/oauth/google/start"; return; } // 跳转 Google 授权
+    state.source.authorized = true; state.source.email = "ops@yourbrand.com"; save(); toast("已授权 Gmail（演示）"); render();
+  };
   $("label").oninput = (e) => { state.source.label = e.target.value; save(); };
   $("interval").oninput = (e) => { state.source.intervalMin = Number(e.target.value || 5); save(); };
 }
@@ -134,10 +161,13 @@ function renderModel() {
   $("model").oninput = (e) => { state.llm.model = e.target.value; save(); };
   $("apiKey").oninput = (e) => { state.llm.apiKey = e.target.value; save(); };
   if ($("baseUrl")) $("baseUrl").oninput = (e) => { state.llm.baseUrl = e.target.value; save(); };
-  $("testBtn").onclick = () => {
-    const ok = !!(state.llm.model && (state.llm.apiKey || true));
-    const el = $("testRes"); el.style.display = "inline-flex";
-    el.className = "badge " + (ok ? "ok" : ""); el.textContent = ok ? "连接正常（演示）" : "请填模型";
+  $("testBtn").onclick = async () => {
+    const el = $("testRes"); el.style.display = "inline-flex"; el.className = "badge"; el.textContent = "测试中…";
+    if (!BACKEND) { el.className = "badge ok"; el.textContent = "连接正常（演示）"; return; }
+    try {
+      const d = await window.apiFetch("/api/test/llm", { method: "POST", body: "{}" }).then((r) => r.json());
+      el.className = "badge " + (d.ok ? "ok" : ""); el.textContent = d.ok ? "连接正常" : ("失败：" + (d.error || "")).slice(0, 40);
+    } catch { el.className = "badge"; el.textContent = "请求失败"; }
   };
 }
 
@@ -246,7 +276,14 @@ function renderDest() {
     </div>`;
   $("appToken").oninput = (e) => { d.appToken = e.target.value; save(); };
   $("tableId").oninput = (e) => { d.tableId = e.target.value; save(); };
-  $("pullCols").onclick = () => { toast("已拉取飞书表头（演示）"); render(); };
+  $("pullCols").onclick = async () => {
+    if (!BACKEND) { toast("已拉取飞书表头（演示）"); render(); return; }
+    try {
+      const d = await window.apiFetch("/api/feishu/columns", { method: "POST", body: "{}" }).then((r) => r.json());
+      if (d.columns) { state.destination.columns = d.columns; toast("已拉取 " + d.columns.length + " 列"); render(); }
+      else toast("失败：" + (d.error || ""));
+    } catch { toast("请求失败"); }
+  };
   $("panel").querySelectorAll("[data-key]").forEach((sel) => sel.addEventListener("change", () => {
     const f = state.template.fields.find((x) => x.key === sel.dataset.key);
     if (f) { f.feishu = sel.value; save(); }
@@ -278,7 +315,12 @@ function renderRun() {
          <span class="st"><span class="badge ${st === "已入库" ? "ok" : ""}">${st}</span></span></div>`).join("")}</div>
       <p style="margin-top:12px"><a class="link" href="../web/index.html">→ 打开人工审核台</a></p>
     </div>`;
-  $("sw").onclick = () => { state.running = !state.running; save(); renderRun(); };
+  $("sw").onclick = () => {
+    state.running = !state.running;
+    if (BACKEND) window.apiFetch("/api/run", { method: "POST", body: JSON.stringify({ running: state.running }) }).catch(() => {});
+    else save();
+    renderRun();
+  };
 }
 
 /* ---------- 顶栏动作 ---------- */
@@ -292,4 +334,8 @@ function toast(msg) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.add("hidden"), 1800);
 }
 
-render();
+(async function boot() {
+  await initState();
+  if (new URLSearchParams(location.search).get("authorized")) { toast("已授权 Gmail"); active = "source"; }
+  render();
+})();
