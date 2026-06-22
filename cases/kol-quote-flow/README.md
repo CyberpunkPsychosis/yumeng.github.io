@@ -9,25 +9,33 @@ Gmail(报价邮件)  ──轮询──▶  AI 结构化抽取  ──▶  本�
 
 核心约束：**AI 抽取完不直接入库**，先落到「待确认」，人在审核台核对/改字段，点确认才写飞书。
 
+> 📦 **产品视角**：这其实是一个通用「AI 数据录入中台」的实例——模型可随意切换、抽取字段模板化，换行业即可复用甚至直接售卖。详见 [PRODUCT.md](./PRODUCT.md)。
+
 ## 目录结构
 
 ```
 server/
-  server.js      HTTP 服务：审核台 API + 托管前端 + 启动轮询
-  poller.js      定时拉新邮件 → 抽取 → 落地待确认
-  gmail.js       Gmail 拉取（只读，按标签过滤）
-  extract.js     Claude 结构化抽取（output_config.format 约束 JSON）
-  feishu.js      飞书多维表格写入（tenant_access_token + append record）
-  store.js       本地 JSON 暂存（pending/approved/rejected）
-  .env.example   全部配置项（密钥不进 git）
-web/             人工审核台（左看原邮件、右改字段、一键通过/驳回）
+  server.js        HTTP 服务：审核台 API + 托管前端 + 启动轮询
+  poller.js        定时拉新邮件 → 抽取 → 落地待确认
+  gmail.js         Gmail 拉取（只读，按标签过滤）
+  llm.js           统一大模型接口（一行 env 切换 Claude/OpenAI/国产各家）
+  extract.js       调模型把邮件抽成模板字段
+  templates/       抽取模板（抽哪些字段）—— kol-quote.js 是默认模板
+  feishu.js        飞书多维表格写入（列映射来自模板）
+  store.js         本地 JSON 暂存（pending/approved/rejected）
+  .env.example     全部配置项（密钥不进 git）
+web/               人工审核台（字段按模板动态渲染，左看原邮件右改字段）
 ```
 
-## 抽取字段（= 飞书表列）
+## 抽取字段 = 模板（可换行业）
 
-`KOL / 平台 / 主页 / 粉丝量 / 报价 / 币种 / 合作形式 / 可上线时间 / 联系邮箱 / 备注`
+KOL 报价模板抽：`KOL / 平台 / 主页 / 粉丝量 / 报价 / 币种 / 合作形式 / 可上线时间 / 联系邮箱 / 备注`。
 
-字段定义集中在 `server/extract.js` 的 `SCHEMA`；飞书列名映射在 `server/feishu.js` 的 `FIELD_MAP`，客户表头不同改这两处即可。
+字段、提示词、飞书列名全集中在 `server/templates/kol-quote.js` 一个文件里（改它即可适配客户表头）。**换行业**只要新增一个 `templates/xxx.js` 并在 `templates/index.js` 登记，引擎和审核台都不用动。
+
+## 模型可随意切换
+
+抽取走统一接口 `llm.js`，在 `.env` 里一行切换：`LLM_PROVIDER=anthropic`（Claude）或 `=openai`（任意 OpenAI 兼容端点，覆盖 DeepSeek / 通义 / Moonshot / 智谱 / 混元 / Gemini 等）。客户可填自己的模型 key，数据与成本都在客户侧。
 
 ## 模型与成本（高并发抽取）
 

@@ -4,19 +4,16 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 
 let status = "pending";
 
-// 字段定义（与后端 SCHEMA 对应）：key -> 中文标签 + 类型
-const FIELDS = [
-  ["kol_name", "KOL", "text"],
-  ["platform", "平台", "text"],
-  ["handle", "主页/Handle", "text"],
-  ["followers", "粉丝量", "text"],
-  ["price", "报价", "number"],
-  ["currency", "币种", "text"],
-  ["deliverables", "合作形式", "text"],
-  ["timeline", "可上线时间", "text"],
-  ["contact_email", "联系邮箱", "text"],
-  ["notes", "备注", "text"],
-];
+// 字段定义从后端模板动态获取，审核台不写死任何行业
+let FIELDS = [];
+
+async function loadTemplate() {
+  const t = await fetch("/api/template").then((r) => r.json());
+  FIELDS = t.fields.map((f) => [f.key, f.label, f.type]);
+  const m = t.model || {};
+  $("brand").innerHTML = `<span class="dot"></span> ${esc(t.name)}审核台` +
+    `<small class="model">${esc(m.provider || "")} · ${esc(m.model || "")}</small>`;
+}
 
 async function load() {
   const recs = await fetch(`/api/records?status=${status}`).then((r) => r.json());
@@ -86,4 +83,4 @@ document.querySelectorAll(".tab").forEach((t) =>
     load();
   }));
 
-load();
+loadTemplate().then(load);

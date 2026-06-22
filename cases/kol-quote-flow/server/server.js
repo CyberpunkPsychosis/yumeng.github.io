@@ -9,10 +9,22 @@ import { fileURLToPath } from "url";
 import { list, get, update } from "./store.js";
 import { appendRecord } from "./feishu.js";
 import { startPoller } from "./poller.js";
+import { activeTemplate } from "./templates/index.js";
+import { activeModelInfo } from "./llm.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.json());
+
+// 当前模板（字段定义）+ 用的模型 —— 审核台据此动态渲染表单
+app.get("/api/template", (req, res) => {
+  const t = activeTemplate();
+  res.json({
+    name: t.name,
+    model: activeModelInfo(),
+    fields: t.fields.map(({ key, label, type }) => ({ key, label, type })),
+  });
+});
 
 // 列表：?status=pending|approved|rejected（默认全部）
 app.get("/api/records", (req, res) => {
