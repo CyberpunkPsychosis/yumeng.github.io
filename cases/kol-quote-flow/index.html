@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>海外 KOL 报价自动化 · 案例</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#F4F2EC;--surface:#FBFAF6;--text:#1F1E1B;--muted:#6E6A60;--faint:#938F84;
+      --accent:#CC785C;--accent-ink:#A8543B;--border:#E5E1D6;--radius:16px;
+      --serif:"Fraunces",ui-serif,Georgia,serif;--sans:"Inter",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--sans);color:var(--text);background:var(--bg);line-height:1.6;
+      background-image:radial-gradient(120% 60% at 50% -10%,rgba(204,120,92,.07),transparent 60%);background-attachment:fixed;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent-ink)}
+    .wrap{max-width:760px;margin:0 auto;padding:28px 24px 64px}
+    .back{font-size:14px;color:var(--muted);text-decoration:none}
+    .eyebrow{font-size:12px;font-weight:600;letter-spacing:1.6px;color:var(--accent-ink);margin:34px 0 14px}
+    h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,44px);line-height:1.1;letter-spacing:-.4px}
+    .lede{margin-top:16px;font-size:17px;color:var(--muted)}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+    .tags span{font-size:12px;color:var(--accent-ink);background:rgba(204,120,92,.10);border-radius:6px;padding:4px 10px}
+    h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:40px 0 12px}
+    p{margin:10px 0;color:#33312c}
+    .flow{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:var(--surface);
+      border:1px solid var(--border);border-radius:var(--radius);padding:18px;overflow:auto;white-space:pre;color:#4a463d;margin:14px 0}
+    ul{margin:10px 0 10px 20px;color:#33312c}
+    li{margin:6px 0}
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+    .c{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
+    .c h3{font-size:15px;margin-bottom:4px}
+    .c p{font-size:13.5px;color:var(--muted);margin:0}
+    table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+    th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border)}
+    th{color:var(--muted);font-weight:500}
+    .note{font-size:13.5px;color:var(--faint);margin-top:28px;border-top:1px solid var(--border);padding-top:16px}
+    code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:#ece8de;padding:1px 5px;border-radius:4px}
+    @media(max-width:560px){.cards{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../../index.html">← 返回案例库</a>
+    <p class="eyebrow">CASE · 自动化工作流</p>
+    <h1>海外 KOL 报价<br />自动化工作流</h1>
+    <p class="lede">KOL 来谈合作的报价邮件，自动整理成结构化数据，<strong>人工确认后</strong>同步进飞书多维表格。把运营从手动抄表里解放出来。</p>
+    <div class="tags"><span>AI</span><span>自动化</span><span>工作流</span><span>飞书</span><span>Gmail</span></div>
+
+    <h2>它解决什么</h2>
+    <p>做海外 KOL 营销，每天一堆达人发来报价邮件，运营要手动一封封读、抄进飞书表，慢又容易抄错。这条流水线把读取和整理交给 AI，运营只需做最后一步把关。</p>
+
+    <h2>整体流程</h2>
+    <div class="flow">Gmail（报价邮件）
+   │  打标签 KOL报价，定时轮询
+   ▼
+AI 结构化抽取（Claude）
+   │  KOL / 平台 / 粉丝量 / 报价 / 币种 / 合作形式 …
+   ▼
+本地暂存「待确认」
+   │  审核台：左看原邮件，右改字段
+   ▼
+人工点确认 → 写入飞书多维表格</div>
+    <p>关键设计：AI 抽完<strong>不直接入库</strong>，先进「待确认」，人核对/修改后点确认才写飞书——既省人力，又不让 AI 的误读直接污染数据。</p>
+
+    <h2>四个模块</h2>
+    <div class="cards">
+      <div class="c"><h3>① 抓邮件</h3><p>Gmail API 按标签轮询，只读权限，单业务邮箱场景最稳。</p></div>
+      <div class="c"><h3>② AI 抽取</h3><p>Claude 结构化输出，约束成字段固定的 JSON，无需正则兜底。</p></div>
+      <div class="c"><h3>③ 人工确认</h3><p>网页审核台，原邮件与抽取字段并排，可编辑后一键通过/驳回。</p></div>
+      <div class="c"><h3>④ 写飞书</h3><p>飞书开放平台 API，确认后 append 一条记录进多维表格。</p></div>
+    </div>
+
+    <h2>模型与成本</h2>
+    <p>抽取是轻任务，可按量级在最便宜与最准之间选：</p>
+    <table>
+      <tr><th>模型</th><th>价格（输入/输出 每百万 token）</th><th>适用</th></tr>
+      <tr><td>Haiku 4.5</td><td>$1 / $5</td><td>量大、省钱</td></tr>
+      <tr><td>Sonnet 4.6</td><td>$3 / $15</td><td>均衡</td></tr>
+      <tr><td>Opus 4.8（默认）</td><td>$5 / $25</td><td>最准</td></tr>
+    </table>
+    <p>一封报价信约 2K 输入 + 0.3K 输出：Haiku ≈ <code>$0.0035/封</code>，Opus ≈ <code>$0.018/封</code>。非实时还能接 Batch API 再打 5 折。</p>
+
+    <h2>交付形态</h2>
+    <p>一套可在客户自有服务器上 <code>npm start</code> 跑起来的 Node.js 服务（含审核台前端），密钥走 <code>.env</code>，不进代码、不进前端。技术方案与部署步骤见仓库 <code>cases/kol-quote-flow/README.md</code>。</p>
+
+    <p class="note">这是一套后端服务，需自有服务器与三套密钥（大模型 / Gmail / 飞书）才能运行，故案例库这里展示方案与界面，源码在仓库对应目录。</p>
+  </div>
+</body>
+</html>

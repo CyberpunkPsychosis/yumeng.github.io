@@ -13,13 +13,11 @@
  *   date   完成时间（可选，如 "2026-06"）
  */
 const CASES = [
-  // 示例（做完第一个案例后照着填，然后删掉这条注释）：
-  // {
-  //   title: "拍照教练",
-  //   desc:  "实时取景 + 构图辅助线 + AI 拍照建议。",
-  //   tags:  ["相机", "AI", "工具"],
-  //   path:  "cases/photo-coach/index.html",
-  //   thumb: "cases/photo-coach/thumb.png",
-  //   date:  "2026-06",
-  // },
+  {
+    title: "海外 KOL 报价自动化",
+    desc:  "Gmail 报价邮件 → AI 结构化抽取 → 人工确认 → 写入飞书多维表格。",
+    tags:  ["AI", "自动化", "工作流", "飞书"],
+    path:  "cases/kol-quote-flow/index.html",
+    date:  "2026-06",
+  },
 ];

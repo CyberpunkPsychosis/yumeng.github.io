@@ -1,0 +1,56 @@
+/* 审核台样式 —— 沿用案例库的暖色 Claude 风 */
+:root {
+  --bg: #F4F2EC; --surface: #FBFAF6; --text: #1F1E1B; --muted: #6E6A60;
+  --accent: #CC785C; --accent-ink: #A8543B; --border: #E5E1D6; --ok: #2f8f5b;
+  --sans: "Inter", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.5; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0;
+  background: var(--bg); z-index: 5; }
+.brand { font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+.brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+.tabs { display: flex; gap: 8px; }
+.tab { font: inherit; font-size: 14px; color: var(--muted); background: transparent;
+  border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.tab.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+
+main { max-width: 980px; margin: 22px auto; padding: 0 24px; display: flex; flex-direction: column; gap: 18px; }
+
+.rec { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.mail { padding: 16px; border-right: 1px solid var(--border); background: #fff; }
+.mail-h { font-weight: 600; }
+.mail-meta { font-size: 12.5px; color: var(--muted); margin: 4px 0 10px; }
+.mail-body { font-size: 12.5px; color: #3d3a33; white-space: pre-wrap; word-break: break-word;
+  max-height: 320px; overflow: auto; font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+.form { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.f { display: flex; flex-direction: column; gap: 4px; }
+.f span { font-size: 12px; color: var(--muted); }
+.f input { font: inherit; font-size: 14px; padding: 7px 9px; border: 1px solid var(--border);
+  border-radius: 8px; background: #fff; outline: none; }
+.f input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(204,120,92,.14); }
+.f input:disabled { background: #f2f0ea; color: #555; }
+
+.actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+.btn { font: inherit; font-size: 14px; font-weight: 500; color: #fff; background: var(--accent);
+  border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; }
+.btn.ghost { color: var(--muted); background: transparent; border: 1px solid var(--border); }
+.btn:disabled { opacity: .6; cursor: default; }
+.tag { align-self: flex-end; font-size: 13px; padding: 5px 12px; border-radius: 999px; }
+.tag.approved { color: var(--ok); background: rgba(47,143,91,.12); }
+.tag.rejected { color: var(--muted); background: #ece8de; }
+.err { color: #b5634a; font-size: 13px; min-height: 1em; }
+
+.empty { text-align: center; color: var(--muted); padding: 60px; }
+.hidden { display: none; }
+
+@media (max-width: 720px) {
+  .rec { grid-template-columns: 1fr; }
+  .mail { border-right: none; border-bottom: 1px solid var(--border); }
+  .grid { grid-template-columns: 1fr; }
+}

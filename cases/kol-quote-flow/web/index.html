@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KOL 报价审核台</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="dot"></span> KOL 报价审核台</div>
+    <nav class="tabs">
+      <button class="tab active" data-status="pending">待确认</button>
+      <button class="tab" data-status="approved">已入库</button>
+      <button class="tab" data-status="rejected">已驳回</button>
+    </nav>
+  </header>
+
+  <main id="list"></main>
+  <div id="empty" class="empty hidden">这里空空如也</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
