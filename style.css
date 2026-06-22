@@ -1,0 +1,281 @@
+/* 案例库首页 —— Claude 风格
+ * 暖米色背景 + 陶土橙点缀，衬线大标题（Fraunces）+ Inter 正文。
+ */
+
+:root {
+  --bg:        #F4F2EC;   /* 暖米色背景 */
+  --surface:   #FBFAF6;   /* 卡片底 */
+  --surface-2: #FFFFFF;
+  --text:      #1F1E1B;   /* 近黑暖色 */
+  --muted:     #6E6A60;   /* 次要文字 */
+  --faint:     #938F84;
+  --accent:    #CC785C;   /* 陶土橙 */
+  --accent-ink:#A8543B;
+  --border:    #E5E1D6;
+  --border-2:  #ECE8DD;
+  --shadow:    0 1px 2px rgba(31,30,27,.04), 0 8px 24px rgba(31,30,27,.06);
+  --shadow-lg: 0 2px 4px rgba(31,30,27,.05), 0 18px 40px rgba(31,30,27,.10);
+  --radius:    16px;
+  --serif: "Fraunces", ui-serif, Georgia, "Songti SC", serif;
+  --sans: "Inter", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  /* 顶部一抹极淡的暖光 */
+  background-image: radial-gradient(120% 60% at 50% -10%, rgba(204,120,92,.07), transparent 60%);
+  background-attachment: fixed;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- 顶栏 ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 22px 24px;
+}
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: .2px;
+}
+.wordmark .dot {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(204,120,92,.18);
+}
+.nav-tag {
+  font-size: 12.5px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* ---------- 头图 ---------- */
+.hero {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 24px 28px;
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  color: var(--accent-ink);
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(34px, 6vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -.4px;
+}
+.hero .lede {
+  margin-top: 20px;
+  max-width: 560px;
+  font-size: 17px;
+  color: var(--muted);
+}
+
+/* ---------- 工具条 ---------- */
+.toolbar {
+  max-width: 1120px;
+  margin: 22px auto 0;
+  padding: 0 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
+}
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 260px;
+  max-width: 360px;
+}
+.search svg {
+  position: absolute;
+  left: 14px;
+  width: 18px; height: 18px;
+  color: var(--faint);
+  pointer-events: none;
+}
+.search input {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 11px 16px 11px 42px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.search input::placeholder { color: var(--faint); }
+.search input:focus {
+  border-color: var(--accent);
+  background: var(--surface-2);
+  box-shadow: 0 0 0 3px rgba(204,120,92,.14);
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 13px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--faint); color: var(--text); }
+.chip.active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- 案例网格 ---------- */
+.grid {
+  max-width: 1120px;
+  margin: 30px auto 0;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border);
+}
+
+.thumb {
+  aspect-ratio: 16 / 10;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb .glyph {
+  font-family: var(--serif);
+  font-size: 56px;
+  font-weight: 500;
+  color: rgba(255,255,255,.92);
+  text-shadow: 0 2px 12px rgba(0,0,0,.12);
+}
+
+.card-body { padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+.card-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -.2px;
+}
+.card-desc {
+  font-size: 14.5px;
+  color: var(--muted);
+  flex: 1;
+}
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.card-tags span {
+  font-size: 12px;
+  color: var(--accent-ink);
+  background: rgba(204,120,92,.10);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-2);
+  font-size: 13px;
+  color: var(--faint);
+}
+.card-open {
+  color: var(--accent-ink);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap .15s;
+}
+.card:hover .card-open { gap: 8px; }
+
+/* ---------- 空状态 ---------- */
+.empty {
+  max-width: 1120px;
+  margin: 10px auto 0;
+  padding: 70px 24px;
+  text-align: center;
+}
+.empty-art {
+  font-size: 40px;
+  color: var(--accent);
+  opacity: .55;
+  margin-bottom: 14px;
+}
+.empty h3 { font-family: var(--serif); font-weight: 500; font-size: 24px; }
+.empty p { margin-top: 8px; color: var(--muted); }
+
+/* ---------- 页脚 ---------- */
+.foot {
+  max-width: 1120px;
+  margin: 56px auto 40px;
+  padding: 0 24px;
+  font-size: 13px;
+  color: var(--faint);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.foot .sep { opacity: .5; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 560px) {
+  .hero { padding-top: 26px; }
+  .grid { grid-template-columns: 1fr; gap: 18px; }
+  .search { max-width: none; }
+}
