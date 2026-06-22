@@ -14,6 +14,13 @@
  */
 const CASES = [
   {
+    title: "AI 数据录入中台 · 无代码后台",
+    desc:  "可点击原型：页面上选模型、拖字段建模板、连数据源与飞书去向。",
+    tags:  ["AI", "无代码", "产品", "工作流"],
+    path:  "cases/kol-quote-flow/admin/index.html",
+    date:  "2026-06",
+  },
+  {
     title: "海外 KOL 报价自动化",
     desc:  "Gmail 报价邮件 → AI 结构化抽取 → 人工确认 → 写入飞书多维表格。",
     tags:  ["AI", "自动化", "工作流", "飞书"],
