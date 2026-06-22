@@ -5,6 +5,9 @@
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
+// 👉 把下面换成你的微信号或邮箱，首页底部会显示出来
+const CONTACT = "（在此填写你的微信号或邮箱）";
+
 let activeTag = "全部";
 let query = "";
 
@@ -55,7 +58,7 @@ function card(c) {
       <div class="card-tags">${tags}</div>
       <div class="card-foot">
         <span>${esc(c.date || "")}</span>
-        <span class="card-open">打开 →</span>
+        <span class="card-open">了解详情 →</span>
       </div>
     </div>
   </a>`;
@@ -85,4 +88,5 @@ function render() {
 
 $("search").addEventListener("input", (e) => { query = e.target.value.trim().toLowerCase(); render(); });
 
+$("contact").textContent = CONTACT;
 render();

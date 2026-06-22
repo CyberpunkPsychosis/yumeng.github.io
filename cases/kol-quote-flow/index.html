@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>海外 KOL 报价自动化 · 案例</title>
+  <title>海外 KOL 报价自动入库 · 案例</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
@@ -12,86 +12,104 @@
       --accent:#CC785C;--accent-ink:#A8543B;--border:#E5E1D6;--radius:16px;
       --serif:"Fraunces",ui-serif,Georgia,serif;--sans:"Inter",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:var(--sans);color:var(--text);background:var(--bg);line-height:1.6;
+    body{font-family:var(--sans);color:var(--text);background:var(--bg);line-height:1.65;
       background-image:radial-gradient(120% 60% at 50% -10%,rgba(204,120,92,.07),transparent 60%);background-attachment:fixed;-webkit-font-smoothing:antialiased}
     a{color:var(--accent-ink)}
-    .wrap{max-width:760px;margin:0 auto;padding:28px 24px 64px}
+    .wrap{max-width:760px;margin:0 auto;padding:28px 24px 72px}
     .back{font-size:14px;color:var(--muted);text-decoration:none}
     .eyebrow{font-size:12px;font-weight:600;letter-spacing:1.6px;color:var(--accent-ink);margin:34px 0 14px}
-    h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,44px);line-height:1.1;letter-spacing:-.4px}
-    .lede{margin-top:16px;font-size:17px;color:var(--muted)}
+    h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,46px);line-height:1.1;letter-spacing:-.4px}
+    .lede{margin-top:16px;font-size:17.5px;color:var(--muted)}
     .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
     .tags span{font-size:12px;color:var(--accent-ink);background:rgba(204,120,92,.10);border-radius:6px;padding:4px 10px}
-    h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:40px 0 12px}
+    .demo{margin-top:24px}
+    .demo a{display:inline-block;background:var(--accent);color:#fff;font-weight:500;padding:11px 20px;border-radius:11px;text-decoration:none}
+    .demo small{color:var(--faint);margin-left:10px;font-size:13px}
+    h2{font-family:var(--serif);font-weight:500;font-size:24px;margin:44px 0 14px}
     p{margin:10px 0;color:#33312c}
-    .flow{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:var(--surface);
-      border:1px solid var(--border);border-radius:var(--radius);padding:18px;overflow:auto;white-space:pre;color:#4a463d;margin:14px 0}
-    ul{margin:10px 0 10px 20px;color:#33312c}
-    li{margin:6px 0}
-    .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
-    .c{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
-    .c h3{font-size:15px;margin-bottom:4px}
-    .c p{font-size:13.5px;color:var(--muted);margin:0}
-    table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
-    th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border)}
-    th{color:var(--muted);font-weight:500}
-    .note{font-size:13.5px;color:var(--faint);margin-top:28px;border-top:1px solid var(--border);padding-top:16px}
-    code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:#ece8de;padding:1px 5px;border-radius:4px}
-    @media(max-width:560px){.cards{grid-template-columns:1fr}}
+
+    .baq{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+    .baq .b{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
+    .baq .b .k{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+    .baq .b.before .k{color:var(--accent-ink)}
+    .baq .b ul{margin:0 0 0 18px}
+    .baq .b li{margin:5px 0;color:#33312c}
+
+    .steps{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .step{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+    .step .n{flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+    .step b{font-size:15.5px}
+    .step p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+
+    .why{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin:16px 0}
+    .why b{color:var(--accent-ink)}
+    .uses{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+    .uses span{font-size:13.5px;background:#fff;border:1px solid var(--border);border-radius:999px;padding:6px 13px;color:#33312c}
+
+    .cta{margin-top:46px;text-align:center;background:linear-gradient(180deg,var(--surface),#fff);border:1px solid var(--border);border-radius:20px;padding:34px 26px}
+    .cta h2{margin:0}
+    .cta p{color:var(--muted)}
+    .cta a.cbtn{display:inline-block;margin-top:14px;background:var(--accent);color:#fff;font-weight:500;padding:11px 22px;border-radius:11px;text-decoration:none}
   </style>
 </head>
 <body>
   <div class="wrap">
     <a class="back" href="../../index.html">← 返回案例库</a>
-    <p class="eyebrow">CASE · 自动化工作流</p>
-    <h1>海外 KOL 报价<br />自动化工作流</h1>
-    <p class="lede">KOL 来谈合作的报价邮件，自动整理成结构化数据，<strong>人工确认后</strong>同步进飞书多维表格。把运营从手动抄表里解放出来。</p>
-    <div class="tags"><span>AI</span><span>自动化</span><span>工作流</span><span>飞书</span><span>Gmail</span></div>
+    <p class="eyebrow">案例 · 自动化</p>
+    <h1>海外 KOL 报价<br />自动入库</h1>
+    <p class="lede">网红发来的合作报价邮件，自动整理进飞书表格，你只需点一下确认。把运营从一封封手动抄表里解放出来。</p>
+    <div class="tags"><span>KOL 营销</span><span>自动化</span><span>飞书表格</span><span>可定制</span></div>
 
-    <p style="margin-top:22px">
-      <a href="admin/index.html" style="display:inline-block;background:var(--accent);color:#fff;font-weight:500;
-         padding:10px 18px;border-radius:10px;text-decoration:none">▶ 打开无代码配置后台（原型）</a>
-      <span style="font-size:13px;color:var(--faint);margin-left:10px">客户不用懂代码，全程页面操作</span>
-    </p>
-
-    <h2>它解决什么</h2>
-    <p>做海外 KOL 营销，每天一堆达人发来报价邮件，运营要手动一封封读、抄进飞书表，慢又容易抄错。这条流水线把读取和整理交给 AI，运营只需做最后一步把关。</p>
-
-    <h2>整体流程</h2>
-    <div class="flow">Gmail（报价邮件）
-   │  打标签 KOL报价，定时轮询
-   ▼
-AI 结构化抽取（模型可随意切换）
-   │  KOL / 平台 / 粉丝量 / 报价 / 币种 / 合作形式 …
-   ▼
-本地暂存「待确认」
-   │  审核台：左看原邮件，右改字段
-   ▼
-人工点确认 → 写入飞书多维表格</div>
-    <p>关键设计：AI 抽完<strong>不直接入库</strong>，先进「待确认」，人核对/修改后点确认才写飞书——既省人力，又不让 AI 的误读直接污染数据。</p>
-
-    <h2>四个模块</h2>
-    <div class="cards">
-      <div class="c"><h3>① 抓邮件</h3><p>Gmail API 按标签轮询，只读权限，单业务邮箱场景最稳。</p></div>
-      <div class="c"><h3>② AI 抽取</h3><p>结构化输出约束成固定字段 JSON；模型可一行切换 Claude / OpenAI / 国产各家。</p></div>
-      <div class="c"><h3>③ 人工确认</h3><p>网页审核台，原邮件与抽取字段并排，可编辑后一键通过/驳回。</p></div>
-      <div class="c"><h3>④ 写飞书</h3><p>飞书开放平台 API，确认后 append 一条记录进多维表格。</p></div>
+    <div class="demo">
+      <a href="admin/index.html">▶ 看看配置后台长什么样（可点）</a>
+      <small>全程网页操作，不用懂技术</small>
     </div>
 
-    <h2>模型与成本</h2>
-    <p>抽取是轻任务，可按量级在最便宜与最准之间选：</p>
-    <table>
-      <tr><th>模型</th><th>价格（输入/输出 每百万 token）</th><th>适用</th></tr>
-      <tr><td>Haiku 4.5</td><td>$1 / $5</td><td>量大、省钱</td></tr>
-      <tr><td>Sonnet 4.6</td><td>$3 / $15</td><td>均衡</td></tr>
-      <tr><td>Opus 4.8（默认）</td><td>$5 / $25</td><td>最准</td></tr>
-    </table>
-    <p>一封报价信约 2K 输入 + 0.3K 输出：Haiku ≈ <code>$0.0035/封</code>，Opus ≈ <code>$0.018/封</code>。非实时还能接 Batch API 再打 5 折。</p>
+    <h2>它帮你解决什么</h2>
+    <div class="baq">
+      <div class="b before">
+        <div class="k">以前</div>
+        <ul>
+          <li>每天一堆报价邮件，人工一封封读</li>
+          <li>手动把信息抄进表格，慢又容易抄错</li>
+          <li>达人一多就漏、就乱</li>
+        </ul>
+      </div>
+      <div class="b">
+        <div class="k">用了之后</div>
+        <ul>
+          <li>邮件自动读、自动整理好</li>
+          <li>你只需扫一眼、点确认</li>
+          <li>数据齐整地进飞书表，谁都能看</li>
+        </ul>
+      </div>
+    </div>
 
-    <h2>交付形态</h2>
-    <p>一套可在客户自有服务器上 <code>npm start</code> 跑起来的 Node.js 服务（含审核台前端），密钥走 <code>.env</code>，不进代码、不进前端。技术方案与部署步骤见仓库 <code>cases/kol-quote-flow/README.md</code>。</p>
+    <h2>怎么用</h2>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><b>报价邮件进来</b><p>达人来谈合作，邮件照常进你的邮箱。</p></div></div>
+      <div class="step"><span class="n">2</span><div><b>自动整理好</b><p>系统自动把 KOL、平台、粉丝量、报价等关键信息抽出来，排好。</p></div></div>
+      <div class="step"><span class="n">3</span><div><b>你点确认</b><p>核对一下（要改也能改），点确认就写进飞书表格；不合适就丢掉。</p></div></div>
+    </div>
 
-    <p class="note">这是一套后端服务，需自有服务器与三套密钥（大模型 / Gmail / 飞书）才能运行，故案例库这里展示方案与界面，源码在仓库对应目录。</p>
+    <h2>为什么不怕出错</h2>
+    <div class="why">
+      关键是中间留了 <b>「人工确认」</b> 这一步：系统负责把信息整理好、省你时间，<b>是否入库由你点头</b>。
+      AI 出力、你把关，数据始终在你掌控里，不黑箱。
+    </div>
+
+    <h2>能换成你的行业</h2>
+    <p>同一套做法，不止用在 KOL 报价。只要是「邮件/消息里的信息要整理进表格」，换个设置就能用：</p>
+    <div class="uses">
+      <span>外贸询盘整理</span><span>简历筛选归档</span><span>发票/账单录入</span>
+      <span>客服工单分类</span><span>电商售后登记</span><span>合同要点提取</span>
+    </div>
+
+    <div class="cta">
+      <h2>想要这套，或类似的？</h2>
+      <p>告诉我你的场景，我按你的情况定制一套。</p>
+      <a class="cbtn" href="../../index.html">← 回案例库联系我</a>
+    </div>
   </div>
 </body>
 </html>

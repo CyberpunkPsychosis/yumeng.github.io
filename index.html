@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>作品集 · 案例库</title>
-  <meta name="description" content="收录做过的小工具与网页案例，点开即用。" />
+  <title>案例库 · 看中哪个，我帮你定制</title>
+  <meta name="description" content="做过的 AI 小工具与自动化案例。看中哪个，想要类似的可以定制。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
@@ -15,23 +15,32 @@
   <header class="nav">
     <a class="wordmark" href="./">
       <span class="dot"></span>
-      <span>作品集</span>
+      <span>案例库</span>
     </a>
-    <span class="nav-tag">案例库</span>
+    <span class="nav-tag">AI 工具 · 定制开发</span>
   </header>
 
   <!-- 头图 -->
   <section class="hero">
-    <p class="eyebrow">WORKS · 案例库</p>
-    <h1>把每个需求，<br />做成一个能用的作品。</h1>
-    <p class="lede">这里收录我做过的小工具与网页案例。每一个都点开即用——想要类似的，可以直接照着复刻。</p>
+    <p class="eyebrow">案例库</p>
+    <h1>挑一个你想要的，<br />我帮你做成你的。</h1>
+    <p class="lede">下面是我做过的一些 AI 小工具和自动化案例。看中哪个点开了解，想要类似的——直接找我，按你的情况定制。</p>
+  </section>
+
+  <!-- 怎么合作 -->
+  <section class="how">
+    <div class="how-step"><span class="hn">1</span><div><b>挑个案例</b><p>找个接近你需求的</p></div></div>
+    <div class="how-arrow">→</div>
+    <div class="how-step"><span class="hn">2</span><div><b>聊聊场景</b><p>说说你具体想解决什么</p></div></div>
+    <div class="how-arrow">→</div>
+    <div class="how-step"><span class="hn">3</span><div><b>定制交付</b><p>改成你专属的那一套</p></div></div>
   </section>
 
   <!-- 工具条：搜索 + 标签 -->
   <section class="toolbar">
     <div class="search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 18a7 7 0 110-14 7 7 0 010 14z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <input id="search" type="search" placeholder="搜索案例 / 标签…" autocomplete="off" />
+      <input id="search" type="search" placeholder="搜索案例 / 行业…" autocomplete="off" />
     </div>
     <div id="tags" class="tags"></div>
   </section>
@@ -42,14 +51,19 @@
   <!-- 空状态 -->
   <div id="empty" class="empty hidden">
     <div class="empty-art">✦</div>
-    <h3>案例库还空着</h3>
-    <p>群里来了需求就开做，做完一个，这里就多一张卡片。</p>
+    <h3>没有匹配的案例</h3>
+    <p>换个关键词，或直接把你的需求告诉我。</p>
   </div>
+
+  <!-- 联系 CTA -->
+  <section class="cta">
+    <h2>没找到合适的？</h2>
+    <p>把你的业务场景告诉我，也能从零给你定制一套。</p>
+    <div class="cta-box">想要定制 / 咨询，联系：<b id="contact"></b></div>
+  </section>
 
   <footer class="foot">
     <span id="count"></span>
-    <span class="sep">·</span>
-    <span>Built with Claude</span>
   </footer>
 
   <script src="cases.js"></script>
