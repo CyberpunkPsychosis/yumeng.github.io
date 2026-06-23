@@ -74,7 +74,7 @@ function save() {
 /* ---------- 导航 ---------- */
 const STEPS = [
   { id: "source", n: 1, t: "数据源", d: "邮件从哪来" },
-  { id: "model", n: 2, t: "模型", d: "用哪个 AI" },
+  { id: "model", n: 2, t: "模型", d: "选择处理引擎" },
   { id: "template", n: 3, t: "字段模板", d: "抽哪些字段" },
   { id: "destination", n: 4, t: "去向", d: "写到飞书哪张表" },
   { id: "run", n: 5, t: "运行", d: "启停与日志" },
