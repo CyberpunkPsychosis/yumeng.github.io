@@ -1,0 +1,82 @@
+<view class="screen theme-{{theme.mode}}" style="--accent: {{theme.accent}};">
+
+  <!-- ===== 区块模板 ===== -->
+  <template name="cover">
+    <view class="cover {{b.overlay ? 'overlay' : ''}}">
+      <view wx:if="{{b.bg}}" class="bg" style="background-image:url('{{b.bg}}')"></view>
+
+      <view wx:if="{{b.prices}}" class="prices">
+        <view class="p" wx:for="{{b.prices}}" wx:for-item="p" wx:key="index">
+          <text class="y eng">{{p.y}}</text><text class="m">{{p.m}}</text>
+        </view>
+      </view>
+
+      <view class="ct" style="padding-top: {{navH}}px;">
+        <text class="eyebrow eng">{{b.eyebrow}}</text>
+        <text class="title serif">{{b.title}}</text>
+        <text wx:if="{{b.sub}}" class="sub">{{b.sub}}</text>
+        <view wx:if="{{b.cta}}" class="cta" data-label="{{b.cta.label}}" bindtap="onAction">
+          <text class="cn serif">{{b.cta.label}}</text>
+          <text wx:if="{{b.cta.en}}" class="en eng">{{b.cta.en}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{b.dock}}" class="dock">
+        <view class="d" wx:for="{{b.dock}}" wx:for-item="d" wx:key="cn" data-label="{{d.cn}}" bindtap="onAction">
+          <text class="cn serif">{{d.cn}}</text><text class="en eng">{{d.en}}</text>
+        </view>
+      </view>
+    </view>
+  </template>
+
+  <template name="gallery">
+    <view class="sec {{i % 2 ? 'alt' : ''}}">
+      <text class="eyebrow eng">{{b.eyebrow}}</text><text class="h2 serif">{{b.title}}</text>
+      <view class="gal c{{b.cols || 2}}">
+        <view class="cell" wx:for="{{b.images}}" wx:for-item="src" wx:key="index">
+          <image src="{{src}}" mode="aspectFill" class="gimg" lazy-load />
+        </view>
+      </view>
+    </view>
+  </template>
+
+  <template name="services">
+    <view class="sec {{i % 2 ? 'alt' : ''}}">
+      <text class="eyebrow eng">{{b.eyebrow}}</text><text class="h2 serif">{{b.title}}</text>
+      <view class="svc">
+        <view class="row" wx:for="{{b.items}}" wx:for-item="it" wx:key="name">
+          <view class="info"><text class="name serif">{{it.name}}</text><text class="desc">{{it.desc}}</text></view>
+          <text wx:if="{{it.price}}" class="price eng">{{it.price}}</text>
+        </view>
+      </view>
+    </view>
+  </template>
+
+  <template name="split">
+    <view class="sec {{i % 2 ? 'alt' : ''}}">
+      <view class="pic"><image src="{{b.img}}" mode="aspectFill" class="gimg" lazy-load /></view>
+      <view class="txt">
+        <text class="eyebrow eng">{{b.eyebrow}}</text><text class="h2 serif">{{b.title}}</text>
+        <text class="ptext">{{b.text}}</text>
+      </view>
+    </view>
+  </template>
+
+  <template name="contact">
+    <view class="sec {{i % 2 ? 'alt' : ''}}">
+      <text class="eyebrow eng">{{b.eyebrow}}</text><text class="h2 serif">{{b.title}}</text>
+      <view class="rows">
+        <view class="r" wx:for="{{b.rows}}" wx:for-item="r" wx:key="k">
+          <text class="k">{{r.k}}</text><text class="v serif">{{r.v}}</text>
+        </view>
+      </view>
+    </view>
+  </template>
+
+  <!-- ===== 按配置渲染 ===== -->
+  <block wx:for="{{blocks}}" wx:key="index">
+    <template is="{{item.type}}" data="{{b: item, i: index, navH: navH}}" />
+  </block>
+
+  <view class="foot"><text class="b eng">{{brand}}</text></view>
+</view>

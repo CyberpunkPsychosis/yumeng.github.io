@@ -1,0 +1,55 @@
+.screen{min-height:100vh;background:var(--bg);color:var(--text)}
+
+.eyebrow{display:block;font-size:22rpx;letter-spacing:7rpx;color:var(--accent);text-transform:uppercase}
+.h2{display:block;font-weight:700;font-size:54rpx;letter-spacing:2rpx;line-height:1.1;margin-top:14rpx}
+.sec{padding:96rpx 52rpx}
+.sec.alt{background:var(--bg2)}
+.foot{padding:50rpx;text-align:center;border-top:1rpx solid var(--line)}
+.foot .b{font-size:32rpx;letter-spacing:6rpx;color:var(--text)}
+
+/* cover */
+.cover{position:relative;min-height:1400rpx;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:56rpx;overflow:hidden}
+.cover .bg{position:absolute;left:0;right:0;top:0;bottom:0;background-size:cover;background-position:center}
+.cover.overlay .bg{filter:brightness(.85)}
+.cover.overlay::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70%;background:linear-gradient(180deg,transparent,rgba(8,6,4,.88))}
+.cover .ct{position:relative;z-index:2;padding:0 56rpx}
+.cover.overlay .ct{color:#fff}
+.cover .title{display:block;font-weight:700;font-size:104rpx;line-height:1.04;letter-spacing:2rpx;margin-top:18rpx;white-space:pre-line}
+.cover .sub{display:block;margin-top:24rpx;font-size:28rpx;opacity:.85}
+.cover .cta{display:inline-flex;flex-direction:column;align-items:flex-start;margin-top:40rpx;border:1rpx solid currentColor;border-radius:999rpx;padding:18rpx 44rpx}
+.cover .cta .cn{font-size:30rpx;font-weight:600;letter-spacing:3rpx}
+.cover .cta .en{font-style:italic;font-size:20rpx;opacity:.7;margin-top:4rpx}
+.cover .prices{position:absolute;z-index:2;left:56rpx;top:300rpx;display:flex;flex-direction:column;gap:26rpx;color:#fff}
+.cover .prices .p{display:flex;align-items:baseline}
+.cover .prices .y{font-size:50rpx;margin-right:14rpx}
+.cover .prices .m{font-size:22rpx;opacity:.85}
+.cover .dock{position:relative;z-index:2;display:flex;border-top:1rpx solid rgba(255,255,255,.25);margin:40rpx 52rpx 0;padding-top:28rpx}
+.cover .dock .d{flex:1;text-align:center}
+.cover .dock .d .cn{display:block;font-weight:600;font-size:30rpx;letter-spacing:3rpx;color:#fff}
+.cover .dock .d .en{display:block;font-style:italic;font-size:20rpx;color:rgba(255,255,255,.7);margin-top:4rpx}
+
+/* gallery */
+.gal{display:grid;gap:16rpx;margin-top:44rpx}
+.gal.c2{grid-template-columns:1fr 1fr}
+.gal.c3{grid-template-columns:1fr 1fr 1fr}
+.gal .cell{border-radius:18rpx;overflow:hidden;height:420rpx;background:var(--card)}
+.gal.c3 .cell{height:300rpx}
+.gimg{width:100%;height:100%}
+
+/* services */
+.svc{margin-top:36rpx}
+.svc .row{display:flex;align-items:flex-start;padding:32rpx 0;border-top:1rpx solid var(--line)}
+.svc .info{flex:1}
+.svc .name{display:block;font-weight:600;font-size:34rpx}
+.svc .desc{display:block;font-size:24rpx;color:var(--muted);margin-top:8rpx}
+.svc .price{font-size:40rpx;color:var(--accent);margin-left:20rpx}
+
+/* split */
+.split .pic{border-radius:22rpx;overflow:hidden;height:560rpx;margin-bottom:32rpx}
+.split .ptext{display:block;color:var(--muted);font-size:30rpx;line-height:1.7;margin-top:20rpx}
+
+/* contact */
+.rows{margin-top:36rpx}
+.r{border-top:1rpx solid var(--line);padding:30rpx 0;display:flex;flex-direction:column}
+.r .k{font-size:24rpx;color:var(--muted)}
+.r .v{font-size:40rpx;font-weight:600;margin-top:6rpx}

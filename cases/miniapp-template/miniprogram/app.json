@@ -1,0 +1,10 @@
+{
+  "pages": ["pages/home/home"],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#16140f"
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

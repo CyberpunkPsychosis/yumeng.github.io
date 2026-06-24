@@ -1,0 +1,8 @@
+/* 主题 —— 按 theme.mode 切类，强调色由 --accent 注入 */
+page { font-family: -apple-system, "PingFang SC", sans-serif; }
+.serif { font-family: "Noto Serif SC", "Songti SC", serif; }
+.eng { font-family: "EditorialSerif", "EB Garamond", serif; }
+
+.theme-dark  { --bg:#16140f; --bg2:#1d1a13; --text:#f3ecdd; --muted:#a99c80; --line:rgba(255,255,255,.12); --card:#1f1c15; }
+.theme-cream { --bg:#e9dcc1; --bg2:#e1d2b2; --text:#5a3b27; --muted:#8a6c4f; --line:rgba(90,59,39,.22); --card:#f1e7d2; }
+.theme-light { --bg:#f6f5f1; --bg2:#eceae3; --text:#1c1b18; --muted:#74716a; --line:#e3e1d9; --card:#fff; }

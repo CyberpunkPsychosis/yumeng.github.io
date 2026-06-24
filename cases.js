@@ -14,10 +14,10 @@
  */
 const CASES = [
   {
-    title: "高端小程序界面（咖啡点单）",
-    desc:  "杂志感的微信小程序首屏，媲美大牌咖啡那种质感。原生开发，换上你的品牌图文即可。",
-    tags:  ["小程序", "界面设计", "高端", "可定制"],
-    path:  "cases/miniapp-coffee/preview/index.html",
+    title: "高端小程序模板（可换行业）",
+    desc:  "内置高级排版与动效的微信小程序模板。换一份配置、传上素材，就能生成摄影、咖啡、品牌等不同行业的小程序，排版照样高端。",
+    tags:  ["小程序", "模板", "可配置", "高端"],
+    path:  "cases/miniapp-template/preview/index.html",
     date:  "2026-06",
   },
   {

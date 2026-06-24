@@ -1,0 +1,9 @@
+{
+  "description": "可配置高端小程序模板（原生）",
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "appid": "touristappid",
+  "projectname": "miniapp-template",
+  "setting": { "es6": true, "enhance": true, "minified": true, "postcss": true }
+}
