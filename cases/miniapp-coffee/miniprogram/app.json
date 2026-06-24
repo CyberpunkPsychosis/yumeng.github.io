@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/splash/splash"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#e7d8bd",
+    "backgroundTextStyle": "dark"
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

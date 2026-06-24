@@ -1,0 +1,14 @@
+{
+  "description": "高端编辑式小程序首屏样板（原生）",
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "appid": "touristappid",
+  "projectname": "miniapp-coffee-splash",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "minified": true,
+    "postcss": true
+  }
+}

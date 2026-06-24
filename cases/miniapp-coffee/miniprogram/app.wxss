@@ -1,0 +1,15 @@
+/* 全局：编辑式暖色调 + 衬线标题
+ * 注意：微信小程序不能直接打包中文字体（体积过大）。
+ *   - 大标题中文：生产环境建议「切图」或用 wx.loadFontFace 动态加载子集字体；
+ *   - 这里 demo 用系统衬线（Songti/STSong）兜底，保证能显示。
+ */
+page {
+  --cream: #e7d8bd;
+  --brown: #5a3b27;
+  --brown2: #8a6c4f;
+  --line: rgba(90, 59, 39, 0.28);
+  --serif-cn: "Noto Serif SC", "Songti SC", "STSong", serif;
+  background: var(--cream);
+  font-family: -apple-system, "PingFang SC", sans-serif;
+}
+.serif { font-family: var(--serif-cn); }

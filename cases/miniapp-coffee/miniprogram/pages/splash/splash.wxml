@@ -1,0 +1,48 @@
+<!-- 编辑式沉浸首屏（对应设计稿） -->
+<view class="page">
+  <!-- 背景虚化大字（纵深感） -->
+  <text class="ghost serif">全冰黄油\nSOE</text>
+
+  <!-- 自定义导航占位（避让状态栏 + 胶囊） -->
+  <view style="height: {{navH}}px;"></view>
+
+  <!-- 标题 -->
+  <view class="head">
+    <text class="title serif">{{product.titleCn}}</text>
+    <text class="title-en">{{product.titleEn}}</text>
+    <text class="note">{{product.note}}</text>
+  </view>
+
+  <!-- 产品 -->
+  <view class="product">
+    <view class="price">
+      <view class="p" wx:for="{{product.prices}}" wx:key="index">
+        <text class="y">{{item.y}}</text>
+        <text class="m">{{item.m}}</text>
+      </view>
+    </view>
+    <view class="slab"></view>
+    <view class="shadow"></view>
+    <view class="badge">MANNER</view>
+    <image class="cup" src="{{product.img}}" mode="aspectFit" />
+  </view>
+
+  <!-- 底部导航 -->
+  <view class="dock">
+    <view class="primary">
+      <view class="pcol" bindtap="onStartOrder">
+        <text class="cn serif">开始点单</text><text class="en">Start Order</text>
+      </view>
+      <view class="vline"></view>
+      <view class="close" bindtap="onClose">✕</view>
+      <view class="pcol" bindtap="onMemberCode">
+        <text class="cn serif">会员积分码</text><text class="en">Membership Code</text>
+      </view>
+    </view>
+    <view class="sub">
+      <view class="scol" data-label="我的会员" bindtap="onTap"><text class="cn serif">我的会员</text><text class="en">Membership</text></view>
+      <view class="scol" data-label="订单" bindtap="onTap"><text class="cn serif">订单</text><text class="en">Orders</text></view>
+      <view class="scol" data-label="积分商城" bindtap="onTap"><text class="cn serif">积分商城</text><text class="en">Store</text></view>
+    </view>
+  </view>
+</view>
