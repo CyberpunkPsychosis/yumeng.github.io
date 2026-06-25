@@ -1,0 +1,9 @@
+{
+  "description": "二手/电商小程序模板（原生·多页）",
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "appid": "touristappid",
+  "projectname": "shop-miniapp",
+  "setting": { "es6": true, "enhance": true, "minified": true, "postcss": true }
+}

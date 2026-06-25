@@ -1,0 +1,28 @@
+.searchbar{display:flex;align-items:center;gap:18rpx;padding:16rpx 28rpx}
+.searchbar .ico{font-size:36rpx;color:var(--muted)}
+.searchbar .box{flex:1;display:flex;align-items:center;background:var(--card);border:1rpx solid var(--line);border-radius:999rpx;padding:16rpx 26rpx;color:var(--muted);font-size:26rpx}
+.searchbar .go{margin-left:auto;background:var(--text);color:var(--bg);border-radius:999rpx;font-size:22rpx;padding:8rpx 22rpx}
+.banner{display:flex;align-items:center;margin:0 28rpx;border-radius:20rpx;padding:24rpx 28rpx;color:#fff}
+.banner .bt{font-weight:700;font-size:32rpx;margin-right:16rpx}
+.banner .bs{font-size:24rpx;opacity:.92}
+.banner .arr{margin-left:auto}
+.chips{white-space:nowrap;padding:24rpx 28rpx 8rpx}
+.chip{display:inline-block;font-size:26rpx;color:var(--muted);background:var(--card);border:1rpx solid var(--line);border-radius:999rpx;padding:12rpx 28rpx;margin-right:16rpx}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18rpx;padding:12rpx 28rpx}
+.gcard{background:var(--card);border:1rpx solid var(--line);border-radius:20rpx;overflow:hidden}
+.gimg{width:100%;height:340rpx;background:var(--soft)}
+.gb{padding:16rpx 18rpx 20rpx}
+.gt{font-size:26rpx;line-height:1.35;height:72rpx;overflow:hidden}
+.gbr{font-size:22rpx;color:var(--muted);margin-top:6rpx}
+.gp{display:flex;align-items:baseline;margin-top:12rpx}
+.gp .p{font-size:34rpx;margin-right:12rpx}
+.gp .ref{font-size:22rpx;color:var(--muted);text-decoration:line-through}
+.gtag{margin-top:10rpx}
+
+.tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;border-top:1rpx solid var(--line);background:var(--card)}
+.tabbar .t{flex:1;text-align:center;padding:12rpx 0 calc(12rpx + env(safe-area-inset-bottom));font-size:20rpx;color:var(--muted);position:relative}
+.tabbar .t.on{color:var(--accent)}
+.tabbar .t .ic{display:block;font-size:38rpx;margin-bottom:2rpx}
+.badge{position:absolute;top:4rpx;left:50%;margin-left:12rpx;background:#e0523b;color:#fff;font-size:18rpx;min-width:28rpx;height:28rpx;line-height:28rpx;border-radius:14rpx;padding:0 6rpx}

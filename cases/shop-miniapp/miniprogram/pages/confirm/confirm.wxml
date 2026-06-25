@@ -1,0 +1,11 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="wrap">
+    <view class="ok">✓</view>
+    <text class="t serif">下单成功</text>
+    <text class="tip">已支付 ¥{{total}}（演示），我们会尽快为你发货</text>
+    <view class="acts">
+      <view class="gbtn" bindtap="orders">查看订单</view>
+      <view class="gbtn primary" bindtap="toHome">返回首页</view>
+    </view>
+  </view>
+</view>

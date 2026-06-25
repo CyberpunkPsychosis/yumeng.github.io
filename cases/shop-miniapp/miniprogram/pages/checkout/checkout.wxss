@@ -1,0 +1,20 @@
+.addr{display:flex;gap:20rpx;align-items:center;margin:24rpx;background:var(--card);border-radius:20rpx;padding:28rpx}
+.addr .pin{font-size:40rpx;color:var(--accent)}
+.addr .ai .n{font-weight:600;font-size:30rpx}
+.addr .ai .d{font-size:24rpx;color:var(--muted);margin-top:6rpx}
+.addr .arr{margin-left:auto;color:var(--muted)}
+.card{background:var(--card);margin:0 24rpx 24rpx;border-radius:20rpx;overflow:hidden}
+.coli{display:flex;gap:20rpx;align-items:center;padding:22rpx;border-top:1rpx solid var(--line)}
+.coli:first-child{border-top:none}
+.coli image{width:120rpx;height:120rpx;border-radius:12rpx;background:var(--soft)}
+.coli .ct{flex:1;min-width:0}
+.coli .t{font-size:26rpx;max-height:74rpx;overflow:hidden}
+.coli .m{font-size:22rpx;color:var(--muted);margin-top:6rpx}
+.coli .p{font-size:30rpx}
+.sumrow{display:flex;justify-content:space-between;padding:20rpx 28rpx;font-size:26rpx;color:var(--muted)}
+.sumrow.big{color:var(--text);font-weight:600}
+.sumrow.big .p{font-size:36rpx}
+.cobar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:20rpx;padding:16rpx 28rpx calc(16rpx + env(safe-area-inset-bottom));border-top:1rpx solid var(--line);background:var(--card)}
+.cobar .tot{font-size:26rpx}.cobar .tot .p{font-size:40rpx}
+.grow{flex:1}
+.paybtn{flex:0 0 auto;padding-left:60rpx;padding-right:60rpx}

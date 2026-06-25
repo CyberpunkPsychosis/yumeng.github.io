@@ -1,0 +1,8 @@
+page { font-family: -apple-system, "PingFang SC", sans-serif; background: var(--bg); }
+.serif { font-family: "Noto Serif SC", "Songti SC", serif; }
+.theme-light { --bg:#f4f5f5; --card:#fff; --text:#1d1c19; --muted:#8a8780; --line:#ececea; --soft:#f1f1ef; }
+.theme-dark  { --bg:#15140f; --card:#1e1b15; --text:#f1ead9; --muted:#a99c80; --line:rgba(255,255,255,.1); --soft:#1a1812; }
+.root{min-height:100vh;background:var(--bg);color:var(--text)}
+.price{color:var(--accent);font-weight:700}
+.tag{font-size:20rpx;color:var(--accent);background:rgba(0,0,0,.04);border-radius:6rpx;padding:2rpx 10rpx}
+.btn{color:#fff;background:var(--accent);border-radius:999rpx;text-align:center;font-size:30rpx;font-weight:600;padding:22rpx 0}

@@ -1,0 +1,36 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="searchbar">
+    <text class="ico">⊞</text>
+    <view class="box"><text>🔍 {{cfg.searchPlaceholder}}</text><text class="go">搜索</text></view>
+    <text class="ico">▦</text>
+  </view>
+
+  <view class="banner" style="background: {{cfg.banner.color}}">
+    <view><text class="bt">{{cfg.banner.text}}</text><text class="bs">{{cfg.banner.sub}}</text></view>
+    <text class="arr">›</text>
+  </view>
+
+  <scroll-view class="chips" scroll-x>
+    <view class="chip {{item.id === cat ? 'on' : ''}}" wx:for="{{cfg.categories}}" wx:key="id" data-cat="{{item.id}}" bindtap="onCat">{{item.name}}</view>
+  </scroll-view>
+
+  <view class="grid">
+    <view class="gcard" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onOpen">
+      <image class="gimg" src="{{item.thumb}}" mode="aspectFill" lazy-load />
+      <view class="gb">
+        <view class="gt">{{item.title}}</view>
+        <view class="gbr">{{item.brand}}</view>
+        <view class="gp"><text class="price p">¥{{item.price}}</text><text wx:if="{{item.refPrice}}" class="ref">¥{{item.refPrice}}</text></view>
+        <view wx:if="{{item.tag}}" class="gtag"><text class="tag">{{item.tag}}</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view style="height:120rpx"></view>
+  <view class="tabbar">
+    <view class="t on"><text class="ic">🏠</text>首页</view>
+    <view class="t"><text class="ic">▦</text>分类</view>
+    <view class="t" bindtap="toCart"><text class="ic">🛒</text>购物车<text wx:if="{{count}}" class="badge">{{count}}</text></view>
+    <view class="t"><text class="ic">👤</text>我的</view>
+  </view>
+</view>
