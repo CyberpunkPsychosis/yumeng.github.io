@@ -1,0 +1,12 @@
+/* 主题令牌（按 theme.mode 切类，强调色 --accent 注入到根 view） */
+page { font-family: -apple-system, "PingFang SC", sans-serif; background: var(--bg); }
+.serif { font-family: "Noto Serif SC", "Songti SC", serif; }
+
+.theme-light { --bg:#f6f6f3; --card:#fff; --text:#1d1c19; --muted:#7c786f; --line:#eceae3; --soft:#f1f0ec; }
+.theme-cream { --bg:#efe6d6; --card:#fbf6ec; --text:#4a3522; --muted:#94795c; --line:rgba(74,53,34,.16); --soft:#e8dcc7; }
+.theme-dark  { --bg:#15140f; --card:#1e1b15; --text:#f1ead9; --muted:#a99c80; --line:rgba(255,255,255,.1); --soft:#1a1812; }
+
+.root { min-height: 100vh; background: var(--bg); color: var(--text); }
+.tag { font-size: 22rpx; color: var(--accent); background: rgba(0,0,0,0.04); border-radius: 8rpx; padding: 2rpx 12rpx; margin-right: 8rpx; }
+.price { font-family: "Noto Serif SC", serif; color: var(--accent); font-weight: 700; }
+.btn { color:#fff; background: var(--accent); border-radius: 22rpx; text-align:center; font-size:32rpx; font-weight:600; padding: 24rpx 0; }

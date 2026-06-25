@@ -1,0 +1,51 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="summary">
+    <image src="{{it.thumb}}" mode="aspectFill" />
+    <view><text class="nm">{{it.name}}</text><text class="price">¥{{it.price}}<text class="u">{{it.unit}}</text></text></view>
+  </view>
+
+  <view class="form">
+    <view class="field">
+      <text class="fl">{{b.dateLabel}}</text>
+      <picker mode="date" value="{{form.date}}" bindchange="onDate">
+        <view class="dateinput">{{form.date || '请选择日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="field" wx:if="{{b.slots.length}}">
+      <text class="fl">时段</text>
+      <view class="slots">
+        <view class="s {{form.slot === s ? 'on' : ''}}" wx:for="{{b.slots}}" wx:for-item="s" wx:key="*this"
+              data-slot="{{s}}" bindtap="onSlot">{{s}}</view>
+      </view>
+    </view>
+
+    <block wx:for="{{b.extra}}" wx:key="key" wx:for-item="f">
+      <view class="field" wx:if="{{f.type === 'stepper'}}">
+        <text class="fl">{{f.label}}</text>
+        <view class="stepper">
+          <view class="sb" data-key="{{f.key}}" data-dir="-1" bindtap="onStep">−</view>
+          <text class="sv">{{form.extra[f.key]}}</text>
+          <view class="sb" data-key="{{f.key}}" data-dir="1" bindtap="onStep">+</view>
+        </view>
+      </view>
+      <view class="field" wx:elif="{{f.type === 'select'}}">
+        <text class="fl">{{f.label}}</text>
+        <view class="slots">
+          <view class="s {{form.extra[f.key] === o ? 'on' : ''}}" wx:for="{{f.options}}" wx:for-item="o" wx:key="*this"
+                data-key="{{f.key}}" data-val="{{o}}" bindtap="onSel">{{o}}</view>
+        </view>
+      </view>
+      <view class="field" wx:else>
+        <text class="fl">{{f.label}}</text>
+        <input data-k="extra:{{f.key}}" value="{{form.extra[f.key]}}" placeholder="请输入" bindinput="onInput" />
+      </view>
+    </block>
+
+    <view class="field"><text class="fl">联系人</text><input data-k="name" value="{{form.name}}" placeholder="您的姓名" bindinput="onInput" /></view>
+    <view class="field"><text class="fl">手机号</text><input data-k="phone" type="number" value="{{form.phone}}" placeholder="用于联系您" bindinput="onInput" /></view>
+    <view class="field"><text class="fl">备注（选填）</text><input data-k="note" value="{{form.note}}" placeholder="补充说明" bindinput="onInput" /></view>
+  </view>
+
+  <view class="actionbar"><view class="btn" bindtap="onSubmit">提交预约</view></view>
+</view>

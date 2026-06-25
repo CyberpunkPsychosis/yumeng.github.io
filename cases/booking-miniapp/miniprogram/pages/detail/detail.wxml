@@ -1,0 +1,22 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <image class="dimg" src="{{it.thumb}}" mode="aspectFill" />
+  <view class="dbody">
+    <view class="tags"><text class="tag" wx:for="{{it.tags}}" wx:key="*this">{{item}}</text></view>
+    <text class="nm serif">{{it.name}}</text>
+    <text class="pr price">¥{{it.price}}<text class="u">{{it.unit}}</text></text>
+    <text class="ds">{{it.desc}}</text>
+
+    <view class="opt" wx:for="{{it.options}}" wx:key="label" wx:for-item="o">
+      <text class="ol">{{o.label}}</text>
+      <view class="ov">
+        <view class="o {{opt[o.label] === v ? 'on' : ''}}" wx:for="{{o.values}}" wx:for-item="v" wx:key="*this"
+              data-label="{{o.label}}" data-val="{{v}}" bindtap="onOpt">{{v}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="actionbar">
+    <view class="meta"><text class="price">¥{{it.price}}<text class="u">{{it.unit}}</text></text></view>
+    <view class="btn book" bindtap="onBook">{{cfg.bookCta}}</view>
+  </view>
+</view>

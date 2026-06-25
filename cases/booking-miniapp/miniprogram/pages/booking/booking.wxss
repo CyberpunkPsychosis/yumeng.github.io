@@ -1,0 +1,21 @@
+.summary{display:flex;gap:22rpx;align-items:center;margin:24rpx 36rpx 0;background:var(--card);border:1rpx solid var(--line);border-radius:20rpx;padding:20rpx}
+.summary image{width:120rpx;height:120rpx;border-radius:14rpx;background:var(--soft)}
+.summary .nm{display:block;font-weight:600;font-size:30rpx}
+.summary .price{display:block;font-size:32rpx;margin-top:6rpx}
+.summary .u{font-size:22rpx;color:var(--muted);font-weight:400}
+
+.form{padding:8rpx 36rpx 220rpx}
+.field{padding:30rpx 0;border-bottom:1rpx solid var(--line)}
+.field .fl{display:block;font-size:26rpx;color:var(--muted);margin-bottom:18rpx}
+.field input{font-size:30rpx;color:var(--text)}
+.dateinput{font-size:30rpx;background:var(--card);border:1rpx solid var(--line);border-radius:16rpx;padding:22rpx 24rpx}
+
+.slots{display:flex;flex-wrap:wrap;gap:16rpx}
+.slots .s{font-size:27rpx;border:1rpx solid var(--line);border-radius:16rpx;padding:16rpx 32rpx;background:var(--card)}
+.slots .s.on{border-color:var(--accent);color:var(--accent)}
+
+.stepper{display:flex;align-items:center;width:fit-content;border:1rpx solid var(--line);border-radius:16rpx;overflow:hidden}
+.stepper .sb{width:84rpx;height:80rpx;text-align:center;line-height:76rpx;font-size:40rpx;background:var(--card)}
+.stepper .sv{min-width:110rpx;text-align:center;font-size:30rpx}
+
+.actionbar{position:fixed;left:0;right:0;bottom:0;padding:18rpx 36rpx calc(18rpx + env(safe-area-inset-bottom));border-top:1rpx solid var(--line);background:var(--card)}

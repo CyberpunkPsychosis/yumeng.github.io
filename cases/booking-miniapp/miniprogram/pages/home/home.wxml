@@ -1,0 +1,47 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+
+  <view class="hero" style="background-image:url('{{cfg.hero.img}}')">
+    <view style="height: {{navH}}px;"></view>
+    <view class="hero-ct">
+      <text class="eyebrow">{{cfg.hero.eyebrow}}</text>
+      <text class="htitle serif">{{cfg.hero.title}}</text>
+      <text class="hsub">{{cfg.hero.sub}}</text>
+    </view>
+  </view>
+
+  <scroll-view class="chips" scroll-x wx:if="{{cfg.categories}}">
+    <view class="chip {{item.id === cat ? 'on' : ''}}" wx:for="{{cfg.categories}}" wx:key="id"
+          data-cat="{{item.id}}" bindtap="onCat">{{item.name}}</view>
+  </scroll-view>
+
+  <view class="list">
+    <view class="card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onOpen">
+      <image class="th" src="{{item.thumb}}" mode="aspectFill" lazy-load />
+      <view class="info">
+        <text class="nm">{{item.name}}</text>
+        <text class="ds">{{item.desc}}</text>
+        <view class="bot">
+          <view class="tags"><text class="tag" wx:for="{{item.tags}}" wx:for-item="t" wx:key="*this">{{t}}</text></view>
+          <text class="price">¥{{item.price}}<text class="u">{{item.unit}}</text></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="sec">
+    <text class="h serif">预约流程</text>
+    <view class="steps">
+      <view class="step" wx:for="{{cfg.steps}}" wx:key="t">
+        <text class="n">{{index + 1}}</text>
+        <view><text class="st">{{item.t}}</text><text class="sd">{{item.d}}</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="contact">
+    <view class="r" wx:for="{{cfg.contact.rows}}" wx:key="k">
+      <text class="k">{{item.k}}</text><text>{{item.v}}</text>
+    </view>
+  </view>
+
+</view>

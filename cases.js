@@ -14,6 +14,27 @@
  */
 const CASES = [
   {
+    title: "陪诊小程序",
+    desc:  "陪同就医的预约小程序：选服务→填就诊信息→确认，全程可点。可换成你的服务与价格。",
+    tags:  ["小程序", "陪诊", "预约", "可定制"],
+    path:  "cases/booking-miniapp/preview/index.html?c=peizhen",
+    date:  "2026-06",
+  },
+  {
+    title: "民宿预订小程序",
+    desc:  "选房型→定日期人数→下单确认。换上你的房源图文价格即可上线。",
+    tags:  ["小程序", "民宿", "预订", "可定制"],
+    path:  "cases/booking-miniapp/preview/index.html?c=minsu",
+    date:  "2026-06",
+  },
+  {
+    title: "医院挂号小程序",
+    desc:  "按科室找医生→选号选时段→预约确认。可换成你的科室与医生。",
+    tags:  ["小程序", "挂号", "医疗", "可定制"],
+    path:  "cases/booking-miniapp/preview/index.html?c=guahao",
+    date:  "2026-06",
+  },
+  {
     title: "高端小程序模板（可换行业）",
     desc:  "内置高级排版与动效的微信小程序模板。换一份配置、传上素材，就能生成摄影、咖啡、品牌等不同行业的小程序，排版照样高端。",
     tags:  ["小程序", "模板", "可配置", "高端"],
