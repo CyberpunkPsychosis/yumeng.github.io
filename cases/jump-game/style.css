@@ -1,0 +1,35 @@
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:Inter,system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:#9a9ea6;display:flex;align-items:center;justify-content:center;overflow:hidden;user-select:none}
+
+.stage{position:relative;width:min(100vw,460px);height:100vh;max-height:920px;overflow:hidden;
+  background:linear-gradient(180deg,#c3c6cd 0%,#a7abb4 55%,#9a9ea6 100%);
+  box-shadow:0 30px 80px rgba(0,0,0,.25)}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+
+.score{position:absolute;top:46px;left:0;right:0;text-align:center;font-weight:700;font-size:60px;
+  color:rgba(255,255,255,.92);text-shadow:0 2px 10px rgba(0,0,0,.12);pointer-events:none;z-index:3}
+
+.hint{position:absolute;top:150px;left:50%;transform:translateX(-50%);text-align:center;
+  background:rgba(255,255,255,.45);color:#3a3d44;font-size:16px;line-height:1.9;padding:16px 26px;border-radius:14px;
+  backdrop-filter:blur(2px);pointer-events:none;z-index:3}
+
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  z-index:5;background:rgba(150,154,162,.35);backdrop-filter:blur(3px)}
+.title{font-weight:700;font-size:64px;color:#fff;letter-spacing:2px;margin-bottom:90px;
+  text-shadow:0 6px 18px rgba(0,0,0,.18)}
+.go-label{font-size:18px;color:rgba(255,255,255,.85);letter-spacing:4px}
+.go-score{font-size:88px;font-weight:700;color:#fff;line-height:1;text-shadow:0 6px 18px rgba(0,0,0,.18)}
+.go-best{font-size:15px;color:rgba(255,255,255,.8);margin-bottom:36px}
+
+.pill{font-family:inherit;font-weight:700;font-size:22px;color:#2b2f36;background:#fff;border:none;border-radius:999px;
+  padding:16px 40px;display:inline-flex;align-items:center;gap:12px;cursor:pointer;
+  box-shadow:0 12px 30px rgba(0,0,0,.18);transition:transform .12s}
+.pill:active{transform:scale(.96)}
+.pill .play{color:#2bbf5b;font-size:18px}
+
+.back{position:absolute;left:14px;bottom:14px;font-size:13px;color:rgba(255,255,255,.75);
+  text-decoration:none;background:rgba(0,0,0,.12);padding:6px 12px;border-radius:999px;z-index:6}
+
+.hidden{display:none !important}

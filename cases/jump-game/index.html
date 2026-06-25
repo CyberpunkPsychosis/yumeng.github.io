@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>跳一跳 · 小游戏</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="stage" id="stage">
+    <canvas id="game"></canvas>
+
+    <!-- 分数 -->
+    <div class="score hidden" id="score">0</div>
+
+    <!-- 首次提示 -->
+    <div class="hint hidden" id="hint">长按屏幕并释放<br>控制棋子向前跳</div>
+
+    <!-- 开始页 -->
+    <div class="overlay" id="startScreen">
+      <div class="title">跳一跳</div>
+      <button class="pill" id="startBtn"><span class="play">▶</span> 开始游戏</button>
+    </div>
+
+    <!-- 结束页 -->
+    <div class="overlay hidden" id="gameOver">
+      <div class="go-label">游戏结束</div>
+      <div class="go-score"><span id="finalScore">0</span></div>
+      <div class="go-best">最高 <span id="bestScore">0</span></div>
+      <button class="pill" id="againBtn"><span class="play">▶</span> 再来一局</button>
+    </div>
+
+    <a class="back" href="../../index.html">← 案例库</a>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
