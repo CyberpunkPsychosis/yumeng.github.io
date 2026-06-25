@@ -1,0 +1,33 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="head">
+    <image src="{{item.thumb}}" mode="aspectFill" />
+    <view class="hi"><view class="t">{{item.title}}</view><view class="m">{{item.brand}} · 市场参考价 ¥{{item.market}}</view></view>
+  </view>
+
+  <view class="opt">
+    <text class="ol">成色（越新回收价越高）</text>
+    <view class="ov">
+      <view class="o {{condId === c.id ? 'on' : ''}}" wx:for="{{conds}}" wx:for-item="c" wx:key="id" data-id="{{c.id}}" bindtap="onCond">{{c.name}}</view>
+    </view>
+  </view>
+
+  <view class="opt">
+    <text class="ol">上传实拍图（演示）</text>
+    <view class="uploader">
+      <view class="ph {{index < photos ? 'on' : (index === photos ? 'add' : '')}}" wx:for="{{slots}}" wx:key="*this" bindtap="addPhoto">{{index < photos ? '🖼️' : (index === photos ? '＋' : '')}}</view>
+    </view>
+  </view>
+
+  <view class="quotebox">
+    <text class="ql">预估回收价</text>
+    <view class="qv">{{quote === null ? '选择成色后显示' : '¥' + quote}}</view>
+    <text class="qs">{{condName ? condName + ' · 质检通过后到账' : '—'}}</text>
+  </view>
+
+  <view style="height:170rpx"></view>
+  <view class="cobar">
+    <view class="tot">预估 <text class="price p">{{quote === null ? '—' : '¥' + quote}}</text></view>
+    <view class="grow"></view>
+    <view class="btn subbtn" bindtap="submit">提交回收</view>
+  </view>
+</view>

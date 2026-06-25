@@ -30,6 +30,28 @@ window.SHOP_CONFIGS = {
         thumb: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=80",
         desc: "九成新，内页干净无笔记，可扫码验真。" },
     ],
+    /* 卖闲置 / 回收估价（C2B）。估价 = market × 成色 factor */
+    sell: {
+      entryText: "卖闲置 · 一键估价", entrySub: "闲置秒估价 · 质检后打款",
+      conditions: [
+        { id: "new", name: "全新未拆", factor: 0.55 },
+        { id: "like", name: "95 新", factor: 0.42 },
+        { id: "good", name: "9 成新", factor: 0.32 },
+        { id: "fair", name: "8 成新", factor: 0.22 },
+      ],
+      items: [
+        { id: "rs1", cat: "shoe", brand: "Nike 耐克", title: "Dunk Low 复古板鞋", market: 899,
+          thumb: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" },
+        { id: "rs2", cat: "cloth", brand: "Stüssy", title: "经典 Logo 套头卫衣", market: 699,
+          thumb: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80" },
+        { id: "rs3", cat: "bag", brand: "Louis Vuitton", title: "Neverfull 老花托特包", market: 9800,
+          thumb: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=600&q=80" },
+        { id: "rs4", cat: "cloth", brand: "Carhartt WIP", title: "Detroit 工装夹克", market: 1290,
+          thumb: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80" },
+        { id: "rs5", cat: "toy", brand: "Jellycat", title: "邦尼兔毛绒玩偶 中号", market: 359,
+          thumb: "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=600&q=80" },
+      ],
+    },
   },
 
   /* ============ 二手数码 ============ */
@@ -58,5 +80,27 @@ window.SHOP_CONFIGS = {
         thumb: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=600&q=80",
         desc: "M2 芯片，屏幕完美，几乎无使用痕迹。" },
     ],
+    /* 卖闲置 / 回收估价（C2B）。估价 = market × 成色 factor */
+    sell: {
+      entryText: "卖旧机 · 一键估价", entrySub: "180 项质检 · 验机后打款",
+      conditions: [
+        { id: "new", name: "全新未拆", factor: 0.62 },
+        { id: "like", name: "99 新", factor: 0.5 },
+        { id: "good", name: "95 新", factor: 0.4 },
+        { id: "fair", name: "9 成新", factor: 0.3 },
+      ],
+      items: [
+        { id: "rd1", cat: "phone", brand: "Apple", title: "iPhone 13 128G", market: 5999,
+          thumb: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=600&q=80" },
+        { id: "rd2", cat: "pc", brand: "Apple", title: "MacBook Pro 14 M1 Pro", market: 14999,
+          thumb: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80" },
+        { id: "rd3", cat: "cam", brand: "FUJIFILM 富士", title: "X-T4 微单机身", market: 9999,
+          thumb: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80" },
+        { id: "rd4", cat: "acc", brand: "Apple", title: "AirPods Pro 2 代", market: 1899,
+          thumb: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=600&q=80" },
+        { id: "rd5", cat: "phone", brand: "HUAWEI 华为", title: "Mate 60 Pro 256G", market: 6999,
+          thumb: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80" },
+      ],
+    },
   },
 };

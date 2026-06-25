@@ -1,0 +1,23 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="sellhero">
+    <text class="sh-t">{{cfg.sell.entryText}}</text>
+    <text class="sh-s">选择要出的闲置，系统秒出回收估价</text>
+    <view class="sh-steps"><text>① 选物品</text><text>② 选成色</text><text>③ 提交回收</text></view>
+  </view>
+
+  <scroll-view class="chips" scroll-x>
+    <view class="chip {{item.id === cat ? 'on' : ''}}" wx:for="{{cats}}" wx:key="id" data-cat="{{item.id}}" bindtap="onCat">{{item.name}}</view>
+  </scroll-view>
+
+  <view class="slist">
+    <view class="srow" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onPick">
+      <image src="{{item.thumb}}" mode="aspectFill" lazy-load />
+      <view class="si">
+        <view class="t">{{item.title}}</view>
+        <view class="br">{{item.brand}}</view>
+        <view class="est">预估回收 <text class="price p">¥{{item.lo}}~¥{{item.hi}}</text></view>
+      </view>
+      <text class="arr">›</text>
+    </view>
+  </view>
+</view>

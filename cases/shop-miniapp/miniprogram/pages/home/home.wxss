@@ -6,6 +6,13 @@
 .banner .bt{font-weight:700;font-size:32rpx;margin-right:16rpx}
 .banner .bs{font-size:24rpx;opacity:.92}
 .banner .arr{margin-left:auto}
+.sellentry{display:flex;align-items:center;gap:20rpx;margin:20rpx 28rpx 0;padding:24rpx 28rpx;border-radius:20rpx;background:var(--card);border:1rpx solid var(--line)}
+.sellentry .se-ic{font-size:44rpx}
+.sellentry .se-tx{display:flex;flex-direction:column}
+.sellentry .se-t{font-weight:600;font-size:28rpx;color:var(--text)}
+.sellentry .se-s{font-size:22rpx;color:var(--muted);margin-top:4rpx}
+.sellentry .se-go{margin-left:auto;font-size:24rpx;color:var(--accent);font-weight:600}
+
 .chips{white-space:nowrap;padding:24rpx 28rpx 8rpx}
 .chip{display:inline-block;font-size:26rpx;color:var(--muted);background:var(--card);border:1rpx solid var(--line);border-radius:999rpx;padding:12rpx 28rpx;margin-right:16rpx}
 .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}

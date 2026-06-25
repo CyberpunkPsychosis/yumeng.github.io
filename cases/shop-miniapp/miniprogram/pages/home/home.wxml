@@ -10,6 +10,12 @@
     <text class="arr">›</text>
   </view>
 
+  <view wx:if="{{cfg.sell}}" class="sellentry" bindtap="toSell">
+    <text class="se-ic">♻️</text>
+    <view class="se-tx"><text class="se-t">{{cfg.sell.entryText}}</text><text class="se-s">{{cfg.sell.entrySub}}</text></view>
+    <text class="se-go">去估价 ›</text>
+  </view>
+
   <scroll-view class="chips" scroll-x>
     <view class="chip {{item.id === cat ? 'on' : ''}}" wx:for="{{cfg.categories}}" wx:key="id" data-cat="{{item.id}}" bindtap="onCat">{{item.name}}</view>
   </scroll-view>

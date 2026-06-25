@@ -1,0 +1,19 @@
+.sellhero{margin:24rpx 28rpx;padding:36rpx 32rpx;border-radius:24rpx;color:#fff;background:var(--accent)}
+.sellhero .sh-t{font-size:38rpx;font-weight:700}
+.sellhero .sh-s{display:block;font-size:24rpx;opacity:.92;margin-top:10rpx}
+.sellhero .sh-steps{display:flex;gap:14rpx;margin-top:26rpx}
+.sellhero .sh-steps text{font-size:22rpx;background:rgba(255,255,255,.2);border-radius:999rpx;padding:8rpx 18rpx}
+
+.chips{white-space:nowrap;padding:8rpx 28rpx}
+.chip{display:inline-block;font-size:26rpx;color:var(--muted);background:var(--card);border:1rpx solid var(--line);border-radius:999rpx;padding:12rpx 28rpx;margin-right:16rpx}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.slist{padding:8rpx 28rpx 48rpx}
+.srow{display:flex;align-items:center;gap:20rpx;background:var(--card);border:1rpx solid var(--line);border-radius:20rpx;padding:20rpx;margin-top:18rpx}
+.srow image{width:130rpx;height:130rpx;border-radius:16rpx;background:var(--soft);flex:0 0 auto}
+.srow .si{flex:1;min-width:0}
+.srow .si .t{font-size:28rpx;line-height:1.35}
+.srow .si .br{font-size:22rpx;color:var(--muted);margin-top:6rpx}
+.srow .si .est{font-size:24rpx;color:var(--muted);margin-top:10rpx}
+.srow .si .est .p{font-size:30rpx}
+.srow .arr{color:var(--muted)}

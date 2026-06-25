@@ -1,0 +1,11 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="wrap">
+    <view class="ok">✓</view>
+    <text class="t serif">回收单已提交</text>
+    <text class="tip">预估回收 ¥{{quote}}（演示），质检通过后 1–2 个工作日打款</text>
+    <view class="acts">
+      <view class="gbtn" bindtap="toSell">再卖一件</view>
+      <view class="gbtn primary" bindtap="toHome">返回首页</view>
+    </view>
+  </view>
+</view>

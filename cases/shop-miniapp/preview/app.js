@@ -9,6 +9,7 @@ let CFG, view = "home", dir = "fwd", cat = "all";
 let curId = null, sel = {};            // detail 选中的规格
 let cart = [];                          // [{id, qty, spec:{}, sel:true}]
 let lastOrder = null;
+let sellCat = "all", sellPick = null, sellCond = null, sellPhotos = 0, lastSell = null; // 卖闲置
 
 const product = (id) => CFG.products.find((p) => p.id === id);
 const cartCount = () => cart.reduce((n, c) => n + c.qty, 0);
@@ -16,6 +17,14 @@ const specKey = (s) => JSON.stringify(s || {});
 const specText = (s) => Object.values(s || {}).join(" · ");
 const selected = () => cart.filter((c) => c.sel);
 const selTotal = () => selected().reduce((n, c) => n + product(c.id).price * c.qty, 0);
+
+/* 卖闲置：回收估价 = 市场价 × 成色系数 */
+const sellItem = (id) => CFG.sell.items.find((p) => p.id === id);
+const quote = (item, cond) => Math.round(item.market * cond.factor);
+const quoteRange = (item) => {
+  const fs = CFG.sell.conditions.map((c) => c.factor);
+  return [Math.round(item.market * Math.min(...fs)), Math.round(item.market * Math.max(...fs))];
+};
 
 /* ---------- 视图 ---------- */
 function badge(n) { return n > 0 ? `<span class="badge">${n > 99 ? "99+" : n}</span>` : ""; }
@@ -40,6 +49,7 @@ function vHome() {
         <div class="box"><span>🔍</span><span>${esc(CFG.searchPlaceholder)}</span><span class="go" style="margin-left:auto">搜索</span></div>
         <span class="ico">▦</span></div>
       <div class="banner" style="background:${esc(b.color)}"><div><div class="bt">${esc(b.text)}</div><div class="bs">${esc(b.sub)}</div></div><span class="arr">›</span></div>
+      <div class="sellentry" data-act="tosell"><span class="se-ic">♻️</span><div class="se-tx"><div class="se-t">${esc(CFG.sell.entryText)}</div><div class="se-s">${esc(CFG.sell.entrySub)}</div></div><span class="se-go">去估价 ›</span></div>
       <div class="chips">${chips}</div>
       <div class="grid">${list}</div>
     </div>
@@ -134,7 +144,63 @@ function vConfirm() {
     </div></div>`;
 }
 
-const VIEWS = { home: vHome, detail: vDetail, cart: vCart, checkout: vCheckout, confirm: vConfirm };
+/* ---------- 卖闲置流程 ---------- */
+function vSell() {
+  const sc = CFG.sell;
+  const cats = CFG.categories.filter((c) => c.id === "all" || sc.items.some((it) => it.cat === c.id));
+  const chips = cats.map((c) => `<div class="chip ${c.id === sellCat ? "on" : ""}" data-act="sellchip" data-cat="${c.id}">${esc(c.name)}</div>`).join("");
+  const list = sc.items.filter((it) => sellCat === "all" || it.cat === sellCat).map((it) => {
+    const [lo, hi] = quoteRange(it);
+    return `<div class="srow" data-act="sellpick" data-id="${it.id}">
+      <img src="${esc(it.thumb)}" alt=""/>
+      <div class="si"><div class="t">${esc(it.title)}</div><div class="br">${esc(it.brand || "")}</div>
+        <div class="est">预估回收 <span class="price p">${yuan(lo)}~${yuan(hi)}</span></div></div>
+      <span class="arr">›</span></div>`;
+  }).join("");
+  return `<div class="page ${dir}">
+    <div class="appbar"><div class="back" data-act="home">‹</div><div class="ttl">卖闲置 · 一键估价</div></div>
+    <div class="scroll">
+      <div class="sellhero"><div class="sh-t">${esc(sc.entryText)}</div><div class="sh-s">选择要出的闲置，系统秒出回收估价</div>
+        <div class="sh-steps"><span>① 选物品</span><span>② 选成色</span><span>③ 提交回收</span></div></div>
+      <div class="chips">${chips}</div>
+      <div class="slist">${list}</div>
+    </div></div>`;
+}
+
+function vSellForm() {
+  const it = sellPick, conds = CFG.sell.conditions;
+  const q = sellCond ? quote(it, sellCond) : null;
+  const opts = conds.map((c) => `<div class="o ${sellCond && sellCond.id === c.id ? "on" : ""}" data-act="sellcond" data-id="${c.id}">${esc(c.name)}</div>`).join("");
+  const cells = [0, 1, 2].map((i) => i < sellPhotos
+    ? `<div class="ph on">🖼️</div>`
+    : (i === sellPhotos ? `<div class="ph add" data-act="sellphoto">＋</div>` : `<div class="ph"></div>`)).join("");
+  return `<div class="page ${dir}">
+    <div class="appbar"><div class="back" data-act="tosell">‹</div><div class="ttl">回收估价</div></div>
+    <div class="scroll">
+      <div class="coli" style="margin:12px 14px;background:var(--card);border-radius:12px;border:1px solid var(--line)">
+        <img src="${esc(it.thumb)}" alt=""/><div style="flex:1;min-width:0"><div class="t">${esc(it.title)}</div><div class="m">${esc(it.brand || "")} · 市场参考价 ${yuan(it.market)}</div></div></div>
+      <div class="opt"><div class="ol">成色（越新回收价越高）</div><div class="ov">${opts}</div></div>
+      <div class="opt"><div class="ol">上传实拍图（演示）</div><div class="uploader">${cells}</div></div>
+      <div class="quotebox">
+        <div class="ql">预估回收价</div>
+        <div class="qv">${q != null ? yuan(q) : "选择成色后显示"}</div>
+        <div class="qs">${sellCond ? esc(sellCond.name) + " · 质检通过后到账" : "—"}</div>
+      </div>
+    </div>
+    <div class="cobar"><div class="tot" style="margin-left:0">预估 <span class="price p" style="font-size:20px">${q != null ? yuan(q) : "—"}</span></div>
+      <div class="grow"></div><button class="btn" data-act="sellsubmit">提交回收</button></div></div>`;
+}
+
+function vSellDone() {
+  return `<div class="page ${dir}">
+    <div class="statusbar"><span>15:44</span><span>···· 5G <span class="bat"></span></span></div>
+    <div class="confirm"><div class="ok">✓</div><h2>回收单已提交</h2>
+      <div class="tip">预估回收 ${yuan(lastSell ? lastSell.quote : 0)}（演示）<br>质检通过后 1–2 个工作日打款</div>
+      <div class="acts"><div class="gbtn" data-act="sellagain">再卖一件</div><div class="gbtn" data-act="home">返回首页</div></div>
+    </div></div>`;
+}
+
+const VIEWS = { home: vHome, detail: vDetail, cart: vCart, checkout: vCheckout, confirm: vConfirm, sell: vSell, sellForm: vSellForm, sellDone: vSellDone };
 function render() { screen.innerHTML = VIEWS[view](); const s = screen.querySelector(".scroll"); if (s) s.scrollTop = 0; }
 function go(v, d = "fwd") { view = v; dir = d; render(); }
 
@@ -171,6 +237,18 @@ screen.addEventListener("click", (e) => {
     go("confirm");
   }
   else if (a === "orders") toast("我的订单（演示）");
+  // 卖闲置
+  else if (a === "tosell") { sellCat = "all"; go("sell"); }
+  else if (a === "sellchip") { sellCat = el.dataset.cat; render(); }
+  else if (a === "sellpick") { sellPick = sellItem(el.dataset.id); sellCond = null; sellPhotos = 0; go("sellForm"); }
+  else if (a === "sellcond") { sellCond = CFG.sell.conditions.find((c) => c.id === el.dataset.id); render(); }
+  else if (a === "sellphoto") { if (sellPhotos < 3) sellPhotos++; render(); }
+  else if (a === "sellsubmit") {
+    if (!sellCond) { toast("请选择成色"); return; }
+    lastSell = { item: sellPick, cond: sellCond, quote: quote(sellPick, sellCond) };
+    go("sellDone");
+  }
+  else if (a === "sellagain") { sellCat = "all"; sellPick = null; sellCond = null; sellPhotos = 0; go("sell", "back"); }
 });
 
 /* ---------- 店铺切换 ---------- */
@@ -187,6 +265,7 @@ function load(k) {
   document.documentElement.style.setProperty("--accent", CFG.theme.accent);
   screen.dataset.mode = CFG.theme.mode || "light";
   cat = "all"; curId = null; sel = {}; cart = []; lastOrder = null;
+  sellCat = "all"; sellPick = null; sellCond = null; sellPhotos = 0; lastSell = null;
   go("home");
 }
 load(key);

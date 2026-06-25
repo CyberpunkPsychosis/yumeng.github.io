@@ -12,4 +12,5 @@ Page({
   onCat(e) { this.filter(e.currentTarget.dataset.cat); },
   onOpen(e) { app.globalData.curId = e.currentTarget.dataset.id; wx.navigateTo({ url: "/pages/detail/detail" }); },
   toCart() { wx.navigateTo({ url: "/pages/cart/cart" }); },
+  toSell() { wx.navigateTo({ url: "/pages/sell/sell" }); },
 });

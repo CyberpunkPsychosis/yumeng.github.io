@@ -1,0 +1,7 @@
+.wrap{padding:120rpx 56rpx;display:flex;flex-direction:column;align-items:center;text-align:center}
+.ok{width:148rpx;height:148rpx;border-radius:50%;background:var(--accent);color:#fff;font-size:78rpx;line-height:148rpx;margin-bottom:32rpx}
+.t{font-weight:700;font-size:44rpx}
+.tip{color:var(--muted);font-size:26rpx;margin-top:16rpx;line-height:1.6}
+.acts{display:flex;gap:24rpx;margin-top:50rpx}
+.gbtn{border:1rpx solid var(--line);border-radius:999rpx;padding:20rpx 44rpx;font-size:28rpx;color:var(--text)}
+.gbtn.primary{background:var(--accent);border-color:var(--accent);color:#fff}

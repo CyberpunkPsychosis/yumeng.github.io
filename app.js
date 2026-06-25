@@ -6,7 +6,7 @@ const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 // 👉 把下面换成你的微信号或邮箱，首页底部会显示出来
-const CONTACT = "（在此填写你的微信号或邮箱）";
+const CONTACT = "BassVibeeezzzz";
 
 let activeTag = "全部";
 let query = "";

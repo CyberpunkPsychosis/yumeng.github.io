@@ -1,0 +1,27 @@
+.head{display:flex;align-items:center;gap:20rpx;margin:24rpx 28rpx;padding:20rpx;background:var(--card);border:1rpx solid var(--line);border-radius:20rpx}
+.head image{width:120rpx;height:120rpx;border-radius:16rpx;background:var(--soft);flex:0 0 auto}
+.head .hi{flex:1;min-width:0}
+.head .hi .t{font-size:28rpx;line-height:1.4}
+.head .hi .m{font-size:22rpx;color:var(--muted);margin-top:8rpx}
+
+.opt{background:var(--card);margin-top:16rpx;padding:26rpx 30rpx}
+.opt .ol{font-size:24rpx;color:var(--muted);margin-bottom:18rpx;display:block}
+.ov{display:flex;flex-wrap:wrap;gap:16rpx}
+.o{font-size:26rpx;border:1rpx solid var(--line);border-radius:14rpx;padding:14rpx 28rpx}
+.o.on{border-color:var(--accent);color:var(--accent)}
+
+.uploader{display:flex;gap:20rpx}
+.uploader .ph{width:130rpx;height:130rpx;border-radius:16rpx;background:var(--soft);border:1rpx dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:44rpx;color:var(--muted)}
+.uploader .ph.add{border-color:var(--accent);color:var(--accent)}
+.uploader .ph.on{border-style:solid;border-color:var(--line)}
+
+.quotebox{margin:24rpx 28rpx;padding:40rpx 30rpx;border-radius:20rpx;text-align:center;background:var(--card);border:1rpx solid var(--line)}
+.quotebox .ql{font-size:24rpx;color:var(--muted)}
+.quotebox .qv{font-size:64rpx;font-weight:700;color:var(--accent);margin:12rpx 0 8rpx}
+.quotebox .qs{font-size:22rpx;color:var(--muted)}
+
+.cobar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:20rpx;padding:18rpx 28rpx calc(18rpx + env(safe-area-inset-bottom));border-top:1rpx solid var(--line);background:var(--card)}
+.cobar .tot{font-size:26rpx}
+.cobar .tot .p{font-size:40rpx}
+.grow{flex:1}
+.subbtn{flex:0 0 auto;padding-left:64rpx;padding-right:64rpx}

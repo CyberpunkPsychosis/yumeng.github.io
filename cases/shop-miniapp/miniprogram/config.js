@@ -26,4 +26,26 @@ module.exports = {
       thumb: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=80",
       desc: "九成新，内页干净无笔记，可扫码验真。" },
   ],
+  /* 卖闲置 / 回收估价（C2B）。估价 = market × 成色 factor */
+  sell: {
+    entryText: "卖闲置 · 一键估价", entrySub: "闲置秒估价 · 质检后打款",
+    conditions: [
+      { id: "new", name: "全新未拆", factor: 0.55 },
+      { id: "like", name: "95 新", factor: 0.42 },
+      { id: "good", name: "9 成新", factor: 0.32 },
+      { id: "fair", name: "8 成新", factor: 0.22 },
+    ],
+    items: [
+      { id: "rs1", cat: "shoe", brand: "Nike 耐克", title: "Dunk Low 复古板鞋", market: 899,
+        thumb: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" },
+      { id: "rs2", cat: "cloth", brand: "Stüssy", title: "经典 Logo 套头卫衣", market: 699,
+        thumb: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80" },
+      { id: "rs3", cat: "bag", brand: "Louis Vuitton", title: "Neverfull 老花托特包", market: 9800,
+        thumb: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=600&q=80" },
+      { id: "rs4", cat: "cloth", brand: "Carhartt WIP", title: "Detroit 工装夹克", market: 1290,
+        thumb: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80" },
+      { id: "rs5", cat: "toy", brand: "Jellycat", title: "邦尼兔毛绒玩偶 中号", market: 359,
+        thumb: "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=600&q=80" },
+    ],
+  },
 };
