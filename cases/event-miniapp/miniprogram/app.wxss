@@ -1,5 +1,9 @@
+@import "icons.wxss";
 page{font-family:-apple-system,"PingFang SC",sans-serif;background:#f4f6f3;color:#1d231b}
 .root{min-height:100vh;padding-bottom:120rpx}
+/* 图标上下文尺寸/颜色 */
+.cic .nic{width:48rpx;height:48rpx}
+.pub-plus{width:50rpx;height:50rpx;background-color:#fff}
 .price{color:var(--accent);font-weight:700}
 .tag{font-size:21rpx;color:var(--accent);background:rgba(0,0,0,.04);border-radius:8rpx;padding:2rpx 12rpx;margin-right:8rpx}
 .btn{color:#fff;background:var(--accent);border-radius:999rpx;text-align:center;font-weight:700;font-size:30rpx;padding:24rpx 0}

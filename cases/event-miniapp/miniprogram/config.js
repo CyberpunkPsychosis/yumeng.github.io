@@ -7,9 +7,9 @@ module.exports = {
   slogan: "找搭子，一起出发",
   banner: { title: "暑趣模式开启", sub: "周末别躺平 · 上车找搭子", color: "#19b36b" },
   categories: [
-    { icon: "🏕️", name: "露营烧烤" }, { icon: "🎲", name: "桌游剧本" }, { icon: "🥾", name: "徒步爬山" },
-    { icon: "🎤", name: "Livehouse" }, { icon: "🛼", name: "运动局" }, { icon: "🍲", name: "饭搭子" },
-    { icon: "📷", name: "City Walk" }, { icon: "🎉", name: "派对交友" },
+    { icon: "tent", name: "露营烧烤" }, { icon: "dice", name: "桌游剧本" }, { icon: "mountain", name: "徒步爬山" },
+    { icon: "mic", name: "Livehouse" }, { icon: "frisbee", name: "运动局" }, { icon: "bowl", name: "饭搭子" },
+    { icon: "camera", name: "City Walk" }, { icon: "party", name: "派对交友" },
   ],
   filters: ["全部", "活动派对", "户外", "同好交友", "运动"],
   activities: [

@@ -1,8 +1,8 @@
 <view class="root theme-{{mode}}" style="--accent: {{accent}};">
   <view class="searchbar">
-    <text class="ico">⊞</text>
-    <view class="box"><text>🔍 {{cfg.searchPlaceholder}}</text><text class="go">搜索</text></view>
-    <text class="ico">▦</text>
+    <view class="ico nic nic-scan"></view>
+    <view class="box"><view class="nic nic-search box-ic"></view><text>{{cfg.searchPlaceholder}}</text><text class="go">搜索</text></view>
+    <view class="ico nic nic-grid"></view>
   </view>
 
   <view class="banner" style="background: {{cfg.banner.color}}">
@@ -34,9 +34,9 @@
 
   <view style="height:120rpx"></view>
   <view class="tabbar">
-    <view class="t on"><text class="ic">🏠</text>首页</view>
-    <view class="t"><text class="ic">▦</text>分类</view>
-    <view class="t" bindtap="toCart"><text class="ic">🛒</text>购物车<text wx:if="{{count}}" class="badge">{{count}}</text></view>
-    <view class="t"><text class="ic">👤</text>我的</view>
+    <view class="t on"><view class="ic nic acc nic-home"></view>首页</view>
+    <view class="t"><view class="ic nic nic-grid"></view>分类</view>
+    <view class="t" bindtap="toCart"><view class="ic nic nic-cart"></view>购物车<text wx:if="{{count}}" class="badge">{{count}}</text></view>
+    <view class="t"><view class="ic nic nic-user"></view>我的</view>
   </view>
 </view>

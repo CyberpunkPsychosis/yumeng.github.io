@@ -1,5 +1,5 @@
 .searchbar{display:flex;align-items:center;gap:18rpx;padding:16rpx 28rpx}
-.searchbar .ico{font-size:36rpx;color:var(--muted)}
+.searchbar .ico{width:40rpx;height:40rpx;background-color:var(--muted)}
 .searchbar .box{flex:1;display:flex;align-items:center;background:var(--card);border:1rpx solid var(--line);border-radius:999rpx;padding:16rpx 26rpx;color:var(--muted);font-size:26rpx}
 .searchbar .go{margin-left:auto;background:var(--text);color:var(--bg);border-radius:999rpx;font-size:22rpx;padding:8rpx 22rpx}
 .banner{display:flex;align-items:center;margin:0 28rpx;border-radius:20rpx;padding:24rpx 28rpx;color:#fff}
@@ -31,5 +31,7 @@
 .tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;border-top:1rpx solid var(--line);background:var(--card)}
 .tabbar .t{flex:1;text-align:center;padding:12rpx 0 calc(12rpx + env(safe-area-inset-bottom));font-size:20rpx;color:var(--muted);position:relative}
 .tabbar .t.on{color:var(--accent)}
-.tabbar .t .ic{display:block;font-size:38rpx;margin-bottom:2rpx}
+.tabbar .t .ic{width:42rpx;height:42rpx;margin:0 auto 4rpx}
 .badge{position:absolute;top:4rpx;left:50%;margin-left:12rpx;background:#e0523b;color:#fff;font-size:18rpx;min-width:28rpx;height:28rpx;line-height:28rpx;border-radius:14rpx;padding:0 6rpx}
+
+.searchbar .box .box-ic{width:30rpx;height:30rpx;background-color:var(--muted);margin-right:10rpx}

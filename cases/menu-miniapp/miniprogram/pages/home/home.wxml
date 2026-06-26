@@ -5,7 +5,7 @@
       <view class="brand">{{cfg.brand}}</view>
       <view class="sub">{{cfg.sub}}</view>
     </view>
-    <view class="me" bindtap="toMine">{{user ? '👤 尾号' + user.tail : '登录'}}</view>
+    <view class="me" bindtap="toMine">{{user ? '尾号' + user.tail : '登录'}}</view>
   </view>
 
   <view wx:if="{{cfg.notice}}" class="notice"><text class="nic">📢</text>{{cfg.notice}}</view>
@@ -39,22 +39,22 @@
         </view>
       </view>
     </view>
-    <view wx:if="{{!list.length}}" class="empty"><view class="e">🍽️</view>这一天暂无该分类菜品</view>
+    <view wx:if="{{!list.length}}" class="empty"><view class="e nic nic-utensils"></view>这一天暂无该分类菜品</view>
   </view>
 
   <!-- 反馈入口 -->
-  <view class="fbentry" bindtap="toFeedback"><text class="fb-ic">✍️</text><text class="fb-tx">{{cfg.feedback.title}}</text><text class="arr">›</text></view>
+  <view class="fbentry" bindtap="toFeedback"><view class="fb-ic nic nic-edit acc"></view><text class="fb-tx">{{cfg.feedback.title}}</text><text class="arr">›</text></view>
 
   <!-- 悬浮购物车 -->
   <view wx:if="{{cfg.ordering && count}}" class="cartbar" bindtap="toCart">
-    <text class="cb-ic">🛒</text><text class="cb-t">已选 {{count}} 件 · 合计 <text class="price">¥{{total}}</text></text><text class="cb-go">去结算</text>
+    <view class="cb-ic nic nic-cart"></view><text class="cb-t">已选 {{count}} 件 · 合计 <text class="price">¥{{total}}</text></text><text class="cb-go">去结算</text>
   </view>
 
   <!-- tabbar -->
   <view class="tabbar">
-    <view class="t on"><text class="ic">🍽️</text>{{cfg.dateMode ? '菜单' : '点餐'}}</view>
-    <view class="t" bindtap="toFeedback"><text class="ic">✍️</text>反馈</view>
-    <view wx:if="{{cfg.ordering}}" class="t" bindtap="toCart"><text class="ic">🛒</text>购物车<text wx:if="{{count}}" class="badge">{{count}}</text></view>
-    <view class="t" bindtap="toMine"><text class="ic">👤</text>我的</view>
+    <view class="t on"><view class="ic nic acc nic-utensils"></view>{{cfg.dateMode ? '菜单' : '点餐'}}</view>
+    <view class="t" bindtap="toFeedback"><view class="ic nic nic-edit"></view>反馈</view>
+    <view wx:if="{{cfg.ordering}}" class="t" bindtap="toCart"><view class="ic nic nic-cart"></view>购物车<text wx:if="{{count}}" class="badge">{{count}}</text></view>
+    <view class="t" bindtap="toMine"><view class="ic nic nic-user"></view>我的</view>
   </view>
 </view>

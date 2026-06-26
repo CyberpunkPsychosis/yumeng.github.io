@@ -10,7 +10,7 @@
 
   <view class="cats">
     <view class="cat" wx:for="{{cfg.categories}}" wx:key="name" bindtap="toList">
-      <view class="cic">{{item.icon}}</view><text class="cnm">{{item.name}}</text>
+      <view class="cic"><view class="nic acc nic-{{item.icon}}"></view></view><text class="cnm">{{item.name}}</text>
     </view>
   </view>
 
@@ -42,10 +42,10 @@
 
   <!-- tabbar -->
   <view class="tabbar">
-    <view class="t on"><text class="ic">🏠</text>首页</view>
-    <view class="t" bindtap="toList"><text class="ic">🧭</text>周边活动</view>
-    <view class="t pub" bindtap="toCreate"><text class="pubic">＋</text></view>
-    <view class="t" bindtap="msg"><text class="ic">💬</text>消息</view>
-    <view class="t" bindtap="toMine"><text class="ic">😊</text>我的</view>
+    <view class="t on"><view class="ic nic acc nic-home"></view>首页</view>
+    <view class="t" bindtap="toList"><view class="ic nic nic-compass"></view>周边活动</view>
+    <view class="t pub" bindtap="toCreate"><view class="pubic"><view class="nic nic-plus pub-plus"></view></view></view>
+    <view class="t" bindtap="msg"><view class="ic nic nic-chat"></view>消息</view>
+    <view class="t" bindtap="toMine"><view class="ic nic nic-user"></view>我的</view>
   </view>
 </view>
