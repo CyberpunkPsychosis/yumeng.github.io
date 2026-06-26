@@ -1,0 +1,12 @@
+.banner{background:linear-gradient(135deg,#2b3550,#3f4d72);color:#fff;padding:48rpx 36rpx 40rpx;border-radius:0 0 36rpx 36rpx}
+.b-city{font-size:60rpx;font-weight:800;letter-spacing:4rpx}
+.b-slogan{font-size:34rpx;font-weight:600;margin-top:8rpx}
+.b-tag{display:inline-block;margin-top:20rpx;font-size:24rpx;background:rgba(255,255,255,.18);padding:8rpx 20rpx;border-radius:999rpx}
+.b-agent{font-size:24rpx;opacity:.85;margin-top:18rpx}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20rpx;padding:28rpx}
+.cell{position:relative;background:#fff;border-radius:20rpx;padding:34rpx 28rpx;display:flex;align-items:center;gap:20rpx;box-shadow:0 6rpx 18rpx rgba(40,50,80,.06)}
+.cell .ic{font-size:46rpx}
+.cell .nm{font-size:28rpx;font-weight:600;flex:1}
+.cell .vr{position:absolute;top:14rpx;right:16rpx;font-size:18rpx;color:#fff;background:#caa46a;border-radius:999rpx;padding:2rpx 12rpx}
+.tip{text-align:center;color:#8b91a0;font-size:23rpx;padding:10rpx 40rpx 40rpx;line-height:1.6}

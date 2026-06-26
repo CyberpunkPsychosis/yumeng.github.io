@@ -1,0 +1,9 @@
+{
+  "description": "房产 VR 看房小程序模板",
+  "miniprogramRoot": "./",
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "vr-tour",
+  "setting": { "es6": true, "minified": true, "urlCheck": false },
+  "libVersion": "latest"
+}

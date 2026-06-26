@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/tour/tour"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#2b3550",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "VR 看房",
+    "backgroundColor": "#eef1f6"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

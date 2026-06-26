@@ -1,0 +1,3 @@
+<!-- 720° 全景查看器：用 web-view 载入 H5（与 cases/vr-tour 同一套 WebGL 全景）。
+     若要纯原生渲染，可把 viewer.js 的着色器与矩阵搬到 <canvas type="webgl"> 上，逻辑一致。 -->
+<web-view wx:if="{{src}}" src="{{src}}"></web-view>

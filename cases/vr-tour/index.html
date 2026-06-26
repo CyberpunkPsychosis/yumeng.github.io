@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>VR 实景样板间 · 720° 看房</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Inter:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="vr" id="vr">
+    <canvas id="pano"></canvas>
+    <div class="fade" id="fade"></div>
+
+    <!-- 顶栏 -->
+    <div class="topbar">
+      <a class="tb-back" href="../../index.html">‹</a>
+      <div class="tb-title" id="topTitle">实景样板间</div>
+      <div class="tb-more">···</div>
+    </div>
+
+    <!-- 场景标题 -->
+    <div class="scene-title" id="sceneTitle">大门</div>
+
+    <!-- 拖动提示 -->
+    <div class="drag-tip" id="dragTip">🖐 按住拖动环视 · 滚轮/双指缩放</div>
+
+    <!-- 热点层 -->
+    <div class="hotspots" id="hotspots"></div>
+
+    <!-- 顾问 -->
+    <div class="agent">
+      <div class="agent-badge" id="agentBadge">林</div>
+    </div>
+    <div class="agent-name" id="agentName"></div>
+
+    <!-- 底部面板 -->
+    <div class="panel" id="panel">
+      <div class="projects" id="projects"></div>
+      <div class="groups" id="groups"></div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+    <button class="switch-btn" id="switchBtn"><span class="sb-ic">⌃</span>场景切换</button>
+  </div>
+
+  <script src="configs.js"></script>
+  <script src="pano.js"></script>
+  <script src="viewer.js"></script>
+  <script src="app.js"></script>
+  <script>setTimeout(function(){var t=document.getElementById("dragTip");if(t)t.style.opacity="0";},4200);</script>
+</body>
+</html>

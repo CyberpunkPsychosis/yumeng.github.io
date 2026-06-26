@@ -1,0 +1,20 @@
+<view class="page">
+  <!-- 顾问 banner -->
+  <view class="banner">
+    <view class="b-city">{{cfg.agent.city}}</view>
+    <view class="b-slogan">{{cfg.agent.slogan}}</view>
+    <view class="b-tag">{{cfg.agent.desc}}</view>
+    <view class="b-agent">{{cfg.agent.name}}</view>
+  </view>
+
+  <!-- 功能宫格 -->
+  <view class="grid">
+    <view class="cell" wx:for="{{cfg.features}}" wx:key="name" data-i="{{index}}" bindtap="onTap">
+      <text class="ic">{{item.icon}}</text>
+      <text class="nm">{{item.name}}</text>
+      <text wx:if="{{item.type === 'tour'}}" class="vr">720°</text>
+    </view>
+  </view>
+
+  <view class="tip">点「新房实景样板间 / 二手小区全景拍摄」体验 720° VR 看房（web-view 载入全景 H5）</view>
+</view>
