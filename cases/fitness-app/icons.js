@@ -65,6 +65,9 @@ window.ICONS = (function () {
     trophy: '<path d="M7 4.5h10V8a5 5 0 01-10 0z"/><path d="M7 5.5H4.5v1.5a3 3 0 003 2.8M17 5.5h2.5v1.5a3 3 0 01-3 2.8"/><path d="M9.5 13.5h5l-1 3.5h-3z"/><path d="M9 20h6M12 17v3"/>',
     import: '<path d="M12 3.5v9.5M12 13l-3.5-3.5M12 13l3.5-3.5"/><path d="M5 16.5v3.5h14v-3.5"/>',
     share: '<circle cx="6.5" cy="12" r="2.4"/><circle cx="17" cy="6" r="2.4"/><circle cx="17" cy="18" r="2.4"/><path d="M8.6 10.9l6.3-3.6M8.6 13.1l6.3 3.6"/>',
+    heart: '<path d="M12 20.5s-7.5-4.7-7.5-10A4 4 0 0112 7a4 4 0 017.5 3.5c0 5.3-7.5 10-7.5 10z"/>',
+    dumbbell: '<path d="M6.5 8.5v7M4 10v4M17.5 8.5v7M20 10v4M6.5 12h11"/>',
+    clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
   };
   const ICONS = {}; for (const k in P) ICONS[k] = w(P[k]); return ICONS;
 })();
