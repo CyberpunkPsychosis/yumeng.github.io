@@ -1,0 +1,91 @@
+/* 轻燃健身 · 跟练 App —— 样式 */
+:root{--ui:"Inter",system-ui,"PingFang SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--ui);min-height:100vh;background:#0c0d10;display:flex;align-items:center;justify-content:center;padding:24px}
+svg{display:block}
+.phone{width:390px;height:844px;border-radius:48px;padding:11px;background:#000;box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 0 0 2px #222;flex:0 0 auto}
+.screen{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#f4f5f7;color:#1b1f27}
+.view{position:absolute;inset:0;display:flex;flex-direction:column}
+.scroll{flex:1;overflow-y:auto}.scroll::-webkit-scrollbar{display:none}
+.tag{font-size:11px;color:#566;background:#eceef2;border-radius:999px;padding:3px 10px}
+.tag.done{color:#138a5e;background:#e4f7ee}
+.seclabel{font-size:16px;font-weight:800;padding:18px 18px 10px}
+.back.round{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}
+
+/* 首页 */
+.hd{padding:30px 20px 6px}
+.hd-t{font-size:24px;font-weight:800}.hd-s{font-size:13px;color:#8b93a3;margin-top:5px}
+.plan{display:flex;gap:14px;background:#fff;border-radius:18px;padding:14px;margin:0 16px 14px;cursor:pointer;border:1px solid #eceef2}
+.pl-cover{width:92px;height:92px;border-radius:14px;flex:0 0 auto;background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--c);display:flex;align-items:center;justify-content:center;position:relative}
+.pl-cover .fig{width:74px;height:74px}
+.pl-lv{position:absolute;top:6px;left:6px;font-size:10px;font-weight:700;color:#fff;background:var(--c);border-radius:999px;padding:2px 8px}
+.pl-b{flex:1;min-width:0}.pl-t{font-size:17px;font-weight:800}
+.pl-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11.5px;color:#8b93a3;margin:7px 0}
+.pl-meta svg{width:13px;height:13px;display:inline-block;vertical-align:-2px}
+.pl-tags{display:flex;gap:6px;flex-wrap:wrap}
+.foot{text-align:center;color:#aab;font-size:12px;padding:20px}
+
+/* 详情 */
+.phero{background:linear-gradient(140deg,var(--c),color-mix(in srgb,var(--c) 55%,#000));color:#fff;padding:18px 18px 22px;position:relative}
+.phero .ph-t{font-size:23px;font-weight:800;margin:16px 0 16px}
+.ph-meta{display:flex;gap:10px}
+.ph-meta div{flex:1;background:rgba(255,255,255,.16);border-radius:12px;padding:10px 4px;text-align:center}
+.ph-meta b{display:block;font-size:18px}.ph-meta span{font-size:11px;opacity:.9}
+.detail{padding-bottom:10px}
+.ddesc{font-size:13.5px;color:#566;line-height:1.7;padding:16px 18px 0}
+.arow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #eceef2;border-radius:14px;padding:11px 13px;margin:0 16px 10px}
+.anum{width:26px;height:26px;border-radius:50%;background:#f0f2f5;color:#8b93a3;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.ai{flex:1}.an{font-size:15px;font-weight:700}.as{font-size:12px;color:#8b93a3;margin-top:2px}
+.apose{width:48px;height:48px;color:var(--c,#ff5a36);flex:0 0 auto}.apose .fig{width:48px;height:48px}
+.startbar{position:absolute;left:0;right:0;bottom:0;padding:12px 18px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(244,245,247,0),#f4f5f7 30%)}
+.startbtn{width:100%;border:none;border-radius:16px;color:#fff;font:inherit;font-size:17px;font-weight:800;padding:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.startbtn svg{width:20px;height:20px}
+.startbtn.ghost{background:#eceef2!important;color:#1b1f27}
+
+/* 播放器 */
+.player{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;color:#fff;
+  background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--c) 85%,#000),#14161c)}
+.player.rest{background:radial-gradient(120% 80% at 50% 0%,#2b3346,#14161c)}
+.pl-top{width:100%;display:flex;align-items:center;justify-content:space-between;padding:22px 22px 0}
+.pl-x{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer}
+.pl-prog{font-size:15px;font-weight:700;opacity:.9}
+.figwrap{margin-top:18px;color:#fff}.figwrap .fig{width:200px;height:200px}
+.actname{font-size:30px;font-weight:800;margin-top:6px}
+.ring{position:relative;width:170px;height:170px;margin:14px 0}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.18);stroke-width:9}
+.ring-fg{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.ring-n{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:54px;font-weight:800}
+.ring-n span{font-size:14px;font-weight:600;opacity:.8;margin-top:-4px}
+.acttip{font-size:13px;opacity:.9;display:flex;align-items:center;gap:6px;padding:0 30px;text-align:center}
+.acttip svg{width:15px;height:15px;flex:0 0 auto}
+.pl-ctrl{margin-top:auto;display:flex;gap:12px;padding:0 22px calc(26px + env(safe-area-inset-bottom))}
+.cbtn{flex:1;border:none;border-radius:14px;background:#fff;color:#1b1f27;font:inherit;font-weight:800;font-size:15px;padding:14px;cursor:pointer}
+.cbtn.ghost{background:rgba(255,255,255,.16);color:#fff}
+.restmid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rest-lb{font-size:20px;font-weight:700;opacity:.9;margin-bottom:10px}
+.nextup{margin-top:18px;font-size:14px;opacity:.9}.nextup b{font-weight:800}
+
+/* 完成 */
+.done{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;padding:30px;
+  background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--c) 85%,#000),#14161c)}
+.done-ic{color:#ffd54a}.done-ic svg{width:72px;height:72px}
+.done-t{font-size:26px;font-weight:800;margin-top:14px}
+.done-stats{display:flex;gap:16px;margin:24px 0}
+.done-stats div{background:rgba(255,255,255,.14);border-radius:14px;padding:14px 20px}
+.done-stats b{display:block;font-size:24px}.done-stats span{font-size:12px;opacity:.9}
+.done-msg{font-size:14px;opacity:.9}
+.done-btns{display:flex;flex-direction:column;gap:12px;width:100%;margin-top:28px}
+
+/* 动作小人动画 */
+.fig{transform-origin:50% 80%}
+.pose-jumpingjack{animation:jj .5s ease-in-out infinite}
+@keyframes jj{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.93) translateY(4px)}}
+.pose-highknee{animation:hk .42s ease-in-out infinite}
+@keyframes hk{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.pose-squat{animation:sq 1.5s ease-in-out infinite}
+@keyframes sq{0%,100%{transform:translateY(0)}50%{transform:translateY(15px) scaleY(.9)}}
+.pose-plank{animation:pk 2.2s ease-in-out infinite}
+@keyframes pk{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.pose-stretch{transform-origin:50% 90%;animation:st 2.6s ease-in-out infinite}
+@keyframes st{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
