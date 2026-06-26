@@ -1,0 +1,29 @@
+<view class="root" style="--accent: {{accent}};padding-bottom:24rpx">
+  <scroll-view class="ftabs" scroll-x>
+    <view class="ftab {{item === filter ? 'on' : ''}}" wx:for="{{filters}}" wx:key="*this" data-f="{{item}}" bindtap="onFilter">{{item}}</view>
+  </scroll-view>
+
+  <view class="feed">
+    <view class="card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onOpen">
+      <view class="cover">
+        <image src="{{item.cover}}" mode="aspectFill" lazy-load />
+        <text class="hot">🔥 热门</text>
+        <text class="cprice">{{item.price ? '¥' + item.price + '/人' : '免费'}}</text>
+      </view>
+      <view class="cbody">
+        <view class="ctitle">{{item.title}}</view>
+        <view class="corg"><text class="obadge">{{item.organizer.badge}}</text>{{item.organizer.name}} 发起 · {{item.organizer.views}}人看过</view>
+        <view class="cmeta">🕒 {{item.date}} {{item.time}}　📍 {{item.place}} · {{item.distance}}</view>
+        <view class="cfoot">
+          <view class="avs">
+            <text class="av" wx:for="{{item.shownAvatars}}" wx:for-item="t" wx:key="*this">{{t}}</text>
+            <text wx:if="{{item.moreCount}}" class="av more">+{{item.moreCount}}</text>
+            <text class="avtx">已 {{item.joined}}/{{item.capacity}} 人</text>
+          </view>
+          <text class="join">上车 ›</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{!list.length}}" class="muted" style="text-align:center;padding:120rpx 0;color:#8a948a">该分类暂无活动</view>
+  </view>
+</view>

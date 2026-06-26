@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/list/list",
+    "pages/detail/detail",
+    "pages/signup/signup",
+    "pages/confirm/confirm",
+    "pages/create/create",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "同城活动",
+    "backgroundColor": "#f4f6f3"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,28 @@
+<view class="root" style="--accent: {{accent}};padding-bottom:160rpx">
+  <view wx:if="{{!logged}}" class="logingate">
+    <view class="lg-ic">🔒</view><view class="lg-t">发起活动需先登录</view>
+    <view class="lg-s">用微信绑定的手机号登录后即可发布活动招人</view>
+    <button class="wxbtn" open-type="getPhoneNumber" bindgetphonenumber="onLogin">微信一键登录（绑定手机号）</button>
+  </view>
+
+  <block wx:else>
+    <view class="crhero">把你的周末计划发出来，召集同好一起上车 🚀</view>
+    <view class="fcard"><view class="cl">活动标题</view><input class="line" placeholder="例：周六露营烧烤，招 8 人" data-k="title" bindinput="set" /></view>
+    <view class="fcard"><view class="cl">分类</view>
+      <picker mode="selector" range="{{cats}}" value="{{f.catIdx}}" bindchange="onCat">
+        <view class="line picker">{{cats[f.catIdx]}} ▾</view>
+      </picker>
+    </view>
+    <view class="fcard row">
+      <view class="col"><view class="cl">日期</view><input class="line" placeholder="06-29 周一" data-k="date" bindinput="set" /></view>
+      <view class="col"><view class="cl">时间</view><input class="line" placeholder="15:00-21:00" data-k="time" bindinput="set" /></view>
+    </view>
+    <view class="fcard"><view class="cl">地点</view><input class="line" placeholder="南山 · 大沙河公园" data-k="place" bindinput="set" /></view>
+    <view class="fcard row">
+      <view class="col"><view class="cl">人均(元)</view><input class="line" type="number" placeholder="0" data-k="price" bindinput="set" /></view>
+      <view class="col"><view class="cl">限额(人)</view><input class="line" type="number" placeholder="10" data-k="cap" bindinput="set" /></view>
+    </view>
+    <view class="fcard"><view class="cl">活动简介</view><textarea class="line area" placeholder="活动安排、集合方式、注意事项…" data-k="desc" bindinput="set" /></view>
+    <view class="cobar"><view class="btn block" bindtap="publish">发布活动</view></view>
+  </block>
+</view>

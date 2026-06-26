@@ -1,0 +1,9 @@
+{
+  "description": "同城活动报名 / 组织 小程序模板",
+  "miniprogramRoot": "./",
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "event-miniapp",
+  "setting": { "es6": true, "minified": true, "urlCheck": false },
+  "libVersion": "latest"
+}

@@ -1,0 +1,5 @@
+.ftabs{white-space:nowrap;padding:18rpx 28rpx;border-bottom:1rpx solid #ececea;background:#fff}
+.ftab{display:inline-block;font-size:28rpx;color:#8a948a;margin-right:40rpx;padding:6rpx 0;position:relative}
+.ftab.on{color:#1d231b;font-weight:700}
+.ftab.on::after{content:"";position:absolute;left:50%;bottom:-6rpx;transform:translateX(-50%);width:36rpx;height:6rpx;border-radius:3rpx;background:var(--accent)}
+.feed{padding:24rpx}

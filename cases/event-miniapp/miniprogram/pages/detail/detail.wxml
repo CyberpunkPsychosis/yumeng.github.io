@@ -1,0 +1,38 @@
+<view class="root" style="--accent: {{accent}};padding-bottom:150rpx">
+  <image class="dcover" src="{{a.cover}}" mode="aspectFill" />
+  <view class="dwrap">
+    <view class="dtitle">{{a.title}}</view>
+    <view class="dtags"><text wx:for="{{a.tags}}" wx:key="*this" class="tag">{{item}}</text></view>
+
+    <view class="org">
+      <text class="obadge big">{{a.organizer.badge}}</text>
+      <view class="oi"><view class="on">{{a.organizer.name}}</view><view class="ov">发起人 · {{a.organizer.views}}人看过</view></view>
+      <text class="ofo">+ 关注</text>
+    </view>
+
+    <view class="dinfo">
+      <view class="irow"><text class="ik">🕒 时间</text><text>{{a.date}} {{a.time}}</text></view>
+      <view class="irow"><text class="ik">📍 地点</text><text>{{a.place}} · {{a.distance}}</text></view>
+      <view class="irow"><text class="ik">💰 人均</text><text class="price">{{a.price ? '¥' + a.price : '免费'}}</text></view>
+    </view>
+
+    <view class="capbox">
+      <view class="capbar"><view class="capfill" style="width:{{pct}}%"></view></view>
+      <view class="avs" style="margin-top:18rpx">
+        <text class="av" wx:for="{{shownAvatars}}" wx:for-item="t" wx:key="*this">{{t}}</text>
+        <text wx:if="{{moreCount}}" class="av more">+{{moreCount}}</text>
+        <text class="avtx">已 {{a.joined}}/{{a.capacity}} 人上车</text>
+      </view>
+      <view class="caps">{{remain > 0 ? '还差 ' + remain + ' 人成行，快上车～' : '已满员，可候补'}}</view>
+    </view>
+
+    <view class="block"><view class="bk-t">活动亮点</view><view class="li" wx:for="{{a.highlights}}" wx:key="*this">✦ {{item}}</view></view>
+    <view class="block"><view class="bk-t">费用包含</view><view class="li" wx:for="{{a.includes}}" wx:key="*this">· {{item}}</view></view>
+    <view class="block"><view class="bk-t">活动详情</view><view class="ddesc">{{a.desc}}</view></view>
+  </view>
+
+  <view class="cobar">
+    <view class="pz"><text class="price big">{{a.price ? '¥' + a.price : '免费'}}</text><text class="pu">/人</text></view>
+    <view class="btn join-btn {{remain ? '' : 'dis'}}" bindtap="toSignup">{{remain ? '我要上车' : '已满员'}}</view>
+  </view>
+</view>

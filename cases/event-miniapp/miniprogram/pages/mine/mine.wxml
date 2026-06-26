@@ -1,0 +1,28 @@
+<view class="root" style="--accent: {{accent}};">
+  <view class="profile">
+    <text class="pav">{{user ? '👤' : '?'}}</text>
+    <view class="pi"><view class="pn">{{user ? '尾号' + user.tail : '未登录'}}</view><view class="ps">{{user ? '已实名 · 出行无忧' : '登录后管理报名与活动'}}</view></view>
+    <button wx:if="{{!user}}" class="loginbtn" open-type="getPhoneNumber" bindgetphonenumber="onLogin">微信登录</button>
+  </view>
+
+  <view class="msec">我的报名</view>
+  <view class="mlist">
+    <view class="mrow" wx:for="{{joined}}" wx:key="id" data-id="{{item.id}}" bindtap="onOpen">
+      <image src="{{item.cover}}" mode="aspectFill" /><view class="mi"><view class="t">{{item.title}}</view><view class="m">{{item.date}} · {{item.place}}</view></view>
+      <text class="mbadge">已报名</text>
+    </view>
+    <view wx:if="{{!joined.length}}" class="mini-empty">还没有报名活动</view>
+  </view>
+
+  <view class="msec">我发起的</view>
+  <view class="mlist">
+    <view class="mrow" wx:for="{{created}}" wx:key="id" data-id="{{item.id}}" bindtap="onOpen">
+      <image src="{{item.cover}}" mode="aspectFill" /><view class="mi"><view class="t">{{item.title}}</view><view class="m">{{item.date}} · {{item.place}}</view></view>
+      <text class="mbadge">我发起</text>
+    </view>
+    <view wx:if="{{!created.length}}" class="mini-empty">还没有发起活动，回首页点「＋发起」吧</view>
+  </view>
+
+  <view class="msec">我的工具</view>
+  <view class="tools"><view class="tool" wx:for="{{tools}}" wx:key="*this"><text class="tic">▦</text>{{item}}</view></view>
+</view>

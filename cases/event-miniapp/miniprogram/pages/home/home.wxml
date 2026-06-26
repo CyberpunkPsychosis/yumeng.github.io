@@ -1,0 +1,51 @@
+<view class="root" style="--accent: {{accent}};">
+  <view class="topbar">
+    <text class="loc">📍 {{cfg.city}}</text>
+    <view class="search" bindtap="toList"><text>🔍 搜活动 · {{cfg.slogan}}</text></view>
+  </view>
+
+  <view class="banner" style="background:{{cfg.banner.color}}">
+    <view class="bt">{{cfg.banner.title}}</view><view class="bs">{{cfg.banner.sub}}</view>
+  </view>
+
+  <view class="cats">
+    <view class="cat" wx:for="{{cfg.categories}}" wx:key="name" bindtap="toList">
+      <view class="cic">{{item.icon}}</view><text class="cnm">{{item.name}}</text>
+    </view>
+  </view>
+
+  <view class="sec"><text class="sec-t">周边活动 · 有趣的一天</text><text class="sec-m" bindtap="toList">查看全部 ›</text></view>
+
+  <view class="feed">
+    <view class="card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onOpen">
+      <view class="cover">
+        <image src="{{item.cover}}" mode="aspectFill" lazy-load />
+        <text class="hot">🔥 热门</text>
+        <text class="cprice">{{item.price ? '¥' + item.price + '/人' : '免费'}}</text>
+      </view>
+      <view class="cbody">
+        <view class="ctitle">{{item.title}}</view>
+        <view class="corg"><text class="obadge">{{item.organizer.badge}}</text>{{item.organizer.name}} 发起 · {{item.organizer.views}}人看过</view>
+        <view class="cmeta">🕒 {{item.date}} {{item.time}}</view>
+        <view class="cmeta">📍 {{item.place}} · {{item.distance}}</view>
+        <view class="cfoot">
+          <view class="avs">
+            <text class="av" wx:for="{{item.shownAvatars}}" wx:for-item="t" wx:key="*this">{{t}}</text>
+            <text wx:if="{{item.moreCount}}" class="av more">+{{item.moreCount}}</text>
+            <text class="avtx">已 {{item.joined}}/{{item.capacity}} 人上车</text>
+          </view>
+          <text class="join">上车 ›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- tabbar -->
+  <view class="tabbar">
+    <view class="t on"><text class="ic">🏠</text>首页</view>
+    <view class="t" bindtap="toList"><text class="ic">🧭</text>周边活动</view>
+    <view class="t pub" bindtap="toCreate"><text class="pubic">＋</text></view>
+    <view class="t" bindtap="msg"><text class="ic">💬</text>消息</view>
+    <view class="t" bindtap="toMine"><text class="ic">😊</text>我的</view>
+  </view>
+</view>

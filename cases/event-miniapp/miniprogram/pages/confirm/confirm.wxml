@@ -1,0 +1,13 @@
+<view class="root" style="--accent: {{accent}};">
+  <view class="confirm">
+    <view class="ok">✓</view>
+    <view class="h2">报名成功</view>
+    <view class="tip">已为你锁定 {{count}} 个名额（演示，无需支付）</view>
+    <view class="tip">{{a.date}} {{a.time}} · {{a.place}}</view>
+    <view class="tip">记得准时上车，发起人会拉你进群～</view>
+    <view class="acts">
+      <view class="gbtn" bindtap="toMine">我的报名</view>
+      <view class="gbtn" bindtap="toHome">返回首页</view>
+    </view>
+  </view>
+</view>

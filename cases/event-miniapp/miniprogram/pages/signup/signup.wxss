@@ -1,0 +1,16 @@
+.sumcard{display:flex;gap:20rpx;background:#fff;margin:24rpx 28rpx 0;border-radius:24rpx;padding:22rpx;border:1rpx solid #ececea}
+.sumcard image{width:150rpx;height:150rpx;border-radius:18rpx;flex:0 0 auto;background:#f1f3f0}
+.sumcard .si .t{font-weight:700;font-size:28rpx;line-height:1.35}
+.sumcard .si .m{font-size:23rpx;color:#8a948a;margin-top:8rpx}
+.fcard{background:#fff;margin:24rpx 28rpx 0;border-radius:24rpx;padding:26rpx;border:1rpx solid #ececea}
+.fcard .cl{font-size:25rpx;color:#8a948a;margin-bottom:18rpx}
+.line{width:100%;border:1rpx solid #ececea;border-radius:16rpx;background:#f4f6f3;padding:22rpx 22rpx;font-size:28rpx;margin-bottom:16rpx}
+.line:last-child{margin-bottom:0}
+.area{min-height:130rpx}
+.stepper{display:inline-flex;align-items:center;border:1rpx solid #ececea;border-radius:16rpx;overflow:hidden}
+.stepper .sb{width:72rpx;height:68rpx;line-height:68rpx;text-align:center;font-size:36rpx}
+.stepper .sv{min-width:90rpx;text-align:center;font-size:30rpx}
+.loginnote{font-size:23rpx;color:#8a948a;padding:24rpx 32rpx}
+.cobar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:24rpx;padding:18rpx 28rpx calc(18rpx + env(safe-area-inset-bottom));border-top:1rpx solid #ececea;background:#fff}
+.cobar .pz{display:flex;align-items:baseline;gap:8rpx}.cobar .pu{font-size:24rpx;color:#8a948a}.cobar .price.big{font-size:42rpx}
+.submit{margin-left:auto;padding:24rpx 56rpx}

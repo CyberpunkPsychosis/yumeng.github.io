@@ -1,0 +1,29 @@
+<view class="root" style="--accent: {{accent}};padding-bottom:160rpx">
+  <view class="sumcard">
+    <image src="{{a.cover}}" mode="aspectFill" />
+    <view class="si"><view class="t">{{a.title}}</view><view class="m">{{a.date}} {{a.time}}</view><view class="m">{{a.place}}</view></view>
+  </view>
+
+  <!-- 未登录：微信手机号 -->
+  <view wx:if="{{!logged}}" class="logingate">
+    <view class="lg-ic">🔒</view><view class="lg-t">报名需先登录</view>
+    <view class="lg-s">用微信绑定的手机号登录后即可报名上车</view>
+    <button class="wxbtn" open-type="getPhoneNumber" bindgetphonenumber="onLogin">微信一键登录（绑定手机号）</button>
+  </view>
+
+  <block wx:else>
+    <view class="fcard"><view class="cl">报名人数（剩 {{remain}} 个名额）</view>
+      <view class="stepper"><view class="sb" data-d="-1" bindtap="cnt">−</view><text class="sv">{{count}}</text><view class="sb" data-d="1" bindtap="cnt">+</view></view>
+    </view>
+    <view class="fcard"><view class="cl">出行人信息</view>
+      <input class="line" placeholder="姓名" value="{{name}}" bindinput="iName" />
+      <input class="line" placeholder="手机号" value="{{phone}}" bindinput="iPhone" />
+      <textarea class="line area" placeholder="想对发起人说的（可选）" value="{{note}}" bindinput="iNote" />
+    </view>
+    <view class="loginnote">✅ 已用尾号 {{phone}} 登录</view>
+    <view class="cobar">
+      <view class="pz"><text class="pu">合计</text><text class="price big">{{a.price ? '¥' + total : '免费'}}</text></view>
+      <view class="btn submit" bindtap="submit">提交报名</view>
+    </view>
+  </block>
+</view>

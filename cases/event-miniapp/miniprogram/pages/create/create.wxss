@@ -1,0 +1,8 @@
+.crhero{margin:24rpx 28rpx 0;padding:28rpx;border-radius:24rpx;color:#fff;font-size:27rpx;background:var(--accent)}
+.fcard{background:#fff;margin:24rpx 28rpx 0;border-radius:24rpx;padding:26rpx;border:1rpx solid #ececea}
+.fcard.row{display:flex;gap:24rpx}.fcard.row .col{flex:1}
+.fcard .cl{font-size:25rpx;color:#8a948a;margin-bottom:18rpx}
+.line{width:100%;border:1rpx solid #ececea;border-radius:16rpx;background:#f4f6f3;padding:22rpx;font-size:28rpx}
+.picker{color:#1d231b}
+.area{min-height:150rpx}
+.cobar{position:fixed;left:0;right:0;bottom:0;padding:18rpx 28rpx calc(18rpx + env(safe-area-inset-bottom));border-top:1rpx solid #ececea;background:#fff}
