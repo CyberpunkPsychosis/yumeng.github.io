@@ -1,0 +1,19 @@
+{
+  "name": "xiaobu-course-desktop",
+  "version": "1.0.0",
+  "description": "小步课堂 · 单机桌面版（Electron 封装网页课程）",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.demo.xiaobu",
+    "productName": "小步课堂",
+    "files": ["main.js", "../**/*", "!../desktop/node_modules"]
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.0.0"
+  }
+}
