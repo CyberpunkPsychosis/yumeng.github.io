@@ -193,3 +193,19 @@ body{font-family:var(--ui);min-height:100vh;background:#13140f;color:#b9a988;dis
 .wxbtn .wxic::before,.wxbtn .wxic::after{content:"";position:absolute;width:3px;height:3px;border-radius:50%;background:#07c160;top:4px}
 .wxbtn .wxic::before{left:4px}.wxbtn .wxic::after{right:4px}
 .sh-x{margin-top:14px;font-size:13px;color:var(--muted);cursor:pointer}
+
+/* 线性图标尺寸（替代 emoji） */
+.notice .nic{display:inline-flex;color:var(--accent)}
+.notice .nic svg{width:16px;height:16px}
+.fbentry .fb-ic{display:inline-flex;color:var(--accent)}
+.fbentry .fb-ic svg{width:18px;height:18px}
+.cartbar .cb-ic{display:inline-flex}
+.cartbar .cb-ic svg{width:20px;height:20px}
+.tabbar .t .ic{display:flex;justify-content:center;margin-bottom:3px}
+.tabbar .t .ic svg{width:23px;height:23px}
+.actionbar .icobtn .ic{display:flex;justify-content:center}
+.actionbar .icobtn .ic svg{width:21px;height:21px}
+.empty .e{display:flex;justify-content:center}
+.empty .e svg{width:46px;height:46px}
+.addr .pin{display:inline-flex;color:var(--accent)}
+.addr .pin svg{width:19px;height:19px}

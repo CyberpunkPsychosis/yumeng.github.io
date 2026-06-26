@@ -167,3 +167,20 @@ body{font-family:var(--ui);min-height:100vh;background:#14130f;color:#b9a988;dis
 .confirm .tip{color:var(--muted);font-size:13px;margin-top:8px}
 .confirm .acts{display:flex;gap:12px;margin-top:26px}
 .confirm .acts .gbtn{border:1px solid var(--line);border-radius:999px;padding:11px 22px;font-size:14px;cursor:pointer}
+
+/* 线性图标尺寸（替代 emoji） */
+.searchbar .ico{display:flex;align-items:center}
+.searchbar .ico svg{width:20px;height:20px}
+.searchbar .box .sic{display:inline-flex}
+.searchbar .box .sic svg{width:15px;height:15px}
+.tabbar .t .ic{display:flex;justify-content:center;margin-bottom:3px}
+.tabbar .t .ic svg{width:23px;height:23px}
+.actionbar .icobtn .ic{display:flex;justify-content:center}
+.actionbar .icobtn .ic svg{width:21px;height:21px}
+.empty .e{display:flex;justify-content:center}
+.empty .e svg{width:46px;height:46px}
+.addr .pin{display:flex}
+.addr .pin svg{width:20px;height:20px}
+.sellentry .se-ic{display:flex;color:var(--accent)}
+.sellentry .se-ic svg{width:24px;height:24px}
+.uploader .ph.on svg{width:26px;height:26px}

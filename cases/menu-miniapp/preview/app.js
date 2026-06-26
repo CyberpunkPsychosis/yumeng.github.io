@@ -7,6 +7,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 const screen = document.getElementById("screen");
 const yuan = (n) => "¥" + (Math.round(n * 100) / 100);
 const WD = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+const ic = (k) => (window.ICONS && window.ICONS[k]) || "";
 
 let CFG, view = "home", dir = "fwd", cat = "all";
 let curId = null, sel = {};                 // detail 选中的规格
@@ -67,24 +68,24 @@ function vHome() {
         </div>
       </div>
     </div>`).join("");
-  const empty = `<div class="empty"><div class="e">🍽️</div>这一天暂无该分类菜品</div>`;
+  const empty = `<div class="empty"><div class="e">${ic("utensils")}</div>这一天暂无该分类菜品</div>`;
   return `<div class="page ${dir}">
     <div class="scroll">
       <div class="statusbar"><span>11:20</span><span>···· 5G <span class="bat"></span></span></div>
       <div class="head"><div><div class="brand">${esc(CFG.brand)}</div><div class="sub">${esc(CFG.sub)}</div></div>
-        <div class="me" data-act="tologin">${user ? "👤 " + loginPill() : "登录"}</div></div>
-      ${CFG.notice ? `<div class="notice"><span class="nic">📢</span>${esc(CFG.notice)}</div>` : ""}
+        <div class="me" data-act="tologin">${user ? loginPill() : "登录"}</div></div>
+      ${CFG.notice ? `<div class="notice"><span class="nic">${ic("bell")}</span>${esc(CFG.notice)}</div>` : ""}
       ${dateStrip}
       <div class="chips">${chips}</div>
       <div class="dlist">${list.length ? rows : empty}</div>
-      <div class="fbentry" data-act="tofeedback"><span class="fb-ic">✍️</span><div class="fb-tx">${esc(CFG.feedback.title)}</div><span class="arr">›</span></div>
+      <div class="fbentry" data-act="tofeedback"><span class="fb-ic">${ic("edit")}</span><div class="fb-tx">${esc(CFG.feedback.title)}</div><span class="arr">›</span></div>
     </div>
-    ${CFG.ordering && cart.length ? `<div class="cartbar" data-act="tocart"><span class="cb-ic">🛒${badge(cartCount())}</span><span class="cb-t">合计 <b class="price p">${yuan(selTotal())}</b></span><span class="cb-go">去结算</span></div>` : ""}
+    ${CFG.ordering && cart.length ? `<div class="cartbar" data-act="tocart"><span class="cb-ic">${ic("cart")}${badge(cartCount())}</span><span class="cb-t">合计 <b class="price p">${yuan(selTotal())}</b></span><span class="cb-go">去结算</span></div>` : ""}
     <div class="tabbar">
-      <div class="t on"><span class="ic">🍽️</span>${CFG.dateMode ? "菜单" : "点餐"}</div>
-      <div class="t" data-act="tofeedback"><span class="ic">✍️</span>反馈</div>
-      ${CFG.ordering ? `<div class="t" data-act="tocart"><span class="ic">🛒</span>购物车${badge(cartCount())}</div>` : ""}
-      <div class="t" data-act="tologin"><span class="ic">👤</span>我的</div>
+      <div class="t on"><span class="ic">${ic("utensils")}</span>${CFG.dateMode ? "菜单" : "点餐"}</div>
+      <div class="t" data-act="tofeedback"><span class="ic">${ic("edit")}</span>反馈</div>
+      ${CFG.ordering ? `<div class="t" data-act="tocart"><span class="ic">${ic("cart")}</span>购物车${badge(cartCount())}</div>` : ""}
+      <div class="t" data-act="tologin"><span class="ic">${ic("user")}</span>我的</div>
     </div></div>`;
 }
 
@@ -114,8 +115,8 @@ function vDetail() {
       </div>
     </div>
     <div class="actionbar">
-      <div class="icobtn" data-act="writereview"><span class="ic">✍️</span>评价</div>
-      ${CFG.ordering ? `<div class="icobtn" data-act="tocart"><span class="ic">🛒</span>购物车${badge(cartCount())}</div><div class="grow"></div><button class="btn" data-act="add">加入购物车</button>`
+      <div class="icobtn" data-act="writereview"><span class="ic">${ic("edit")}</span>评价</div>
+      ${CFG.ordering ? `<div class="icobtn" data-act="tocart"><span class="ic">${ic("cart")}</span>购物车${badge(cartCount())}</div><div class="grow"></div><button class="btn" data-act="add">加入购物车</button>`
       : `<div class="grow"></div><button class="btn" data-act="writereview">写评价</button>`}
     </div></div>`;
 }
@@ -131,7 +132,7 @@ function vComment() {
         <div class="cl">打分</div><div class="starpick">${picker}<span class="starnum">${commentStars}.0</span></div>
       </div>
       <div class="cmtcard"><textarea id="rvText" class="rvinput" placeholder="说说这道菜的口味、分量、性价比…（已用 ${user ? "尾号 " + user.phone.slice(-4) + " 手机号" : "微信手机号"}登录）"></textarea></div>
-      <div class="loginnote">✅ 已绑定手机号，评价将以「${user ? "尾号 " + user.phone.slice(-4) : ""}」匿名展示</div>
+      <div class="loginnote">已绑定手机号，评价将以「${user ? "尾号 " + user.phone.slice(-4) : ""}」匿名展示</div>
     </div>
     <div class="cobar"><div class="grow"></div><button class="btn block" data-act="submitreview">提交评价</button></div></div>`;
 }
@@ -165,7 +166,7 @@ function vCart() {
       <div class="ck" data-act="del" data-i="${i}" style="border:none;color:var(--muted);align-self:flex-start">✕</div>
     </div>`;
   }).join("");
-  const body = cart.length ? rows : `<div class="empty"><div class="e">🛒</div>购物车还是空的<br>回去点几个吧</div>`;
+  const body = cart.length ? rows : `<div class="empty"><div class="e">${ic("cart")}</div>购物车还是空的<br>回去点几个吧</div>`;
   return `<div class="page ${dir}">
     <div class="appbar"><div class="back" data-act="home">‹</div><div class="ttl">购物车</div></div>
     <div class="scroll">${body}</div>
@@ -183,8 +184,8 @@ function vCheckout() {
       <div style="flex:1;min-width:0"><div class="t">${esc(p.name)}</div><div class="m">${esc(specText(c.spec))} ×${c.qty}</div></div>
       <div class="price p">${yuan(linePrice(c) * c.qty)}</div></div>`; }).join("");
   const head = CFG.needAddress
-    ? `<div class="addr" data-act="noop"><span class="pin">📍</span><div class="ai"><div class="n">张同学　${user ? user.phone : "138****0000"}</div><div class="d">阳光大学 3 号宿舍楼 502</div></div><span class="arr">›</span></div>`
-    : `<div class="addr" data-act="noop"><span class="pin">🏪</span><div class="ai"><div class="n">到店自取　${user ? user.phone : "未登录"}</div><div class="d">${esc(CFG.brand)} · 取餐号到店出示</div></div><span class="arr">›</span></div>`;
+    ? `<div class="addr" data-act="noop"><span class="pin">${ic("pin")}</span><div class="ai"><div class="n">张同学　${user ? user.phone : "138****0000"}</div><div class="d">阳光大学 3 号宿舍楼 502</div></div><span class="arr">›</span></div>`
+    : `<div class="addr" data-act="noop"><span class="pin">${ic("pin")}</span><div class="ai"><div class="n">到店自取　${user ? user.phone : "未登录"}</div><div class="d">${esc(CFG.brand)} · 取餐号到店出示</div></div><span class="arr">›</span></div>`;
   return `<div class="page ${dir}">
     <div class="appbar"><div class="back" data-act="cart">‹</div><div class="ttl">确认订单</div></div>
     <div class="scroll">

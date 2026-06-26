@@ -4,6 +4,7 @@
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const screen = document.getElementById("screen");
 const yuan = (n) => "¥" + (Math.round(n * 100) / 100);
+const ic = (k) => (window.ICONS && window.ICONS[k]) || "";
 
 let CFG, view = "home", dir = "fwd", cat = "all";
 let curId = null, sel = {};            // detail 选中的规格
@@ -45,19 +46,19 @@ function vHome() {
   return `<div class="page ${dir}">
     <div class="scroll">
       <div class="statusbar"><span>15:44</span><span>···· 5G <span class="bat"></span></span></div>
-      <div class="searchbar"><span class="ico">⊞</span>
-        <div class="box"><span>🔍</span><span>${esc(CFG.searchPlaceholder)}</span><span class="go" style="margin-left:auto">搜索</span></div>
-        <span class="ico">▦</span></div>
+      <div class="searchbar"><span class="ico">${ic("scan")}</span>
+        <div class="box"><span class="sic">${ic("search")}</span><span>${esc(CFG.searchPlaceholder)}</span><span class="go" style="margin-left:auto">搜索</span></div>
+        <span class="ico">${ic("grid")}</span></div>
       <div class="banner" style="background:${esc(b.color)}"><div><div class="bt">${esc(b.text)}</div><div class="bs">${esc(b.sub)}</div></div><span class="arr">›</span></div>
-      <div class="sellentry" data-act="tosell"><span class="se-ic">♻️</span><div class="se-tx"><div class="se-t">${esc(CFG.sell.entryText)}</div><div class="se-s">${esc(CFG.sell.entrySub)}</div></div><span class="se-go">去估价 ›</span></div>
+      <div class="sellentry" data-act="tosell"><span class="se-ic">${ic("swap")}</span><div class="se-tx"><div class="se-t">${esc(CFG.sell.entryText)}</div><div class="se-s">${esc(CFG.sell.entrySub)}</div></div><span class="se-go">去估价 ›</span></div>
       <div class="chips">${chips}</div>
       <div class="grid">${list}</div>
     </div>
     <div class="tabbar">
-      <div class="t on"><span class="ic">🏠</span>首页</div>
-      <div class="t"><span class="ic">▦</span>分类</div>
-      <div class="t" data-act="tocart"><span class="ic">🛒</span>购物车${badge(cartCount())}</div>
-      <div class="t"><span class="ic">👤</span>我的</div>
+      <div class="t on"><span class="ic">${ic("home")}</span>首页</div>
+      <div class="t"><span class="ic">${ic("grid")}</span>分类</div>
+      <div class="t" data-act="tocart"><span class="ic">${ic("cart")}</span>购物车${badge(cartCount())}</div>
+      <div class="t"><span class="ic">${ic("user")}</span>我的</div>
     </div></div>`;
 }
 
@@ -81,8 +82,8 @@ function vDetail() {
       <div class="ddesc">${esc(p.desc || "")}</div>
     </div>
     <div class="actionbar">
-      <div class="icobtn" data-act="home"><span class="ic">🏠</span>首页</div>
-      <div class="icobtn" data-act="tocart"><span class="ic">🛒</span>购物车${badge(cartCount())}</div>
+      <div class="icobtn" data-act="home"><span class="ic">${ic("home")}</span>首页</div>
+      <div class="icobtn" data-act="tocart"><span class="ic">${ic("cart")}</span>购物车${badge(cartCount())}</div>
       <div class="grow"></div>
       <button class="btn" data-act="add">加入购物车</button>
     </div></div>`;
@@ -103,7 +104,7 @@ function vCart() {
       <div class="ck" data-act="del" data-i="${i}" style="border:none;color:var(--muted);align-self:flex-start">✕</div>
     </div>`;
   }).join("");
-  const body = cart.length ? rows : `<div class="empty"><div class="e">🛒</div>购物车还是空的<br>去首页逛逛吧</div>`;
+  const body = cart.length ? rows : `<div class="empty"><div class="e">${ic("cart")}</div>购物车还是空的<br>去首页逛逛吧</div>`;
   return `<div class="page ${dir}">
     <div class="appbar"><div class="back" data-act="home">‹</div><div class="ttl">购物车</div></div>
     <div class="scroll">${body}</div>
@@ -123,7 +124,7 @@ function vCheckout() {
   return `<div class="page ${dir}">
     <div class="appbar"><div class="back" data-act="cart">‹</div><div class="ttl">确认订单</div></div>
     <div class="scroll">
-      <div class="addr" data-act="noop"><span class="pin">📍</span><div class="ai"><div class="n">张先生　138****0000</div><div class="d">上海市徐汇区安福路 300 号</div></div><span class="arr">›</span></div>
+      <div class="addr" data-act="noop"><span class="pin">${ic("pin")}</span><div class="ai"><div class="n">张先生　138****0000</div><div class="d">上海市徐汇区安福路 300 号</div></div><span class="arr">›</span></div>
       <div class="block-card">${list}</div>
       <div class="block-card" style="padding:4px 0">
         <div class="sumrow"><span>商品金额</span><span>${yuan(selTotal())}</span></div>
@@ -172,7 +173,7 @@ function vSellForm() {
   const q = sellCond ? quote(it, sellCond) : null;
   const opts = conds.map((c) => `<div class="o ${sellCond && sellCond.id === c.id ? "on" : ""}" data-act="sellcond" data-id="${c.id}">${esc(c.name)}</div>`).join("");
   const cells = [0, 1, 2].map((i) => i < sellPhotos
-    ? `<div class="ph on">🖼️</div>`
+    ? `<div class="ph on">${ic("image")}</div>`
     : (i === sellPhotos ? `<div class="ph add" data-act="sellphoto">＋</div>` : `<div class="ph"></div>`)).join("");
   return `<div class="page ${dir}">
     <div class="appbar"><div class="back" data-act="tosell">‹</div><div class="ttl">回收估价</div></div>

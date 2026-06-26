@@ -83,7 +83,8 @@ body{font-family:var(--ui);min-height:100vh;background:#14130f;color:#b9a988;
 /* 底部 tab（首页） */
 .tabbar{display:flex;border-top:1px solid var(--line);background:var(--card)}
 .tabbar .t{flex:1;text-align:center;padding:9px 0 22px;font-size:11px;color:var(--muted)}
-.tabbar .t .ic{font-size:19px;display:block;margin-bottom:2px}
+.tabbar .t .ic{display:flex;justify-content:center;margin-bottom:3px}
+.tabbar .t .ic svg{width:23px;height:23px}
 .tabbar .t.on{color:var(--accent)}
 
 /* ---------- 详情 ---------- */

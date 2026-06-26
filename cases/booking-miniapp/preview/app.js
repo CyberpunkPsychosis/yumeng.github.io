@@ -9,6 +9,7 @@ let CFG, view = "home", dir = "fwd";
 let cat = "all", curId = null, opt = {};
 let form = { date: "", slot: "", extra: {}, name: "", phone: "", note: "" };
 
+const ic = (k) => (window.ICONS && window.ICONS[k]) || "";
 const item = (id) => CFG.items.find((x) => x.id === id);
 const priceHtml = (it) => `<span class="price">¥${it.price}<span class="u">${esc(it.unit || "")}</span></span>`;
 
@@ -42,7 +43,7 @@ function vHome() {
     <div class="sec"><div class="h">预约流程</div><div class="steps" style="margin-top:14px">${steps}</div></div>
     <div class="contact">${contact}</div>
   </div>
-  <div class="tabbar"><div class="t on"><span class="ic">🏠</span>首页</div><div class="t"><span class="ic">📋</span>订单</div><div class="t"><span class="ic">👤</span>我的</div></div>
+  <div class="tabbar"><div class="t on"><span class="ic">${ic("home")}</span>首页</div><div class="t"><span class="ic">${ic("orders")}</span>订单</div><div class="t"><span class="ic">${ic("user")}</span>我的</div></div>
   </div>`;
 }
 
