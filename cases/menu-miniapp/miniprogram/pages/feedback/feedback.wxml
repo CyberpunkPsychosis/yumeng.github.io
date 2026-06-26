@@ -1,0 +1,21 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="fbhero">你的每条建议，商家都会看到 🙌</view>
+
+  <view class="cmtcard">
+    <view class="cl">快速选择</view>
+    <view class="ftags">
+      <view wx:for="{{tags}}" wx:key="*this" class="ftag {{picked[item] ? 'on' : ''}}" data-t="{{item}}" bindtap="onTag">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="cmtcard">
+    <textarea class="rvinput" placeholder="{{fb.placeholder}}" value="{{text}}" bindinput="onText" maxlength="300" />
+  </view>
+
+  <view class="cmtcard">
+    <view class="cl">联系方式（选填）</view>
+    <input class="fbline" placeholder="留个微信/手机号，方便回复你" value="{{contact}}" bindinput="onContact" />
+  </view>
+
+  <view class="cobar"><view class="btn block" bindtap="submit">提交建议</view></view>
+</view>

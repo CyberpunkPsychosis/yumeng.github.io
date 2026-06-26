@@ -1,0 +1,44 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <image class="dimg" src="{{p.thumb}}" mode="aspectFill" />
+
+  <view class="dinfo">
+    <view class="dn2">{{p.name}}</view>
+    <view class="dp"><text class="price p">¥{{p.price}}</text><text class="unit">/{{p.unit}}</text><text class="rate2">★ {{p.rating}}</text></view>
+    <view class="dtags"><text wx:for="{{p.tags}}" wx:key="*this" class="tag">{{item}}</text></view>
+    <view class="ddesc">{{p.desc}}</view>
+  </view>
+
+  <!-- 规格（奶茶等） -->
+  <view wx:for="{{p.specs}}" wx:for-item="o" wx:key="label" class="opt">
+    <view class="ol">{{o.label}}</view>
+    <view class="ov">
+      <view wx:for="{{o.values}}" wx:for-item="v" wx:key="*this" class="o {{sel[o.label] === v ? 'on' : ''}}" data-label="{{o.label}}" data-val="{{v}}" bindtap="onSpec">{{v}}</view>
+    </view>
+  </view>
+
+  <!-- 评价 -->
+  <view class="rvbox">
+    <view class="rvhd"><text>用户评价（{{reviews.length}}）</text><text class="writelink" bindtap="toComment">写评价 ›</text></view>
+    <view wx:for="{{reviews}}" wx:key="text" class="rv">
+      <view class="rvh"><text class="rvn">{{item.name}}</text><text class="rvs">{{item.starStr}}</text><text class="rvd">{{item.date}}</text></view>
+      <view class="rvt">{{item.text}}</view>
+    </view>
+    <view wx:if="{{!reviews.length}}" class="noreview">还没有评价，来做第一个吧～</view>
+  </view>
+
+  <view style="height:160rpx"></view>
+
+  <!-- 底栏 -->
+  <view class="actionbar">
+    <view class="icobtn" bindtap="toComment"><text class="ic">✍️</text>评价</view>
+    <block wx:if="{{cfg.ordering}}">
+      <view class="icobtn" bindtap="toCart"><text class="ic">🛒</text>购物车<text wx:if="{{count}}" class="badge">{{count}}</text></view>
+      <view class="grow"></view>
+      <view class="btn abtn" bindtap="onAdd">加入购物车</view>
+    </block>
+    <block wx:else>
+      <view class="grow"></view>
+      <view class="btn abtn" bindtap="toComment">写评价</view>
+    </block>
+  </view>
+</view>

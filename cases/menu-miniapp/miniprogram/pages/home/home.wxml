@@ -1,0 +1,60 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <!-- 抬头 -->
+  <view class="head">
+    <view>
+      <view class="brand">{{cfg.brand}}</view>
+      <view class="sub">{{cfg.sub}}</view>
+    </view>
+    <view class="me" bindtap="toMine">{{user ? '👤 尾号' + user.tail : '登录'}}</view>
+  </view>
+
+  <view wx:if="{{cfg.notice}}" class="notice"><text class="nic">📢</text>{{cfg.notice}}</view>
+
+  <!-- 日期选择（食堂） -->
+  <scroll-view wx:if="{{cfg.dateMode}}" class="datestrip" scroll-x>
+    <view class="dcell {{index === dateIdx ? 'on' : ''}}" wx:for="{{dates}}" wx:key="md" data-i="{{index}}" bindtap="onDate">
+      <view class="dw">{{item.wlabel}}</view><view class="dm">{{item.md}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 分类 -->
+  <scroll-view class="chips" scroll-x>
+    <view class="chip {{item.id === cat ? 'on' : ''}}" wx:for="{{cfg.categories}}" wx:key="id" data-cat="{{item.id}}" bindtap="onCat">{{item.name}}</view>
+  </scroll-view>
+
+  <!-- 菜品列表 -->
+  <view class="dlist">
+    <view class="drow" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onOpen">
+      <image class="dimg" src="{{item.thumb}}" mode="aspectFill" lazy-load />
+      <view class="di">
+        <view class="dn">{{item.name}}</view>
+        <view class="dmeta">
+          <text wx:for="{{item.tags}}" wx:for-item="t" wx:key="*this" class="tag">{{t}}</text>
+          <text class="rate">★ {{item.rating}} · {{item.rc}}条评价</text>
+        </view>
+        <view class="db">
+          <text class="price p">¥{{item.price}}</text><text class="unit">/{{item.unit}}</text>
+          <button wx:if="{{cfg.ordering}}" class="addbtn" catchtap="onQuickAdd" data-id="{{item.id}}">＋</button>
+          <text wx:else class="cmt">评价 ›</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{!list.length}}" class="empty"><view class="e">🍽️</view>这一天暂无该分类菜品</view>
+  </view>
+
+  <!-- 反馈入口 -->
+  <view class="fbentry" bindtap="toFeedback"><text class="fb-ic">✍️</text><text class="fb-tx">{{cfg.feedback.title}}</text><text class="arr">›</text></view>
+
+  <!-- 悬浮购物车 -->
+  <view wx:if="{{cfg.ordering && count}}" class="cartbar" bindtap="toCart">
+    <text class="cb-ic">🛒</text><text class="cb-t">已选 {{count}} 件 · 合计 <text class="price">¥{{total}}</text></text><text class="cb-go">去结算</text>
+  </view>
+
+  <!-- tabbar -->
+  <view class="tabbar">
+    <view class="t on"><text class="ic">🍽️</text>{{cfg.dateMode ? '菜单' : '点餐'}}</view>
+    <view class="t" bindtap="toFeedback"><text class="ic">✍️</text>反馈</view>
+    <view wx:if="{{cfg.ordering}}" class="t" bindtap="toCart"><text class="ic">🛒</text>购物车<text wx:if="{{count}}" class="badge">{{count}}</text></view>
+    <view class="t" bindtap="toMine"><text class="ic">👤</text>我的</view>
+  </view>
+</view>

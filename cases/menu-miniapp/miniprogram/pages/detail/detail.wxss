@@ -1,0 +1,30 @@
+.dimg{width:100%;height:560rpx;background:var(--soft)}
+.dinfo{background:var(--card);padding:30rpx 32rpx}
+.dn2{font-weight:700;font-size:40rpx}
+.dp{display:flex;align-items:baseline;gap:8rpx;margin-top:14rpx}
+.dp .p{font-size:46rpx}.unit{font-size:24rpx;color:var(--muted)}
+.rate2{margin-left:auto;font-size:26rpx;color:var(--muted)}
+.dtags{display:flex;gap:12rpx;margin-top:18rpx;flex-wrap:wrap}
+.ddesc{font-size:27rpx;color:var(--muted);line-height:1.7;margin-top:22rpx}
+
+.opt{padding:26rpx 32rpx;background:var(--card);margin-top:16rpx}
+.opt .ol{font-size:25rpx;color:var(--muted);margin-bottom:18rpx}
+.opt .ov{display:flex;flex-wrap:wrap;gap:16rpx}
+.opt .o{font-size:26rpx;border:1rpx solid var(--line);border-radius:14rpx;padding:14rpx 28rpx}
+.opt .o.on{border-color:var(--accent);color:var(--accent);background:rgba(0,0,0,.03)}
+
+.rvbox{background:var(--card);margin-top:16rpx;padding:8rpx 32rpx 30rpx}
+.rvhd{display:flex;justify-content:space-between;align-items:center;padding:26rpx 0 8rpx;font-size:27rpx;font-weight:600}
+.rvhd .writelink{color:var(--accent)}
+.rv{padding:24rpx 0;border-top:1rpx solid var(--line)}
+.rvh{display:flex;align-items:center;gap:14rpx;font-size:23rpx}
+.rvn{font-weight:600}.rvs{color:#f5a623;letter-spacing:2rpx}.rvd{margin-left:auto;color:var(--muted)}
+.rvt{font-size:27rpx;line-height:1.6;margin-top:12rpx}
+.noreview{padding:48rpx 0;text-align:center;color:var(--muted);font-size:26rpx}
+
+.actionbar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12rpx;padding:16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));border-top:1rpx solid var(--line);background:var(--card)}
+.actionbar .icobtn{display:flex;flex-direction:column;align-items:center;font-size:20rpx;color:var(--muted);width:100rpx;position:relative}
+.actionbar .icobtn .ic{font-size:38rpx}
+.actionbar .grow{flex:1}
+.actionbar .abtn{padding:24rpx 56rpx}
+.actionbar .badge{position:absolute;top:-4rpx;right:12rpx;background:#e0523b;color:#fff;font-size:19rpx;min-width:28rpx;height:28rpx;line-height:28rpx;border-radius:14rpx;padding:0 6rpx}

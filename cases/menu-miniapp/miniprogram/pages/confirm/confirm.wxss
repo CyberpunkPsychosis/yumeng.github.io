@@ -1,0 +1,6 @@
+.confirm{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:160rpx 60rpx}
+.confirm .ok{width:148rpx;height:148rpx;border-radius:50%;background:var(--accent);color:#fff;font-size:80rpx;display:flex;align-items:center;justify-content:center;margin-bottom:36rpx}
+.confirm .h2{font-weight:700;font-size:46rpx}
+.confirm .tip{color:var(--muted);font-size:26rpx;margin-top:12rpx;line-height:1.6}
+.confirm .acts{display:flex;gap:24rpx;margin-top:52rpx}
+.confirm .acts .gbtn{border:1rpx solid var(--line);border-radius:999rpx;padding:22rpx 56rpx;font-size:28rpx}

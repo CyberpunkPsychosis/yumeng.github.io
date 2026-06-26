@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/detail/detail",
+    "pages/comment/comment",
+    "pages/feedback/feedback",
+    "pages/cart/cart",
+    "pages/checkout/checkout",
+    "pages/confirm/confirm"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "餐饮菜单",
+    "backgroundColor": "#f5f6f3",
+    "enablePullDownRefresh": false
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

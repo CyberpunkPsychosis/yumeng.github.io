@@ -1,0 +1,19 @@
+.addr{display:flex;gap:20rpx;align-items:center;margin:24rpx;background:var(--card);border-radius:20rpx;padding:28rpx}
+.addr .pin{font-size:38rpx;color:var(--accent)}
+.addr .ai{flex:1}.addr .ai .n{font-weight:600;font-size:30rpx}.addr .ai .d{font-size:24rpx;color:var(--muted);margin-top:6rpx}
+.addr .arr{color:var(--muted)}
+.block-card{background:var(--card);margin:0 24rpx 22rpx;border-radius:20rpx;overflow:hidden}
+.coli{display:flex;gap:20rpx;align-items:center;padding:22rpx;border-top:1rpx solid var(--line)}
+.coli:first-child{border-top:none}
+.coli image{width:110rpx;height:110rpx;border-radius:14rpx;background:var(--soft)}
+.coli .ct{flex:1;min-width:0}.coli .t{font-size:27rpx;font-weight:600}.coli .m{font-size:23rpx;color:var(--muted);margin-top:6rpx}
+.coli .p{font-size:30rpx}
+.sum{padding:6rpx 0}
+.sumrow{display:flex;justify-content:space-between;padding:18rpx 26rpx;font-size:26rpx;color:var(--muted)}
+.sumrow.big{color:var(--text);font-weight:600}.sumrow.big .p{font-size:34rpx}
+.paytip{text-align:center;font-size:23rpx;color:var(--muted);padding:6rpx 24rpx}
+
+.cobar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:24rpx;padding:20rpx 32rpx calc(20rpx + env(safe-area-inset-bottom));border-top:1rpx solid var(--line);background:var(--card)}
+.cobar .tot{font-size:26rpx}.cobar .tot .p{font-size:40rpx}
+.cobar .pbtn{margin-left:auto;padding:22rpx 56rpx}
+.cobar .pbtn::after{border:none}

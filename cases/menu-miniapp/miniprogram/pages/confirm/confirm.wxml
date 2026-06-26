@@ -1,0 +1,11 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="confirm">
+    <view class="ok">✓</view>
+    <view class="h2">下单成功</view>
+    <view class="tip">订单金额 ¥{{total}}（演示，无需支付）</view>
+    <view class="tip">{{needAddress ? '骑手将尽快为你配送' : '请凭手机号到店取餐'}}</view>
+    <view class="acts">
+      <view class="gbtn" bindtap="toHome">返回首页</view>
+    </view>
+  </view>
+</view>

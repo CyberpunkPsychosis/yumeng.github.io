@@ -1,0 +1,15 @@
+{
+  "description": "餐饮 / 菜单 / 点餐 通用小程序模板",
+  "miniprogramRoot": "./",
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "menu-miniapp",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": false
+  },
+  "libVersion": "latest"
+}

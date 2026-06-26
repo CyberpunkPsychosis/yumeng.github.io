@@ -1,0 +1,8 @@
+page{font-family:-apple-system,"PingFang SC",sans-serif;background:var(--bg);color:var(--text)}
+.theme-light{--bg:#f5f6f3;--card:#fff;--text:#1f221c;--muted:#8b8f86;--line:#ececea;--soft:#f0f1ee}
+.theme-dark{--bg:#17150f;--card:#211e16;--text:#f1ead9;--muted:#a99c80;--line:rgba(255,255,255,.12);--soft:#1c1a12}
+.root{min-height:100vh;background:var(--bg);color:var(--text);padding-bottom:140rpx}
+.price{color:var(--accent);font-weight:700}
+.tag{font-size:21rpx;color:var(--accent);background:rgba(0,0,0,.04);border-radius:8rpx;padding:2rpx 12rpx;margin-right:8rpx}
+.btn{color:#fff;background:var(--accent);border-radius:999rpx;text-align:center;font-weight:600;font-size:30rpx;padding:24rpx 0}
+.muted{color:var(--muted)}

@@ -1,0 +1,28 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <block wx:if="{{lines.length}}">
+    <view class="crow" wx:for="{{lines}}" wx:key="i">
+      <view class="ck {{item.sel ? 'on' : ''}}" data-i="{{item.i}}" bindtap="tsel">{{item.sel ? '✓' : ''}}</view>
+      <image src="{{item.thumb}}" mode="aspectFill" />
+      <view class="ci">
+        <view class="t">{{item.name}}</view>
+        <text wx:if="{{item.specText}}" class="sp">{{item.specText}}</text>
+        <view class="b">
+          <text class="price p">¥{{item.price}}</text>
+          <view class="stepper">
+            <view class="sb" data-i="{{item.i}}" data-d="-1" bindtap="qty">−</view>
+            <text class="sv">{{item.qty}}</text>
+            <view class="sb" data-i="{{item.i}}" data-d="1" bindtap="qty">+</view>
+          </view>
+        </view>
+      </view>
+      <view class="del" data-i="{{item.i}}" bindtap="del">✕</view>
+    </view>
+
+    <view class="cartfoot">
+      <view class="all" bindtap="tall"><view class="ck {{allSel ? 'on' : ''}}">{{allSel ? '✓' : ''}}</view>全选</view>
+      <view class="tot">合计 <text class="price p">¥{{total}}</text></view>
+      <view class="btn cobtn" bindtap="checkout">去结算({{selQty}})</view>
+    </view>
+  </block>
+  <view wx:else class="empty"><view class="e">🛒</view>购物车还是空的<view class="lk" bindtap="toHome">去点餐 ›</view></view>
+</view>

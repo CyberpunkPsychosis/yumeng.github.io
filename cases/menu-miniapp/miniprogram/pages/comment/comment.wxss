@@ -1,0 +1,21 @@
+.cmtdish{display:flex;align-items:center;gap:22rpx;padding:28rpx 32rpx}
+.cmtdish image{width:100rpx;height:100rpx;border-radius:16rpx;background:var(--soft)}
+.cmtdish .t{font-weight:600;font-size:30rpx}
+
+.logingate{margin:40rpx 32rpx;padding:56rpx 36rpx;border-radius:24rpx;background:var(--card);border:1rpx solid var(--line);text-align:center}
+.logingate .lg-ic{font-size:64rpx}
+.logingate .lg-t{font-weight:700;font-size:32rpx;margin-top:20rpx}
+.logingate .lg-s{font-size:25rpx;color:var(--muted);margin:14rpx 0 36rpx;line-height:1.6}
+
+.wxbtn{width:100%;font-size:30rpx;font-weight:600;color:#fff;background:#07c160;border-radius:18rpx;padding:24rpx 0}
+.wxbtn::after{border:none}
+
+.cmtcard{background:var(--card);margin:16rpx 24rpx 0;border-radius:20rpx;padding:28rpx}
+.cmtcard .cl{font-size:25rpx;color:var(--muted);margin-bottom:20rpx}
+.starpick{display:flex;align-items:center;gap:12rpx}
+.starpick .star{font-size:52rpx;color:var(--line)}
+.starpick .star.on{color:#f5a623}
+.starpick .starnum{margin-left:16rpx;font-size:28rpx;color:var(--muted)}
+.rvinput{width:100%;height:200rpx;font-size:28rpx;line-height:1.6}
+.loginnote{font-size:23rpx;color:var(--muted);padding:24rpx 36rpx}
+.cobar{padding:16rpx 32rpx calc(24rpx + env(safe-area-inset-bottom))}

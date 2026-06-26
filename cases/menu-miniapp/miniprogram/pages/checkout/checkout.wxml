@@ -1,0 +1,32 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <!-- 配送/自取 -->
+  <view class="addr">
+    <text class="pin">{{cfg.needAddress ? '📍' : '🏪'}}</text>
+    <view class="ai">
+      <view class="n">{{cfg.needAddress ? '张同学' : '到店自取'}}　{{logged ? phone : '登录后填写'}}</view>
+      <view class="d">{{cfg.needAddress ? '阳光大学 3 号宿舍楼 502' : cfg.brand}}</view>
+    </view>
+    <text class="arr">›</text>
+  </view>
+
+  <view class="block-card">
+    <view class="coli" wx:for="{{items}}" wx:key="name">
+      <image src="{{item.thumb}}" mode="aspectFill" />
+      <view class="ct"><view class="t">{{item.name}}</view><view class="m">{{item.specText}} ×{{item.qty}}</view></view>
+      <view class="price p">¥{{item.amount}}</view>
+    </view>
+  </view>
+
+  <view class="block-card sum">
+    <view class="sumrow"><text>商品金额</text><text>¥{{goods}}</text></view>
+    <view class="sumrow"><text>{{cfg.needAddress ? '配送费' : '打包费'}}</text><text>{{fee ? '¥' + fee : '免'}}</text></view>
+    <view class="sumrow big"><text>合计</text><text class="price p">¥{{total}}</text></view>
+  </view>
+  <view class="paytip">演示版本：提交即下单，<text style="font-weight:600">不接微信支付</text></view>
+
+  <view class="cobar">
+    <view class="tot">应付 <text class="price p">¥{{total}}</text></view>
+    <button wx:if="{{logged}}" class="btn pbtn" bindtap="pay">提交订单</button>
+    <button wx:else class="btn pbtn" open-type="getPhoneNumber" bindgetphonenumber="onLoginAndPay">登录并提交</button>
+  </view>
+</view>

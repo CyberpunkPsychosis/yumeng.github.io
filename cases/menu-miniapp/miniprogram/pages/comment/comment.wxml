@@ -1,0 +1,30 @@
+<view class="root theme-{{mode}}" style="--accent: {{accent}};">
+  <view class="cmtdish">
+    <image src="{{p.thumb}}" mode="aspectFill" />
+    <view class="t">{{p.name}}</view>
+  </view>
+
+  <!-- 未登录：微信绑定手机号 -->
+  <view wx:if="{{!logged}}" class="logingate">
+    <view class="lg-ic">🔒</view>
+    <view class="lg-t">评价需先登录</view>
+    <view class="lg-s">用微信绑定的手机号登录后即可发表评价</view>
+    <button class="wxbtn" open-type="getPhoneNumber" bindgetphonenumber="onLogin">微信一键登录（绑定手机号）</button>
+  </view>
+
+  <!-- 已登录：评价表单 -->
+  <block wx:else>
+    <view class="cmtcard">
+      <view class="cl">打分</view>
+      <view class="starpick">
+        <text wx:for="{{[1,2,3,4,5]}}" wx:key="*this" class="star {{item <= stars ? 'on' : ''}}" data-n="{{item}}" bindtap="onStar">★</text>
+        <text class="starnum">{{stars}}.0</text>
+      </view>
+    </view>
+    <view class="cmtcard">
+      <textarea class="rvinput" placeholder="说说这道菜的口味、分量、性价比…" value="{{text}}" bindinput="onInput" maxlength="200" />
+    </view>
+    <view class="loginnote">✅ 已绑定手机号，评价将以「尾号{{tail}}」匿名展示</view>
+    <view class="cobar"><view class="btn block" bindtap="submit">提交评价</view></view>
+  </block>
+</view>
