@@ -13,6 +13,7 @@ let myJoined = [], myCreated = [], newSeq = 0;
 
 const act = (id) => CFG.activities.find((a) => a.id === id);
 const remain = (a) => Math.max(0, a.capacity - a.joined);
+const ic = (k) => (window.ICONS && window.ICONS[k]) || "";
 
 /* ---------- 视图 ---------- */
 function avatarRow(a, max) {
@@ -22,26 +23,26 @@ function avatarRow(a, max) {
 }
 function card(a) {
   return `<div class="card" data-act="open" data-id="${a.id}">
-    <div class="cover"><img src="${esc(a.cover)}" alt="" loading="lazy" /><span class="hot">🔥 热门</span>
+    <div class="cover"><img src="${esc(a.cover)}" alt="" loading="lazy" /><span class="hot">${ic("fire")} 热门</span>
       <span class="cprice">${a.price ? yuan(a.price) + "/人" : "免费"}</span></div>
     <div class="cbody">
       <div class="ctitle">${esc(a.title)}</div>
       <div class="corg"><span class="obadge">${esc(a.organizer.badge)}</span>${esc(a.organizer.name)} 发起 · ${a.organizer.views}人看过</div>
-      <div class="cmeta"><span>🕒 ${esc(a.date)} ${esc(a.time)}</span></div>
-      <div class="cmeta"><span>📍 ${esc(a.place)} · ${esc(a.distance)}</span></div>
+      <div class="cmeta"><i class="mi">${ic("clock")}</i>${esc(a.date)} ${esc(a.time)}</div>
+      <div class="cmeta"><i class="mi">${ic("pin")}</i>${esc(a.place)} · ${esc(a.distance)}</div>
       <div class="cfoot">${avatarRow(a, 6)}<span class="join">上车 ›</span></div>
     </div></div>`;
 }
 
 function vHome() {
-  const cats = CFG.categories.map((c) => `<div class="cat"><span class="cic">${c.icon}</span><span class="cnm">${esc(c.name)}</span></div>`).join("");
+  const cats = CFG.categories.map((c) => `<div class="cat"><span class="cic">${ic(c.icon)}</span><span class="cnm">${esc(c.name)}</span></div>`).join("");
   const feed = CFG.activities.map(card).join("");
   return `<div class="page ${dir}">
     <div class="scroll">
       <div class="statusbar"><span>16:23</span><span>···· 5G <span class="bat"></span></span></div>
-      <div class="topbar"><span class="loc">📍 ${esc(CFG.city)}</span>
-        <div class="search" data-act="tolist"><span>🔍</span><span>搜活动 · ${esc(CFG.slogan)}</span></div>
-        <span class="me" data-act="tomine">${user ? "👤" : "登录"}</span></div>
+      <div class="topbar"><span class="loc"><i class="mi">${ic("pin")}</i>${esc(CFG.city)}</span>
+        <div class="search" data-act="tolist"><i class="mi">${ic("search")}</i><span>搜活动 · ${esc(CFG.slogan)}</span></div>
+        <span class="me" data-act="tomine">${user ? "我的" : "登录"}</span></div>
       <div class="banner" style="background:${esc(CFG.banner.color)}">
         <div class="bz"><div class="bt">${esc(CFG.banner.title)}</div><div class="bs">${esc(CFG.banner.sub)}</div></div></div>
       <div class="cats">${cats}</div>
@@ -49,11 +50,11 @@ function vHome() {
       <div class="feed">${feed}</div>
     </div>
     <div class="tabbar">
-      <div class="t on"><span class="ic">🏠</span>首页</div>
-      <div class="t" data-act="tolist"><span class="ic">🧭</span>周边活动</div>
-      <div class="t pub" data-act="tocreate"><span class="pubic">＋</span>发起</div>
-      <div class="t" data-act="tomine"><span class="ic">💬</span>消息</div>
-      <div class="t" data-act="tomine"><span class="ic">😊</span>我的</div>
+      <div class="t on"><span class="ic">${ic("home")}</span>首页</div>
+      <div class="t" data-act="tolist"><span class="ic">${ic("compass")}</span>周边活动</div>
+      <div class="t pub" data-act="tocreate"><span class="pubic">${ic("plus")}</span>发起</div>
+      <div class="t" data-act="tomine"><span class="ic">${ic("chat")}</span>消息</div>
+      <div class="t" data-act="tomine"><span class="ic">${ic("user")}</span>我的</div>
     </div></div>`;
 }
 
@@ -81,9 +82,9 @@ function vDetail() {
           <div class="oi"><div class="on">${esc(a.organizer.name)}</div><div class="ov">发起人 · ${a.organizer.views}人看过</div></div>
           <span class="ofo">+ 关注</span></div>
         <div class="dinfo">
-          <div class="irow"><span class="ik">🕒 时间</span><span>${esc(a.date)} ${esc(a.time)}</span></div>
-          <div class="irow"><span class="ik">📍 地点</span><span>${esc(a.place)} · ${esc(a.distance)}</span></div>
-          <div class="irow"><span class="ik">💰 人均</span><span class="price">${a.price ? yuan(a.price) : "免费"}</span></div>
+          <div class="irow"><span class="ik"><i class="mi">${ic("clock")}</i>时间</span><span>${esc(a.date)} ${esc(a.time)}</span></div>
+          <div class="irow"><span class="ik"><i class="mi">${ic("pin")}</i>地点</span><span>${esc(a.place)} · ${esc(a.distance)}</span></div>
+          <div class="irow"><span class="ik"><i class="mi">${ic("coin")}</i>人均</span><span class="price">${a.price ? yuan(a.price) : "免费"}</span></div>
         </div>
         <div class="capbox">
           <div class="capbar"><i style="width:${pct}%"></i></div>
@@ -147,7 +148,7 @@ function vCreate() {
 }
 
 function vMine() {
-  const tools = ["旅行规划师", "我的奖品", "优惠券", "邀请好友", "意见反馈", "实名认证", "常用出行人", "设置"];
+  const tools = [["map", "活动规划"], ["gift", "我的奖品"], ["ticket", "优惠券"], ["users", "邀请好友"], ["chat", "意见反馈"], ["idcard", "实名认证"], ["user", "常用出行人"], ["gear", "设置"]];
   const joinedList = myJoined.length ? myJoined.map((m) => mineRow(m, "已报名")).join("") : `<div class="mini-empty">还没有报名活动</div>`;
   const createdList = myCreated.length ? myCreated.map((m) => mineRow(m, "我发起")).join("") : `<div class="mini-empty">还没有发起活动，去发起一个吧</div>`;
   return `<div class="page ${dir}">
@@ -159,7 +160,7 @@ function vMine() {
       <div class="msec">我的报名</div><div class="mlist">${joinedList}</div>
       <div class="msec">我发起的</div><div class="mlist">${createdList}</div>
       <div class="msec">我的工具</div>
-      <div class="tools">${tools.map((t) => `<div class="tool"><span class="tic">▦</span>${esc(t)}</div>`).join("")}</div>
+      <div class="tools">${tools.map((t) => `<div class="tool"><span class="tic">${ic(t[0])}</span>${esc(t[1])}</div>`).join("")}</div>
     </div></div>`;
 }
 function mineRow(m, badge) {

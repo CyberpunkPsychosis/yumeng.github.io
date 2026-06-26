@@ -22,9 +22,9 @@ window.EVENT_CONFIGS = {
     slogan: "找搭子，一起出发",
     banner: { title: "暑趣模式开启", sub: "周末别躺平 · 上车找搭子", color: "#19b36b" },
     categories: [
-      { icon: "🏕️", name: "露营烧烤" }, { icon: "🎲", name: "桌游剧本" }, { icon: "🥾", name: "徒步爬山" },
-      { icon: "🎤", name: "Livehouse" }, { icon: "🛼", name: "运动局" }, { icon: "🍲", name: "饭搭子" },
-      { icon: "📷", name: "City Walk" }, { icon: "🎉", name: "派对交友" },
+      { icon: "tent", name: "露营烧烤" }, { icon: "dice", name: "桌游剧本" }, { icon: "mountain", name: "徒步爬山" },
+      { icon: "mic", name: "Livehouse" }, { icon: "frisbee", name: "运动局" }, { icon: "bowl", name: "饭搭子" },
+      { icon: "camera", name: "City Walk" }, { icon: "party", name: "派对交友" },
     ],
     filters: ["全部", "活动派对", "户外", "同好交友", "运动"],
     activities: [
@@ -75,9 +75,9 @@ window.EVENT_CONFIGS = {
     slogan: "陪孩子，过有趣的一天",
     banner: { title: "暑期亲子季", sub: "遛娃不无聊 · 边玩边长大", color: "#ff7aa2" },
     categories: [
-      { icon: "🌱", name: "自然探索" }, { icon: "🎨", name: "手工艺术" }, { icon: "🔬", name: "科学实验" },
-      { icon: "🐑", name: "农场牧场" }, { icon: "🏊", name: "亲子运动" }, { icon: "📚", name: "绘本故事" },
-      { icon: "🎂", name: "生日派对" }, { icon: "🚜", name: "户外营地" },
+      { icon: "leaf", name: "自然探索" }, { icon: "palette", name: "手工艺术" }, { icon: "flask", name: "科学实验" },
+      { icon: "barn", name: "农场牧场" }, { icon: "frisbee", name: "亲子运动" }, { icon: "book", name: "绘本故事" },
+      { icon: "cake", name: "生日派对" }, { icon: "tent", name: "户外营地" },
     ],
     filters: ["全部", "自然探索", "手工艺术", "科学实验", "运动"],
     activities: [
@@ -116,9 +116,9 @@ window.EVENT_CONFIGS = {
     slogan: "走进山野，过个野周末",
     banner: { title: "山野计划", sub: "徒步 · 露营 · 溯溪", color: "#2f9e7e" },
     categories: [
-      { icon: "🥾", name: "徒步" }, { icon: "🏕️", name: "露营" }, { icon: "💦", name: "溯溪" },
-      { icon: "🚵", name: "骑行" }, { icon: "🧗", name: "攀岩" }, { icon: "🌊", name: "海岛" },
-      { icon: "🔥", name: "篝火" }, { icon: "📸", name: "风光摄影" },
+      { icon: "mountain", name: "徒步" }, { icon: "tent", name: "露营" }, { icon: "wave", name: "溯溪" },
+      { icon: "bike", name: "骑行" }, { icon: "climb", name: "攀岩" }, { icon: "palm", name: "海岛" },
+      { icon: "fire", name: "篝火" }, { icon: "camera", name: "风光摄影" },
     ],
     filters: ["全部", "徒步", "露营", "溯溪", "海岛"],
     activities: [

@@ -28,6 +28,16 @@ body{font-family:var(--ui);min-height:100vh;background:#10130f;color:#9fb39a;dis
 .price{color:var(--accent);font-weight:700}
 .tag{font-size:11px;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);border-radius:5px;padding:2px 8px}
 
+/* 线性图标 */
+.mi{display:inline-flex;vertical-align:-2px;margin-right:4px}
+.mi svg{width:14px;height:14px}
+.cic svg{width:26px;height:26px}
+.tabbar .t .ic svg{width:23px;height:23px}
+.tabbar .pub .pubic svg{width:25px;height:25px}
+.cover .hot svg{width:12px;height:12px;vertical-align:-1.5px;margin-right:2px}
+.tools .tic svg{width:23px;height:23px}
+.irow .ik .mi{margin-right:5px}
+
 /* 顶部 */
 .topbar{display:flex;align-items:center;gap:9px;padding:4px 16px 10px}
 .topbar .loc{font-size:13px;font-weight:600;flex:0 0 auto}
@@ -40,7 +50,7 @@ body{font-family:var(--ui);min-height:100vh;background:#10130f;color:#9fb39a;dis
 /* 分类宫格 */
 .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 4px;padding:16px 12px 6px}
 .cat{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
-.cat .cic{width:46px;height:46px;border-radius:14px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:22px}
+.cat .cic{width:46px;height:46px;border-radius:14px;background:color-mix(in srgb,var(--accent) 9%,var(--card));border:1px solid color-mix(in srgb,var(--accent) 22%,var(--line));display:flex;align-items:center;justify-content:center;color:var(--accent)}
 .cat .cnm{font-size:11px;color:#485045}
 
 .sec{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}
@@ -70,7 +80,7 @@ body{font-family:var(--ui);min-height:100vh;background:#10130f;color:#9fb39a;dis
 /* tabbar */
 .tabbar{display:flex;align-items:flex-end;border-top:1px solid var(--line);background:var(--card);padding-bottom:14px}
 .tabbar .t{flex:1;text-align:center;padding:8px 0 2px;font-size:11px;color:var(--muted);cursor:pointer}
-.tabbar .t .ic{font-size:19px;display:block;margin-bottom:2px}
+.tabbar .t .ic{display:flex;justify-content:center;margin-bottom:3px}
 .tabbar .t.on{color:var(--accent)}
 .tabbar .pub{position:relative}
 .tabbar .pub .pubic{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;margin:-16px auto 2px;background:var(--accent);color:#fff;border-radius:50%;font-size:26px;box-shadow:0 8px 18px color-mix(in srgb,var(--accent) 45%,transparent)}
